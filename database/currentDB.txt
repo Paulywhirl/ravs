@@ -1,0 +1,14 @@
+
+
+-------Members field------------------------------------
++User ID									| String	|
++First Name									| String	|
++Last Name									| String	|
++e-Mail										| String	|
++Mobile Phone								| String	|
++What bets describes your situation?		| String	|
++Organization								| String	|
++How did you hear about 94.9 CHRW?			| String	|
++Why would you like to volunteer with us?	| String	|
++Additional comments						| String	|
+________________________________________________________
