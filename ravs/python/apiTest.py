@@ -46,7 +46,7 @@ def archive_contact(contact_id):
 
 # How to obtain application credentials: https://help.wildapricot.com/display/DOC/API+V2+authentication#APIV2authentication-Authorizingyourapplication
 api = WaApi.WaApiClient("ynw0blawz7", "2vjwxhjmcspkddxqpkti6qbdsdnpmh")
-api.authenticate_with_contact_credentials("phender9@uwo.ca", "chrw123")
+api.authenticate_with_contact_credentials("", "")
 accounts = api.execute_request("/v2/accounts")
 account = accounts[0]
 
