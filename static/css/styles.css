@@ -78,3 +78,7 @@ button {
   left: 50%;
   font-size: 1rem;
 }
+
+button:hover {
+  background-color: #20E7FA;
+}
