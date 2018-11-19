@@ -1,33 +1,84 @@
-html,body {
+/* html,body {
   height:100%;
+} */
+
+body {
+  font-size: 1.6rem;
+  min-width: 32rem;
+
+  font-family: Clan, Helvetica, Arial,
+    sans-serif;
 }
 
-h1 {
-  font-family: Arial,sans-serif
-  font-size:80px;
-  color:#DDCCEE;
+ h1, .h1 {
+  font-size: 2.8rem;
+  font-weight: normal;
+  margin-bottom: 2.4rem;
 }
 
-.lead {
-	color:#DDCCEE;
+h3, .h3 {
+  font-size: 2.8rem;
+  font-weight: bold;
+  margin-bottom: 2.4rem;
 }
 
-
-/* Custom container */
-.container-full {
-  margin: 0 auto;
-  width: 100%;
-  min-height:100%;
-  background-color:#110022;
-  color:#eee;
-  overflow:hidden;
+.container {
+  display: grid;
+  align-items: center;
+  grid-template-columns: repeat(12, 1fr);
+  grid-gap: 2.4rem;
+    row-gap: 2.4rem;
+    column-gap: 2.4rem;
 }
 
-.container-full a {
-  color:#efefef;
-  text-decoration:none;
+.loginBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 40rem;
 }
 
-.v-center {
-  margin-top:7%;
+.homepage {
+  height: 75%;
+  display: flex;
+  flex-direction: column;
+}
+
+.section:not(.splash-block) {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.section-homepage {
+  display: flex;
+  box-sizing: border-box;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#menu {
+  display: flex;
+  flex-shrink: 0;
+  height: 250mm;
+  width: 50mm;
+}
+
+#homepage {
+  float: right;
+}
+
+button {
+  border-width: 0;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: flex-end;
+  width: 11rem;
+  margin: 1rem;
+  left: 50%;
+  font-size: 1rem;
+}
+
+button:hover {
+  background-color: #20E7FA;
 }
