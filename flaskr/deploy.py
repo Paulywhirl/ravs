@@ -1,11 +1,11 @@
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 
-#from flask_heroku import Heroku
+from flask_heroku import Heroku
 
 app = Flask(__name__, template_folder='../templates/')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/ravs-database'
-#heroku = Heroku(app)
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/ravs-database'
+heroku = Heroku(app)
 db = SQLAlchemy(app)
 
 # Create our database model
@@ -20,6 +20,8 @@ class User(db.Model):
 
     def __repr__(self):
         return '<E-mail %r>' % self.email
+
+# class Members(db.)
 
 # Set "homepage" to index.html
 @app.route('/')
