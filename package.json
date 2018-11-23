@@ -1,0 +1,19 @@
+{
+  "name": "ravs",
+  "version": "1.0.0",
+  "description": "python-flask application for cs4470 project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Paulywhirl/ravs.git"
+  },
+  "author": "Paul Henderson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Paulywhirl/ravs/issues"
+  },
+  "homepage": "https://github.com/Paulywhirl/ravs#readme"
+}
