@@ -10,7 +10,7 @@ CAPSTONE project for cs4470; working with Radio Western to help give them a more
 
 1) Create your virtual environment for the project
 
-`virtualenv -p python3 venv`
+`$ virtualenv -p python3 venv`
 
 2) Download the required libraries and plugins
 
