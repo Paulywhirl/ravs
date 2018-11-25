@@ -10,10 +10,29 @@ CAPSTONE project for cs4470; working with Radio Western to help give them a more
 
 1) Create your virtual environment for the project
 
-`$ virtualenv -p python3 venv`
+```bash
+$ virtualenv -p python3 venv
+```
+
+Activate your virtual environemtn
+
+```bash
+$ . venv/bin/activate
+```
+
+deactivate anytime
+
+```bash
+$ deactivate
+```
 
 2) Download the required libraries and plugins
 
+```bash
+$ pip install -r requirements.txt
+```
+If you are unable to install the required libraries through the requirements file
+Install individually with:
 ```bash
 $ pip install Flask
 $ pip install Flask-SQLAlchemy
