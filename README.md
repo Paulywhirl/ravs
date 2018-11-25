@@ -29,6 +29,11 @@ $ deactivate
 2) Download the required libraries and plugins
 
 ```bash
+$ pip install -r requirements.txt
+```
+If you are unable to install the required libraries through the requirements file
+Install individually with:
+```bash
 $ pip install Flask
 $ pip install Flask-SQLAlchemy
 $ pip install Flask-Heorku
