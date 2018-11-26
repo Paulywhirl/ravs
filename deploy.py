@@ -1,9 +1,9 @@
+import json
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
-import json
 from flask_heroku import Heroku
 
-app = Flask(__name__, template_folder='../templates/')
+app = Flask(__name__, template_folder='./templates/')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/ravs-database'
 # heroku = Heroku(app)
 db = SQLAlchemy(app)
@@ -54,7 +54,7 @@ class Progress_Graph(db.Model):
 # Set "homepage" to index.html
 @app.route('/')
 def index():
-    return render_template('login.html')
+    return render_template('/login.html')
 
 # Save e-mail to database and send to success page
 # @app.route('/prereg', methods=['POST'])
