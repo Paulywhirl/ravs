@@ -48,3 +48,9 @@ $ python3
 >> db.create_all()
 >> quit()
 ```
+
+4) Run the prototype with
+
+```bash
+$ npm start
+```
