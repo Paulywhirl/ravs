@@ -1,9 +1,9 @@
+import json
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
-
 from flask_heroku import Heroku
 
-app = Flask(__name__, template_folder='../templates/')
+app = Flask(__name__, template_folder='./templates/')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/ravs-database'
 # heroku = Heroku(app)
 db = SQLAlchemy(app)
@@ -22,7 +22,7 @@ db = SQLAlchemy(app)
 #         return '<E-mail %r>' % self.email
 
 class Members(db.Model):
-    __tablename__ = "members"
+    __tablename__ = "member"
     member_id = db.Column(db.Integer, primary_key=True)
     firstname = db.Column(db.String(25), nullable=False)
     lastname = db.Column(db.String(35), nullable=False)
@@ -36,14 +36,25 @@ class Members(db.Model):
 
 class Progress_Graph(db.Model):
     __tablename__ = "progress_graph"
-    id = db.Column(db.Integer, primary_key=True)
+
+    with open("./static/js/data_schemas/progress_graph.json", "r") as read_file:
+        data = json.load(read_file)
+
+    progress_id = db.Column(db.Integer, primary_key=True)
+    dprogress_graph = db.Column(db.JSON, default=data)
+    member_id = db.Column(db.Integer, db.ForeignKey('member.member_id'))
+
+    def __repr(self):
+        return f"Progress_Graph('{self.progress_id}', '{self.member_id}')"
+
+
 
 
 
 # Set "homepage" to index.html
 @app.route('/')
 def index():
-    return render_template('login.html')
+    return render_template('/login.html')
 
 # Save e-mail to database and send to success page
 # @app.route('/prereg', methods=['POST'])
