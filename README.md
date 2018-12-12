@@ -40,6 +40,11 @@ $ pip install Flask-Heorku
 $ pip install gunicorn
 ```
 
+And download all npm dependencies from package.json
+```bash
+npm install
+```
+
 3) Run the initial deploy python file to set up local database
 
 ```bash
