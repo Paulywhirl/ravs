@@ -42,7 +42,7 @@ $ pip install gunicorn
 
 And download all npm dependencies from package.json
 ```bash
-npm install
+$ npm install
 ```
 
 3) Run the initial deploy python file to set up local database
