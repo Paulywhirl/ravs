@@ -6,6 +6,9 @@ import "./login.css"
 export default class Login extends Component {
   constructor(props) {
     super(props);
+    this.handleChangeUser = this.handleChangeUser.bind(this);
+    this.handleChangePassword = this.handleChangePassword.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
 
     this.state = {
       username: "",
@@ -18,15 +21,22 @@ export default class Login extends Component {
     return this.state.username.length > 0 && this.state.password.length > 0;
   }
 
-  handleChange = event => {
+  handleChangeUser(event) {
     this.setState({
-      [event.target.id]: event.target.value
+      username: event.target.value
     });
   }
 
-  handleSubmit = event => {
+  handleChangePassword(event) {
+    this.setState({
+      password: event.target.value
+    });
+  }
+
+  handleSubmit (event){
     event.preventDefault();
   }
+
 
   render() {
     return (
