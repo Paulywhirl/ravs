@@ -9,7 +9,7 @@ export default class Login extends Component {
     this.handleChangeUser = this.handleChangeUser.bind(this);
     this.handleChangePassword = this.handleChangePassword.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-
+    this.validateForm = this.validateForm.bind(this);
     this.state = {
       username: "",
       password: ""
@@ -48,7 +48,7 @@ export default class Login extends Component {
                 autoFocus
                 type="username"
                 value={this.state.username}
-                onChange={this.handleChange}
+                onChange={this.handleChangeUser}
               />
           </FormGroup>
           <FormGroup controlId="password" bsSize="large">
@@ -57,7 +57,7 @@ export default class Login extends Component {
                 autoFocus
                 type="password"
                 value={this.state.password}
-                onChange={this.handleChange}
+                onChange={this.handleChangePassword}
               />
           </FormGroup>
           <Button
