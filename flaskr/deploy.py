@@ -40,7 +40,7 @@ class Members(db.Model):
 class Progress_Graph(db.Model):
     __tablename__ = "progress_graph"
 
-    with open("./static/js/data_schemas/progress_graph.json", "r") as read_file:
+    with open("../static/js/data_schemas/progress_graph.json", "r") as read_file:
         data = json.load(read_file)
 
     progress_id = db.Column(db.Integer, primary_key=True)
@@ -60,10 +60,10 @@ def index():
     return render_template('')
 
 @app.route('/login', methods = ['POST', 'GET'])
-def login(username, password):
+def login():
     api = WaApi.WaApiClient("ynw0blawz7", "2vjwxhjmcspkddxqpkti6qbdsdnpmh")
     try:
-        api.authenticate_with_contact_credentials(username, password)
+        api.authenticate_with_contact_credentials("", "")
     except:
         return "incorrect username and password"
 
