@@ -34,7 +34,24 @@ export default class Login extends Component {
   }
 
   handleSubmit (event){
-    event.preventDefault();
+    let uname = this.state.username;
+    let pword = this.state.password;
+    fetch('http://127.0.0.1:5000/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: {
+        uname,
+        pword
+      }
+    })
+    .then(function(response){
+
+    })
+    .catch(function(error){
+      console.log('there was a problem: ', error)
+    });
   }
 
 

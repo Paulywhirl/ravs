@@ -61,6 +61,8 @@ def index():
 
 @app.route('/login', methods = ['POST', 'GET'])
 def login():
+    # username = request.args.get('username')
+    # password = request.args.get('password')
     api = WaApi.WaApiClient("ynw0blawz7", "2vjwxhjmcspkddxqpkti6qbdsdnpmh")
     try:
         api.authenticate_with_contact_credentials("", "")
