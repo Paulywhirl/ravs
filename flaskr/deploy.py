@@ -1,6 +1,7 @@
 import json
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import create_engine
 from flask_heroku import Heroku
 
 
@@ -10,6 +11,10 @@ app = Flask(__name__, template_folder='./templates/')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/ravs-database'
 # heroku = Heroku(app)
 db = SQLAlchemy(app)
+
+db_uri="postgresql://localhost/ravs-database"
+
+engine = create_engine(db_uri)
 
 # Create our database model
 # class User(db.Model):
@@ -31,8 +36,10 @@ class Members(db.Model):
     lastname = db.Column(db.String(35), nullable=False)
     email = db.Column(db.String(60), unique=True, nullable=False)
     phone = db.Column(db.String(12), unique=True)
-    image_file = db.Column(db.String(20), nullable=False, default="default.jpg")
-    password = db.Column(db.String(60), nullable=False)
+    image_file = db.Column(db.String(20)
+    # , nullable=False, default="default.jpg"
+    )
+    director = db.Column(db.Boolean, nullable=False, default=False)
 
     def __repr__(self):
         return f"Members('{self.firstname}', '{self.lastname}', '{self.email}')"
@@ -63,11 +70,17 @@ def index():
 def login():
     # username = request.args.get('username')
     # password = request.args.get('password')
+    username = "phender9@uwo.ca"
+    password = "chrw123"
     api = WaApi.WaApiClient("ynw0blawz7", "2vjwxhjmcspkddxqpkti6qbdsdnpmh")
     try:
-        api.authenticate_with_contact_credentials("", "")
+        api.authenticate_with_contact_credentials(username, password)
+        if Members.query.filter_by(email = username) != None:
+            print ('User Exists')
+        else:
+            print ('User doesn\'t exist.')
     except:
-        return "incorrect username and password"
+        print("incorrect username and password")
 
 
 
@@ -88,5 +101,5 @@ def login():
 
 if __name__ == '__main__':
     login()
-    app.debug = True
-    app.run()
+    # app.debug = True
+    # app.run()
