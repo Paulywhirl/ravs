@@ -1,0 +1,23 @@
+
+.sidebar {
+    position: fixed;
+    margin-right: 20px;
+    background-color: #30343D;
+    width: 150px;
+    height: 100vh;
+    top: 80px;
+    z-index: 2;
+}
+
+.nav-title {
+  background-color: #26292E;
+  padding-left: 20px;
+  padding-top: 10px;
+  height: 40px;
+  color: white;
+}
+
+.nav-item {
+  color: green;
+  padding-left: 15px;
+}

@@ -4,10 +4,12 @@
   bottom: 0;
   left: 0;
   padding: 1rem;
-  background-color: #efefef;
+  background-color: white;
   text-align: center;
+  z-index: 9999;
 }
 
 img {
   height: 20px;
+  padding-left: 5px;
 }
