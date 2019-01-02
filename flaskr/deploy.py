@@ -2,6 +2,7 @@ import json
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 from flask_heroku import Heroku
 
 
@@ -16,18 +17,9 @@ db_uri="postgresql://localhost/ravs-database"
 
 engine = create_engine(db_uri)
 
-# Create our database model
-# class User(db.Model):
-#     __tablename__ = "users"
-#     id = db.Column(db.Integer, primary_key=True)
-#     email = db.Column(db.String(120), unique=True)
-#     name = db.Column(db.String(120), unique=False)
-#
-#     def __init__(self, email):
-#         self.email = email
-#
-#     def __repr__(self):
-#         return '<E-mail %r>' % self.email
+Session = sessionmaker()
+Session.configure(bind=engine)
+session = Session()
 
 class Members(db.Model):
     __tablename__ = "member"
@@ -42,7 +34,7 @@ class Members(db.Model):
     director = db.Column(db.Boolean, nullable=False, default=False)
 
     def __repr__(self):
-        return f"Members('{self.firstname}', '{self.lastname}', '{self.email}')"
+        return f"Members('{self.firstname}', '{self.lastname}', '{self.email}', '{self.director}')"
 
 class Progress_Graph(db.Model):
     __tablename__ = "progress_graph"
@@ -70,15 +62,31 @@ def index():
 def login():
     # username = request.args.get('username')
     # password = request.args.get('password')
-    username = "phender9@uwo.ca"
+    username = "php2@uwo.ca"
     password = "chrw123"
-    api = WaApi.WaApiClient("ynw0blawz7", "2vjwxhjmcspkddxqpkti6qbdsdnpmh")
+    # api = WaApi.WaApiClient("ynw0blawz7", "2vjwxhjmcspkddxqpkti6qbdsdnpmh")
     try:
-        api.authenticate_with_contact_credentials(username, password)
-        if Members.query.filter_by(email = username) != None:
+        # api.authenticate_with_contact_credentials(username, password)
+        pers = Members.query.filter_by(email = username).all()
+        print(pers)
+        if len(pers) != 0:
             print ('User Exists')
         else:
-            print ('User doesn\'t exist.')
+            while True:
+                print ('User doesn\'t exist.')
+                first = input("firstname: ")
+                lastN = input("lastname: ")
+                uEmail = input("email: ")
+                conEmail = input("confirm email: ")
+                if uEmail == conEmail:
+                    newUser = Members(firstname = first, lastname = lastN,
+                                    email = uEmail, director = False)
+                    session.add(newUser)
+                    session.commit()
+                    break
+                else:
+                    print("trash.")
+                    break
     except:
         print("incorrect username and password")
 
