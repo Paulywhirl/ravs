@@ -1,5 +1,5 @@
 import json
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -56,21 +56,23 @@ class Progress_Graph(db.Model):
 # Set "homepage" to index.html
 @app.route('/')
 def index():
-    return render_template('')
+    # return render_template('')
+    return 'Hello world'
 
-@app.route('/login', methods = ['POST', 'GET'])
+@app.route('/login', methods = ['POST'])
 def login():
-    # username = request.args.get('username')
-    # password = request.args.get('password')
-    username = "php2@uwo.ca"
-    password = "chrw123"
-    # api = WaApi.WaApiClient("ynw0blawz7", "2vjwxhjmcspkddxqpkti6qbdsdnpmh")
+    login_email = request.json.get('email')
+    login_password = request.json.get('password')
+    # username = "phender9@uwo.ca"
+    # password = "chrw123"
+    api = WaApi.WaApiClient("ynw0blawz7", "2vjwxhjmcspkddxqpkti6qbdsdnpmh")
     try:
-        # api.authenticate_with_contact_credentials(username, password)
-        pers = Members.query.filter_by(email = username).all()
+        api.authenticate_with_contact_credentials(login_email, login_password)
+        pers = Members.query.filter_by(email = login_email).all()
         print(pers)
         if len(pers) != 0:
-            print ('User Exists')
+            curr_user = Members(email = login_email)
+            return jsonify({'email': curr_user.email, 'firstname': curr_user.firstname, 'lastname': curr_user.lastname}), 201
         else:
             while True:
                 print ('User doesn\'t exist.')
@@ -88,7 +90,7 @@ def login():
                     print("trash.")
                     break
     except:
-        print("incorrect username and password")
+        return("incorrect username and password")
 
 
 
@@ -108,6 +110,5 @@ def login():
 #     return render_template('index.html')
 
 if __name__ == '__main__':
-    login()
-    # app.debug = True
-    # app.run()
+    app.debug = True
+    app.run()
