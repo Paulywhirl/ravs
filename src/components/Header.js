@@ -10,7 +10,6 @@ class Header extends Component {
         <a href="index.html">
   			   <img src={RadioWesternLogo} alt="Radio Western Logo" class="nav-image"/>
         </a>
-        <hr/>
   		</nav>
     )
   }

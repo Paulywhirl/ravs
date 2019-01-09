@@ -78,17 +78,11 @@ def login():
                 print ('User doesn\'t exist.')
                 first = input("firstname: ")
                 lastN = input("lastname: ")
-                uEmail = input("email: ")
-                conEmail = input("confirm email: ")
-                if uEmail == conEmail:
-                    newUser = Members(firstname = first, lastname = lastN,
-                                    email = uEmail, director = False)
-                    session.add(newUser)
-                    session.commit()
-                    break
-                else:
-                    print("trash.")
-                    break
+                newUser = Members(firstname = first, lastname = lastN,
+                                email = uEmail, director = False)
+                session.add(newUser)
+                session.commit()
+                break
     except:
         return("incorrect username and password")
 

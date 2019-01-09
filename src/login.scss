@@ -1,0 +1,32 @@
+@media all and (min-width: 480px) {
+  .Login {
+    padding: 60px 0;
+  }
+
+  .Login form {
+    background-color: lightblue;
+    padding: 20px;
+    margin-left: 200px;
+    margin-right: 200px;
+    border-radius: 20px;
+    box-shadow: 0 2px 10px -3px #333;
+    margin: 0 auto;
+    max-width: 320px;
+  }
+
+  .button{
+    border-radius: 100px;
+    border: none;
+    box-shadow: 0 2px 10px -3px #719BE6;
+  }
+
+  input#firstname.form-control{
+    width: 120px;
+
+  }
+
+  p{
+    text-align: center;
+    color: #FF0000;
+  }
+}
