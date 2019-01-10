@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 
-import "./login.scss"
+import "./Login.scss"
 
 export default class Login extends Component {
   constructor(props) {
@@ -13,7 +13,7 @@ export default class Login extends Component {
     this.state = {
       email: "",
       password: "",
-      hideMoreInfo: false
+      hideMoreInfo: true
     };
   }
 
