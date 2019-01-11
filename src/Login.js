@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 
-import "./login.css"
+import "./Login.scss"
 
 export default class Login extends Component {
   constructor(props) {
@@ -11,19 +11,20 @@ export default class Login extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.validateForm = this.validateForm.bind(this);
     this.state = {
-      username: "",
-      password: ""
+      email: "",
+      password: "",
+      hideMoreInfo: true
     };
   }
 
 
   validateForm() {
-    return this.state.username.length > 0 && this.state.password.length > 0;
+    return this.state.email.length > 0 && this.state.password.length > 0;
   }
 
   handleChangeUser(event) {
     this.setState({
-      username: event.target.value
+      email: event.target.value
     });
   }
 
@@ -34,7 +35,7 @@ export default class Login extends Component {
   }
 
   handleSubmit (event){
-    let uname = this.state.username;
+    let uname = this.state.email;
     let pword = this.state.password;
     fetch('http://127.0.0.1:5000/login', {
       method: 'POST',
@@ -42,8 +43,8 @@ export default class Login extends Component {
         'Content-Type': 'application/json'
       },
       body: {
-        uname,
-        pword
+        'email': uname,
+        'password': pword
       }
     })
     .then(function(response){
@@ -59,12 +60,12 @@ export default class Login extends Component {
     return (
       <div className="Login">
         <form onSubmit={this.handleSubmit}>
-          <FormGroup controlId="username" bsSize="large">
-            <ControlLabel>Username</ControlLabel>
+          <FormGroup controlId="email" bsSize="large">
+            <ControlLabel>Email</ControlLabel>
               <FormControl
                 autoFocus
-                type="username"
-                value={this.state.username}
+                type="email"
+                value={this.state.email}
                 onChange={this.handleChangeUser}
               />
           </FormGroup>
@@ -77,14 +78,41 @@ export default class Login extends Component {
                 onChange={this.handleChangePassword}
               />
           </FormGroup>
-          <Button
-            block
-            bsSize="Large"
-            disabled={!this.validateForm()}
-            type="submit"
-          >
-            Login
-          </Button>
+          {
+            !this.state.hideMoreInfo && <div>
+            <p>Looks like you're a newcomer! let's get some more information so we can get you started</p>
+            <FormGroup controlId="firstname" bsSize="large">
+              <ControlLabel>First Name</ControlLabel>
+                <FormControl
+                  autoFocus
+                  type="firstname"
+                />
+            </FormGroup>
+            <FormGroup controlId="lastname" bsSize="large">
+              <ControlLabel>Last Name</ControlLabel>
+                <FormControl
+                  autoFocus
+                  type="lastname"
+                />
+            </FormGroup> </div>
+          }
+          {
+            this.state.hideMoreInfo ? (
+              <Button
+              block
+              bsSize="Large"
+              disabled={!this.validateForm()}
+              type="submit"
+              >Sign in
+            </Button>) : (<Button
+              block
+              bsSize="Large"
+              disabled={!this.validateForm()}
+              type="submit"
+            >
+              Register & Sign in
+            </Button>)
+          }
         </form>
       </div>
     )

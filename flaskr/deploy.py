@@ -1,6 +1,8 @@
 import json
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 from flask_heroku import Heroku
 
 
@@ -11,18 +13,13 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/ravs-database'
 # heroku = Heroku(app)
 db = SQLAlchemy(app)
 
-# Create our database model
-# class User(db.Model):
-#     __tablename__ = "users"
-#     id = db.Column(db.Integer, primary_key=True)
-#     email = db.Column(db.String(120), unique=True)
-#     name = db.Column(db.String(120), unique=False)
-#
-#     def __init__(self, email):
-#         self.email = email
-#
-#     def __repr__(self):
-#         return '<E-mail %r>' % self.email
+db_uri="postgresql://localhost/ravs-database"
+
+engine = create_engine(db_uri)
+
+Session = sessionmaker()
+Session.configure(bind=engine)
+session = Session()
 
 class Members(db.Model):
     __tablename__ = "member"
@@ -31,11 +28,13 @@ class Members(db.Model):
     lastname = db.Column(db.String(35), nullable=False)
     email = db.Column(db.String(60), unique=True, nullable=False)
     phone = db.Column(db.String(12), unique=True)
-    image_file = db.Column(db.String(20), nullable=False, default="default.jpg")
-    password = db.Column(db.String(60), nullable=False)
+    image_file = db.Column(db.String(20)
+    # , nullable=False, default="default.jpg"
+    )
+    director = db.Column(db.Boolean, nullable=False, default=False)
 
     def __repr__(self):
-        return f"Members('{self.firstname}', '{self.lastname}', '{self.email}')"
+        return f"Members('{self.firstname}', '{self.lastname}', '{self.email}', '{self.director}')"
 
 class Progress_Graph(db.Model):
     __tablename__ = "progress_graph"
@@ -57,17 +56,35 @@ class Progress_Graph(db.Model):
 # Set "homepage" to index.html
 @app.route('/')
 def index():
-    return render_template('')
+    # return render_template('')
+    return 'Hello world'
 
-@app.route('/login', methods = ['POST', 'GET'])
+@app.route('/login', methods = ['POST'])
 def login():
-    # username = request.args.get('username')
-    # password = request.args.get('password')
+    login_email = request.json.get('email')
+    login_password = request.json.get('password')
+    # username = "phender9@uwo.ca"
+    # password = "chrw123"
     api = WaApi.WaApiClient("ynw0blawz7", "2vjwxhjmcspkddxqpkti6qbdsdnpmh")
     try:
-        api.authenticate_with_contact_credentials("", "")
+        api.authenticate_with_contact_credentials(login_email, login_password)
+        pers = Members.query.filter_by(email = login_email).all()
+        print(pers)
+        if len(pers) != 0:
+            curr_user = Members(email = login_email)
+            return jsonify({'email': curr_user.email, 'firstname': curr_user.firstname, 'lastname': curr_user.lastname}), 201
+        else:
+            while True:
+                print ('User doesn\'t exist.')
+                first = input("firstname: ")
+                lastN = input("lastname: ")
+                newUser = Members(firstname = first, lastname = lastN,
+                                email = uEmail, director = False)
+                session.add(newUser)
+                session.commit()
+                break
     except:
-        return "incorrect username and password"
+        return("incorrect username and password")
 
 
 
@@ -87,6 +104,5 @@ def login():
 #     return render_template('index.html')
 
 if __name__ == '__main__':
-    login()
     app.debug = True
     app.run()
