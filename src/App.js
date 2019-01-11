@@ -3,6 +3,9 @@ import React, { Component } from 'react';
 import Header from './components/Header';
 import Login from './Login';
 import Footer from './components/Footer';
+import Sidebar from './components/Sidebar';
+import Dashboard from './pages/Dashboard';
+import './App.scss';
 
 class App extends Component {
 
@@ -10,7 +13,12 @@ class App extends Component {
     return(
       <div id='app-background'>
         <Header />
-        <Login />
+
+        <div class ="app-container">
+          <Sidebar />
+          <Dashboard />
+        </div>
+
         <Footer />
       </div>
     )
