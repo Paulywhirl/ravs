@@ -5,4 +5,4 @@ import App from './App';
 import Main from './Main'
 // import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<App />, document.getElementById('login'));
+ReactDOM.render(<Main />, document.getElementById('login'));

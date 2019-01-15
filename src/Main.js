@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import Header from './components/Header';
-// import Login from './Login';
+import Login from './Login';
 import Footer from './components/Footer';
 
 import Calendar from './components/Calendar/Calendar'
@@ -12,9 +12,7 @@ class Main extends Component {
     return(
       <div id='app-background'>
         <Header />
-        <div>
-          <Calendar/>
-        </div>
+        <Login/>
         <Footer />
       </div>
     )

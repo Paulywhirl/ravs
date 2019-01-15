@@ -1,6 +1,17 @@
 import React, { Component } from "react";
 import './Sidebar.scss';
 
+
+const COMPONENTS = {
+  dashboard: 'Dashboard',
+  calendar: 'Calendar',
+  announcements: 'Annoucements',
+  profile: 'Profile',
+  progress: 'Progress',
+  settings: 'Settings',
+  logout: 'Logout'
+}
+
 class Sidebar extends Component {
   render() {
     return (
