@@ -49,8 +49,12 @@ class Progress_Graph(db.Model):
     def __repr(self):
         return f"Progress_Graph('{self.progress_id}', '{self.member_id}')"
 
+class Announcents(db.Model):
+    __tablename__ = "announcements"
 
-
+    annoucement_id = db.Column(db.Integer, primary_key=True)
+    message = db.Column(db.String(5000), nullable=False)
+    author = db.Column(db.Integer, db.ForeignKey('member.member_id'))
 
 
 # Set "homepage" to index.html
