@@ -12,7 +12,7 @@ class Main extends Component {
     return(
       <div id='app-background'>
         <Header />
-        <Login/>
+        <Calendar/>
         <Footer />
       </div>
     )
