@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
+import '@trendmicro/react-sidenav/dist/react-sidenav.css';
+
 import './Sidebar.scss';
 
 
@@ -16,47 +19,31 @@ class Sidebar extends Component {
   render() {
     return (
       <div class="sidebar">
-        <nav class="sidebar-nav">
-          <ul class="nav">
-            <li class="nav-title">Overview</li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <i class="nav-icon cui-speedometer"></i> Dashboard
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <i class="nav-icon cui-speedometer"></i> Calender
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <i class="nav-icon cui-speedometer"></i> Annoucements
-              </a>
-            </li>
-            <li class="nav-title">User</li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <i class="nav-icon cui-speedometer"></i> Profile
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <i class="nav-icon cui-speedometer"></i> Progress
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <i class="nav-icon cui-speedometer"></i> Settings
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <i class="nav-icon cui-speedometer"></i> Logout
-              </a>
-            </li>
-          </ul>
-        </nav>
+        <SideNav
+            onSelect={(selected) => {
+                // Add your code here
+            }}
+        >
+            <SideNav.Toggle />
+            <SideNav.Nav defaultSelected="home">
+                <NavItem eventKey="home">
+                    <NavIcon>
+                        <i className="fa fa-fw fa-home" style={{ fontSize: '1.75em' }} />
+                    </NavIcon>
+                    <NavText>
+                        Home
+                    </NavText>
+                </NavItem>
+                <NavItem eventKey="charts">
+                    <NavIcon>
+                        <i className="fa fa-fw fa-line-chart" style={{ fontSize: '1.75em' }} />
+                    </NavIcon>
+                    <NavText>
+                        Charts
+                    </NavText>
+                </NavItem>
+            </SideNav.Nav>
+        </SideNav>
       </div>
 
     )
