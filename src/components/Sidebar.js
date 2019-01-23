@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
-import { NavLink } from 'react-router-dom';
 import { BrowserRouter as Router, Route, Link, Switch} from "react-router-dom";
 
 
@@ -124,6 +123,7 @@ class Sidebar extends Component {
             </SideNav>
               <div id="main">
                    <Route path="/" exact component={Dashboard} />
+                   <Route path="/dashboard" component={Dashboard} />
                    <Route path="/calendar" component={Calendar} />
                    <Route path="/announcements" component={Announcements} />
               </div>
