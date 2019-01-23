@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import './Header.scss';
 
-import RadioWesternLogo from '../assets/RadioWesternLogo.png';
+import RadioWesternLogo from '../assets/RadioWesternLogo1.png';
 
 class Header extends Component {
   render() {
