@@ -4,7 +4,9 @@ import Header from './components/Header';
 import Login from './Login';
 import Footer from './components/Footer';
 import Sidebar from './components/Sidebar';
-import Dashboard from './pages/Dashboard';
+import Dashboard from './components/Dashboard/Dashboard';
+import Calendar from './components/Calendar/Calendar'
+import Announcements from './components/Announcements/Announcements'
 import './App.scss';
 
 class App extends Component {
@@ -15,8 +17,9 @@ class App extends Component {
         <Header />
 
         <div class ="app-container">
+
           <Sidebar />
-          <Dashboard />
+
         </div>
 
         <Footer />
