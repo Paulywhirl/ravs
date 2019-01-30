@@ -7,7 +7,7 @@ class Footer extends Component {
   render() {
     return(
       <div id="footer">
-        <p>Powered by
+        <p id="p1">Powered by
         <img src={Wild_Apricot}/>
         </p>
       </div>

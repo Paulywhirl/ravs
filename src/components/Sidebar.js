@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import { BrowserRouter as Router, Route, Link, Switch} from "react-router-dom";
+import ClickOutside from "react-click-outside";
 
 
 import './Sidebar.scss';
@@ -33,7 +34,8 @@ class Sidebar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isOpen: false
+      isOpen: false,
+      expanded: false
   }};
 
   handleToggle = () => {
@@ -49,19 +51,27 @@ class Sidebar extends Component {
       <div class="sidebar">
         <Router>
             <Route render={({ location, history }) => (
-                <React.Fragment>
-                    <SideNav
-                        onSelect={(selected) => {
-                            const to = '/' + selected;
-                            if (location.pathname !== to) {
-                                history.push(to);
-                            }
-                            //console.log(selected);
-                        }}
-                    >
-            <SideNav.Toggle onClick={this.handleToggle}/>
+              <React.Fragment>
+              <ClickOutside onClickOutside={() => {
+                this.setState({ expanded: false });
+              }}>
 
-            <SideNav.Nav defaultSelected="dashboard">
+                <SideNav
+                    expanded={this.state.expanded}
+                    onToggle={(expanded) => {
+                        this.setState({ expanded });
+                    }}
+                    onSelect={(selected) => {
+                        const to = '/' + selected;
+                        if (location.pathname !== to) {
+                            history.push(to);
+                        }
+                        //console.log(selected);
+                    }}
+                >
+              <SideNav.Toggle onClick={this.handleToggle}/>
+
+              <SideNav.Nav defaultSelected="dashboard">
                 <NavItem eventKey="dashboard">
                     <NavIcon>
                         <img src={DashboardIcon} alt="Dashboard" class="icon-image"/>
@@ -121,7 +131,9 @@ class Sidebar extends Component {
 
               </SideNav.Nav>
             </SideNav>
+            </ClickOutside>
               <div id="main">
+
                    <Route path="/" exact component={Dashboard} />
                    <Route path="/dashboard" component={Dashboard} />
                    <Route path="/calendar" component={Calendar} />
