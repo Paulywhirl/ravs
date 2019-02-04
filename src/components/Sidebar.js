@@ -16,8 +16,11 @@ import SettingsIcon from '../assets/icons/settings.png';
 import LogoutIcon from '../assets/icons/logout.png';
 
 import Dashboard from './Dashboard/Dashboard';
-import Calendar from './Calendar/Calendar'
-import Announcements from './Announcements/Announcements'
+import Calendar from './Calendar/Calendar';
+import Announcements from './Announcements/Announcements';
+import Profile from './Profile/Profile';
+import Progress from './Progress/Progress';
+import Settings from './Settings/Settings';
 
 
 const COMPONENTS = {
@@ -34,19 +37,10 @@ class Sidebar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isOpen: false,
       expanded: false
   }};
 
-  handleToggle = () => {
-    this.setState({
-      isOpen: !this.state.isOpen
-    });
-  };
-
-
   render() {
-    const { isOpen } = this.state;
     return (
       <div class="sidebar">
         <Router>
@@ -69,7 +63,7 @@ class Sidebar extends Component {
                         //console.log(selected);
                     }}
                 >
-              <SideNav.Toggle onClick={this.handleToggle}/>
+              <SideNav.Toggle/>
 
               <SideNav.Nav defaultSelected="dashboard">
                 <NavItem eventKey="dashboard">
@@ -133,11 +127,13 @@ class Sidebar extends Component {
             </SideNav>
             </ClickOutside>
               <div id="main">
-
                    <Route path="/" exact component={Dashboard} />
                    <Route path="/dashboard" component={Dashboard} />
                    <Route path="/calendar" component={Calendar} />
                    <Route path="/announcements" component={Announcements} />
+                   <Route path="/profile" component={Profile} />
+                   <Route path="/progress" component={Progress} />
+                   <Route path="/settings" component={Settings} />
               </div>
             </React.Fragment>
             )}
