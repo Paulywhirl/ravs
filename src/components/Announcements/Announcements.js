@@ -13,16 +13,13 @@ class Announcements extends Component {
 
   constructor(props) {
     super(props);
-    this.toggleFade = this.toggleFade.bind(this);
     this.state = {
-      fadeIn: true,
-      timeout: 300,
-      'postsList': []
+      postList: posts
     };
   }
 
-  toggleFade() {
-    this.setState((prevState) => { return { fadeIn: !prevState }});
+  getData(){
+    this.setState({ postList: posts })
   }
 
 
@@ -34,7 +31,7 @@ class Announcements extends Component {
           <h1>Announcements</h1>
           <hr />
 
-          {posts.map((postdata,index)=>{
+          {this.state.postList.map((postdata,index)=>{
             return <div className="cards">
 
                 <Card>

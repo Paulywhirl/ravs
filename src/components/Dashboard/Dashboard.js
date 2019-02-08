@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import './Dashboard.scss';
 
+import Calendar from '../Calendar/Calendar';
+import Announcements from '../Announcements/Announcements';
+
 class Dashboard extends Component {
   render() {
     return (
@@ -11,7 +14,7 @@ class Dashboard extends Component {
           <hr />
           <br />
           <h2>Current Annoucements:</h2>
-          <h3>get info from annoucements page</h3>
+          <h3>get info from annoucements page???</h3>
           <br />
           <br />
           <h2>Upcoming Sessions:</h2>

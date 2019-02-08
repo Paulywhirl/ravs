@@ -13,7 +13,7 @@ class Profile extends Component {
           <hr />
           <br />
           <img src={ProfileIcon} alt="profileimage" class="profileimage"/>
-          <h4>Change profile photo</h4>
+          <h4>Change profile photo ></h4>
           <br />
           <h3>Name: ?</h3>
           <h3>Email: ?</h3>
