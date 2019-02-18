@@ -40,7 +40,7 @@ class Calendar extends Component {
         <BigCalendar
           selectable
           localizer={localizer}
-          style={{ height: 550, width: 1200}}
+          style={{ height: 550, width: 1000}}
           events={this.state.events}
           step={60}
           defaultDate={moment().toDate()}

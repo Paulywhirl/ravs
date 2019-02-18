@@ -80,7 +80,7 @@ export default class Login extends Component {
           </FormGroup>
           {
             !this.state.hideMoreInfo && <div>
-            <p>Looks like you're a newcomer! let's get some more information so we can get you started</p>
+            <p className="paragraph">Looks like you're a newcomer! let's get some more information so we can get you started</p>
             <FormGroup controlId="firstname" bsSize="large">
               <ControlLabel>First Name</ControlLabel>
                 <FormControl

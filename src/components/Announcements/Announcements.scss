@@ -1,8 +1,10 @@
 .announcements {
-  margin-left: auto;
-  margin-right: auto;
-  width: 90%;
-  background-color: 000000;
+  padding-left: 10px;
+  padding-top: 10px;
+}
+
+.cards {
+  padding-top: 20px;
 }
 
 .p1 {
@@ -10,9 +12,14 @@
   color: #000000;
 }
 
+
 hr {
   height: 1px;
   color: #532E85;
   background-color: #532E85;
   border: none;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
 }
