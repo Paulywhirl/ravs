@@ -1,10 +1,10 @@
-import json
+import json, datetime, urllib.parse
+
 from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from flask_heroku import Heroku
-
 
 import WaApi
 
@@ -34,7 +34,7 @@ class Members(db.Model):
     director = db.Column(db.Boolean, nullable=False, default=False)
 
     def __repr__(self):
-        return f"Members('{self.firstname}', '{self.lastname}', '{self.email}', '{self.director}')"
+        return f"Members('{self.member_id}','{self.firstname}', '{self.lastname}', '{self.email}', '{self.director}')"
 
 class Progress_Graph(db.Model):
     __tablename__ = "progress_graph"
@@ -44,7 +44,8 @@ class Progress_Graph(db.Model):
 
     progress_id = db.Column(db.Integer, primary_key=True)
     dprogress_graph = db.Column(db.JSON, default=data)
-    member_id = db.Column(db.Integer, db.ForeignKey('member.member_id'))
+    email = db.Column(db.String(60), db.ForeignKey('member.email'))
+    # member_id = db.Column(db.Integer, db.ForeignKey('member.member_id'))
 
     def __repr(self):
         return f"Progress_Graph('{self.progress_id}', '{self.member_id}')"
@@ -65,32 +66,70 @@ def index():
 
 @app.route('/login', methods = ['POST'])
 def login():
-    login_email = request.json.get('email')
-    login_password = request.json.get('password')
-    # username = "phender9@uwo.ca"
-    # password = "chrw123"
+    # login_email = request.json.get('email')
+    # login_password = request.json.get('password')
+    username = "phender9@uwo.ca"
+    password = "chrw123"
+    login_email ="phender10@uwo.ca"
+    password = "chrw123"
     api = WaApi.WaApiClient("ynw0blawz7", "2vjwxhjmcspkddxqpkti6qbdsdnpmh")
     try:
-        api.authenticate_with_contact_credentials(login_email, login_password)
+        api.authenticate_with_contact_credentials(username, password)
         pers = Members.query.filter_by(email = login_email).all()
-        print(pers)
         if len(pers) != 0:
             curr_user = Members(email = login_email)
             return jsonify({'email': curr_user.email, 'firstname': curr_user.firstname, 'lastname': curr_user.lastname}), 201
         else:
-            while True:
-                print ('User doesn\'t exist.')
-                first = input("firstname: ")
-                lastN = input("lastname: ")
-                newUser = Members(firstname = first, lastname = lastN,
-                                email = uEmail, director = False)
-                session.add(newUser)
-                session.commit()
-                break
+            print ('User doesn\'t exist.\n')
+            first = input("firstname: ")
+            lastN = input("\nlastname: ")
+            newUser = Members(firstname = first, lastname = lastN,
+                            email = login_email, director = False)
+            newProgress = Progress_Graph(email = login_email)
+            session.add(newUser)
+            session.add(newProgress)
+            session.commit()
+            return
     except:
         return("incorrect username and password")
 
 
+@app.route('/calendar-events', methods=['GET'])
+def get_current_month_events():
+    firstDayOfCurrentMonth = datetime.date.today().replace(day=1) #Get first day of month
+    lastDayOfCurrentMonth = last_day_of_month(datetime.date.today()) #Get last day of month
+    firstDayOfCurrentMonth_String = firstDayOfCurrentMonth.strftime('%Y-%m-%d') #In YYYY-MM-DD format.
+    lastDayOfCurrentMonth_String = lastDayOfCurrentMonth.strftime('%Y-%m-%d')
+    params = {'$filter': f'StartDate gt {firstDayOfCurrentMonth_String} AND StartDate lt {lastDayOfCurrentMonth_String}', #Originally was $filter': 'StartDate gt 2019-01-01 AND StartDate lt 2015-01-31'
+              '$async': 'false'}
+    request_url = eventsUrl + '?' + urllib.parse.urlencode(params)
+    return api.execute_request(request_url).Events
+
+@app.route('/progress-graph', methods=['GET'])
+def progress_graph():
+    login_email ="phender10@uwo.ca"
+    # login_email = request.json.get('email')
+    # login_password = request.json.get('password')
+    # username = "phender9@uwo.ca"
+    # password = "chrw123"
+    for graph in session.query(Progress_Graph).filter(Progress_Graph.email == login_email):
+        json_graph = json.dumps(graph.dprogress_graph)
+    return json_graph
+
+
+def last_day_of_month(any_date_in_specific_month):
+    if any_date_in_specific_month.month == 12:
+        return any_date_in_specific_month.replace(day=31)
+    return any_date_in_specific_month.replace(month=any_date_in_specific_month.month+1, day=1) - datetime.timedelta(days=1)
+
+
+
+
+# api = WaApi.WaApiClient("ynw0blawz7", "2vjwxhjmcspkddxqpkti6qbdsdnpmh")
+# api.authenticate_with_contact_credentials("phender9@uwo.ca", "chrw123")
+# accounts = api.execute_request("/v2/accounts")
+# account = accounts[0]
+# eventsUrl = next(res for res in account.Resources if res.Name == 'Events').Url
 
 
 # Save e-mail to database and send to success page
@@ -109,4 +148,10 @@ def login():
 
 if __name__ == '__main__':
     app.debug = True
+    # events = get_current_month_events()
+    # for event in events:
+    #     print('\tID:' + str(event.Id))
+    #     print('\tEventType:' + event.EventType)
+    #     print('\tName:' + event.Name)
+    # login()
     app.run()
