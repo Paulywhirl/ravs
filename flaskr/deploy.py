@@ -1,15 +1,19 @@
 import json, datetime, urllib.parse
 
 from flask import Flask, render_template, request, jsonify
+from flask_cors import CORS, cross_origin
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from flask_heroku import Heroku
 
+
 import WaApi
 
 app = Flask(__name__, template_folder='./templates/')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/ravs-database'
+app.config['CORS_HEADERS'] = 'Content-Type'
+CORS(app, support_credentials=True, resources={r"/*": {"origins": "*"}})
 # heroku = Heroku(app)
 db = SQLAlchemy(app)
 
@@ -65,34 +69,39 @@ def index():
     return 'Hello world'
 
 @app.route('/login', methods = ['POST'])
+@cross_origin(supports_credentials=True)
 def login():
-    # login_email = request.json.get('email')
-    # login_password = request.json.get('password')
-    username = "phender9@uwo.ca"
-    password = "chrw123"
-    login_email ="phender10@uwo.ca"
-    password = "chrw123"
+    content = request.json
+    login_email = content['email']
+    login_password = content['password']
+
     api = WaApi.WaApiClient("ynw0blawz7", "2vjwxhjmcspkddxqpkti6qbdsdnpmh")
     try:
-        api.authenticate_with_contact_credentials(username, password)
+        api.authenticate_with_contact_credentials(login_email, login_password)
         pers = Members.query.filter_by(email = login_email).all()
         if len(pers) != 0:
-            curr_user = Members(email = login_email)
-            return jsonify({'email': curr_user.email, 'firstname': curr_user.firstname, 'lastname': curr_user.lastname}), 201
+            curr_user = Members.query.filter_by(email = login_email).first()
+            return jsonify({'email': curr_user.email, 'firstname': curr_user.firstname, 'lastname': curr_user.lastname, 'curr': True}), 201
         else:
-            print ('User doesn\'t exist.\n')
-            first = input("firstname: ")
-            lastN = input("\nlastname: ")
-            newUser = Members(firstname = first, lastname = lastN,
-                            email = login_email, director = False)
-            newProgress = Progress_Graph(email = login_email)
-            session.add(newUser)
-            session.add(newProgress)
-            session.commit()
-            return
+            return jsonify({'email': curr_user.email, 'firstname': curr_user.firstname, 'lastname': curr_user.lastname, 'curr': False}), 201
     except:
         return("incorrect username and password")
 
+@app.route('/newlogin', methods = ['POST'])
+@cross_origin(supports_credentials=True)
+def newlogin():
+    content = request.json
+    login_email = content['email']
+    login_password = content['password']
+    login_firstname = content['firstname']
+    login_lastname = content['lastname']
+
+    newUser = Members(firstname = login_firstname, lastname = login_lastname,
+                    email = login_email, director = False)
+    newProgress = Progress_Graph(email = login_email)
+    session.add(newUser)
+    session.add(newProgress)
+    session.commit()
 
 @app.route('/calendar-events', methods=['GET'])
 def get_current_month_events():
@@ -146,12 +155,13 @@ def last_day_of_month(any_date_in_specific_month):
 #             return render_template('success.html')
 #     return render_template('index.html')
 
+
 if __name__ == '__main__':
-    app.debug = True
+
     # events = get_current_month_events()
     # for event in events:
     #     print('\tID:' + str(event.Id))
     #     print('\tEventType:' + event.EventType)
     #     print('\tName:' + event.Name)
     # login()
-    app.run()
+    app.run(debug = True)

@@ -3,6 +3,9 @@ import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 
 import "./login.scss"
 
+const axios = require('axios')
+const baseURL = "http://127.0.0.1:5000"
+
 export default class Login extends Component {
   constructor(props) {
     super(props);
@@ -13,7 +16,9 @@ export default class Login extends Component {
     this.state = {
       email: "",
       password: "",
-      hideMoreInfo: false
+      firstname: "",
+      lastname: "",
+      hideMoreInfo: true
     };
   }
 
@@ -35,24 +40,36 @@ export default class Login extends Component {
   }
 
   handleSubmit (event){
-    let uname = this.state.email;
-    let pword = this.state.password;
-    fetch('http://127.0.0.1:5000/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: {
-        'email': uname,
-        'password': pword
-      }
+    event.preventDefault()
+    const user = JSON.stringify({
+      email: this.state.email,
+      password: this.state.password
     })
-    .then(function(response){
+    fetch(`http://127.0.0.1:5000/login`, {
+      method: 'post',
+      crossDomain: true,
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        email: this.state.email,
+        password: this.state.password
+      })
+    }).then(
+      response => {return response.json()}
+    ).then(
+      data =>
+      this.setState({
+        email: data.email,
+        firstname: data.firstname,
+        lastname: data.lastname,
+        hideMoreInfo: data.curr
+      })
+    ).then(
+      //determine next action
+    )
+    .catch(
+      //incorrect username or password
+    );
 
-    })
-    .catch(function(error){
-      console.log('there was a problem: ', error)
-    });
   }
 
 
@@ -67,6 +84,7 @@ export default class Login extends Component {
                 type="email"
                 value={this.state.email}
                 onChange={this.handleChangeUser}
+                disabled={this.state.hideMoreInfo === false ? true : false}
               />
           </FormGroup>
           <FormGroup controlId="password" bsSize="large">
@@ -76,6 +94,7 @@ export default class Login extends Component {
                 type="password"
                 value={this.state.password}
                 onChange={this.handleChangePassword}
+                disabled={this.state.hideMoreInfo === false ? true : false}
               />
           </FormGroup>
           {
@@ -100,13 +119,13 @@ export default class Login extends Component {
             this.state.hideMoreInfo ? (
               <Button
               block
-              bsSize="Large"
+              bsSize="lg"
               disabled={!this.validateForm()}
               type="submit"
               >Sign in
             </Button>) : (<Button
               block
-              bsSize="Large"
+              bsSize="lg"
               disabled={!this.validateForm()}
               type="submit"
             >
