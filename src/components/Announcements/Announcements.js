@@ -1,8 +1,9 @@
 import React, {Component} from "react";
 import ReactDOM from 'react-dom';
-import { Badge, Card, CardHeader, CardFooter, CardBody,
+import { Button, Badge, Card, CardHeader, CardFooter, CardBody,
   CardTitle, CardText, Col, Row, Collapse, Fade } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.css';
+import { BrowserRouter as Router, Route, Link, Switch} from "react-router-dom";
 
 
 import posts from "./posts";
@@ -31,6 +32,18 @@ class Announcements extends Component {
           <h1>Announcements</h1>
           <hr />
 
+          <div>
+            <Link to="/announcement/new">
+              <Button>New Annoucement</Button>
+            </Link>
+          </div>
+
+          <div>
+            <Link to="/calendars/session">
+              <Button>Go to session</Button>
+            </Link>
+          </div>
+
           {this.state.postList.map((postdata,index)=>{
             return <div className="cards">
 
@@ -39,12 +52,13 @@ class Announcements extends Component {
                   <CardBody>
                     <CardTitle style={{fontSize: 15}}>Department: {postdata.department}</CardTitle>
                     <CardText style={{fontSize: 15}}>{postdata.description}</CardText>
+                    <Button outline color="secondary">Edit</Button>
                   </CardBody>
                 </Card>
               </div>
           })}
-        </div>
 
+        </div>
       </div>
     );
   }
