@@ -88,7 +88,7 @@ export default class Login extends Component {
               <FormControl
                 autoFocus
                 type="email"
-                placeHolder="email"
+                placeHolder="Email"
                 value={this.state.email}
                 onChange={this.handleChangeUser}
                 disabled={this.state.hideMoreInfo === false ? true : false}
@@ -98,7 +98,7 @@ export default class Login extends Component {
               <FormControl
                 autoFocus
                 type="password"
-                placeHolder="password"
+                placeHolder="Password"
                 value={this.state.password}
                 onChange={this.handleChangePassword}
                 disabled={this.state.hideMoreInfo === false ? true : false}
@@ -116,10 +116,10 @@ export default class Login extends Component {
                 <FormControl
                   autoFocus
                   type="firstname"
-                  placeHolder="firstname"
+                  placeHolder="Firstname"
                 />
             </FormGroup>
-            <FormGroup controlId="lastname" bsSize="large">
+            <FormGroup controlId="Lastname" bsSize="large">
                 <FormControl
                   autoFocus
                   type="lastname"
@@ -130,12 +130,14 @@ export default class Login extends Component {
           {
             this.state.hideMoreInfo ? (
               <Button
+              id="submit"
               block
               bsSize="lg"
               disabled={!this.validateForm()}
               type="submit"
               >Sign in
             </Button>) : (<Button
+              id="submit"
               block
               bsSize="lg"
               disabled={!this.validateForm()}
