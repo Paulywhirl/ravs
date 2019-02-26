@@ -3,9 +3,6 @@ import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 
 import "./login.scss"
 
-const axios = require('axios')
-const baseURL = "http://127.0.0.1:5000"
-
 export default class Login extends Component {
   constructor(props) {
     super(props);
@@ -18,8 +15,11 @@ export default class Login extends Component {
       password: "",
       firstname: "",
       lastname: "",
-      hideMoreInfo: true
+      hideMoreInfo: true,
+      invalid: false
     };
+
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
 
@@ -49,13 +49,20 @@ export default class Login extends Component {
       method: 'post',
       crossDomain: true,
       headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({
-        email: this.state.email,
-        password: this.state.password
-      })
+      body: user
     }).then(
       response => {return response.json()}
-    ).then(
+      // function(response) {
+      // if(response.status === 401) {
+      //   this.setState({
+      //     invalid: true
+      //   })
+      // } else {
+      //   return response.json()
+      // }
+    // }
+  )
+    .then(
       data =>
       this.setState({
         email: data.email,
@@ -63,10 +70,9 @@ export default class Login extends Component {
         lastname: data.lastname,
         hideMoreInfo: data.curr
       })
-    ).then(
-      //determine next action
     )
     .catch(
+      console.log("error")
       //incorrect username or password
     );
 
@@ -77,41 +83,47 @@ export default class Login extends Component {
     return (
       <div className="Login">
         <form onSubmit={this.handleSubmit}>
+          <h2>Login</h2>
           <FormGroup controlId="email" bsSize="large">
-            <ControlLabel>Email</ControlLabel>
               <FormControl
                 autoFocus
                 type="email"
+                placeHolder="email"
                 value={this.state.email}
                 onChange={this.handleChangeUser}
                 disabled={this.state.hideMoreInfo === false ? true : false}
               />
           </FormGroup>
           <FormGroup controlId="password" bsSize="large">
-            <ControlLabel>Password</ControlLabel>
               <FormControl
                 autoFocus
                 type="password"
+                placeHolder="password"
                 value={this.state.password}
                 onChange={this.handleChangePassword}
                 disabled={this.state.hideMoreInfo === false ? true : false}
               />
           </FormGroup>
           {
+            this.state.invalid && <div>
+            <p className="paragraph">Invalid email or password (or not associated with Wild Apicrot)</p>
+            </div>
+          }
+          {
             !this.state.hideMoreInfo && <div>
             <p className="paragraph">Looks like you're a newcomer! let's get some more information so we can get you started</p>
             <FormGroup controlId="firstname" bsSize="large">
-              <ControlLabel>First Name</ControlLabel>
                 <FormControl
                   autoFocus
                   type="firstname"
+                  placeHolder="firstname"
                 />
             </FormGroup>
             <FormGroup controlId="lastname" bsSize="large">
-              <ControlLabel>Last Name</ControlLabel>
                 <FormControl
                   autoFocus
                   type="lastname"
+                  placeHolder="lastname"
                 />
             </FormGroup> </div>
           }
