@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link, Switch} from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect} from "react-router-dom";
 
 import Header from './components/Header';
 import Login from './Login';
@@ -13,32 +13,31 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      redirected: false
+      loggedIn: false
     }
   }
 
-
+  callback(childState) {
+    console.log(childState);
+  }
 
   render() {
     return(
-      <div id='app-background'>
-        <Header />
-        <Router>
-          {
-            !this.state.redirect ? (
-              <div>
-                <Route path="/login" component={Login}/>
+      <Router>
+        <div id='app-background'>
+          <Header />
+          <Route exact path="/" render={() => (
+            this.state.loggedIn ? (
+              <div class="app-container">
+                <Redirect path="/homepage" component={Sidebar}/>
               </div>
             ) : (
-              <div>
-                <Route path="/homepage" component={Sidebar}/>
-              </div>
+              <Login sendToParent={this.callback} />
             )
-          }
-        </Router>
-
-        <Footer />
-      </div>
+          )}/>
+          <Footer />
+        </div>
+      </Router>
     )
   }
 }

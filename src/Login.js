@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-import { BrowserRouter as Router, Route, Link, Switch} from "react-router-dom";
 
 import "./login.scss"
 
@@ -22,8 +21,7 @@ export default class Login extends Component {
       lastname: "",
       hideMoreInfo: true,
       invalid: false,
-      registering: false,
-      redirect: false
+      registering: false
     };
   }
 
@@ -71,7 +69,7 @@ export default class Login extends Component {
         firstname: data.firstname,
         lastname: data.lastname
       }, () => {
-        console.log(this.state);
+        this.props.sendToParent(this.state);
       })
     )
 
