@@ -34,7 +34,7 @@ input#email:hover, input#password:hover, input#firstname:hover, input#lastname:h
   border: 2px solid #5f27cd;
 }
 
-.Login button[type="submit"] {
+.Login button[type="button"] {
   margin: 10px auto;
   width: 120px;
   background: white;
@@ -42,7 +42,7 @@ input#email:hover, input#password:hover, input#firstname:hover, input#lastname:h
   transition:  0.2s
 }
 
-.Login button[type="submit"]:hover {
+.Login button[type="button"]:hover {
   width: 180px;
 }
 

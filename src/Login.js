@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import { BrowserRouter as Router, Route, Link, Switch} from "react-router-dom";
 
 import "./login.scss"
+
+import App from "./App"
 
 export default class Login extends Component {
   constructor(props) {
@@ -10,16 +13,18 @@ export default class Login extends Component {
     this.handleChangePassword = this.handleChangePassword.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.validateForm = this.validateForm.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleRegister = this.handleRegister.bind(this)
     this.state = {
       email: "",
       password: "",
       firstname: "",
       lastname: "",
       hideMoreInfo: true,
-      invalid: false
+      invalid: false,
+      registering: false,
+      redirect: false
     };
-
-    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
 
@@ -39,6 +44,13 @@ export default class Login extends Component {
     });
   }
 
+  handleRegister() {
+    this.setState({
+      registering: true,
+      hideMoreInfo: false
+    });
+  }
+
   handleSubmit (event){
     event.preventDefault()
     const user = JSON.stringify({
@@ -52,62 +64,34 @@ export default class Login extends Component {
       body: user
     }).then(
       response => {return response.json()}
-      // function(response) {
-      // if(response.status === 401) {
-      //   this.setState({
-      //     invalid: true
-      //   })
-      // } else {
-      //   return response.json()
-      // }
-    // }
-  )
-    .then(
+    ).then(
       data =>
       this.setState({
         email: data.email,
         firstname: data.firstname,
-        lastname: data.lastname,
-        hideMoreInfo: data.curr
+        lastname: data.lastname
+      }, () => {
+        console.log(this.state);
       })
     )
-    .catch(
-      console.log("error")
-      //incorrect username or password
-    );
 
+  }
+
+  handleRegisterAndSubmit = (event) => {
+    event.preventDefault()
   }
 
 
   render() {
     return (
       <div className="Login">
-        <form onSubmit={this.handleSubmit}>
-          <h2>Login</h2>
-          <FormGroup controlId="email" bsSize="large">
-              <FormControl
-                autoFocus
-                type="email"
-                placeHolder="Email"
-                value={this.state.email}
-                onChange={this.handleChangeUser}
-                disabled={this.state.hideMoreInfo === false ? true : false}
-              />
-          </FormGroup>
-          <FormGroup controlId="password" bsSize="large">
-              <FormControl
-                autoFocus
-                type="password"
-                placeHolder="Password"
-                value={this.state.password}
-                onChange={this.handleChangePassword}
-                disabled={this.state.hideMoreInfo === false ? true : false}
-              />
-          </FormGroup>
+        <form>
           {
-            this.state.invalid && <div>
-            <p className="paragraph">Invalid email or password (or not associated with Wild Apicrot)</p>
-            </div>
+            !this.state.registering ? (
+              <h2>Login</h2>
+            ) : (
+              <h2>Registering</h2>
+            )
           }
           {
             !this.state.hideMoreInfo && <div>
@@ -119,7 +103,7 @@ export default class Login extends Component {
                   placeHolder="Firstname"
                 />
             </FormGroup>
-            <FormGroup controlId="Lastname" bsSize="large">
+            <FormGroup controlId="lastname" bsSize="large">
                 <FormControl
                   autoFocus
                   type="lastname"
@@ -127,24 +111,52 @@ export default class Login extends Component {
                 />
             </FormGroup> </div>
           }
+          <FormGroup controlId="email" bsSize="large">
+              <FormControl
+                autoFocus
+                type="email"
+                placeHolder="Email"
+                value={this.state.email}
+                onChange={this.handleChangeUser}
+              />
+          </FormGroup>
+          <FormGroup controlId="password" bsSize="large">
+              <FormControl
+                autoFocus
+                type="password"
+                placeHolder="Password"
+                value={this.state.password}
+                onChange={this.handleChangePassword}
+              />
+          </FormGroup>
+            <Button
+            id="submit"
+            onClick={this.handleSubmit}
+            block
+            bsSize="lg"
+            hidden={this.state.registering}
+            disabled={!this.validateForm()}
+            type="button">
+            Sign in
+          </Button>
           {
-            this.state.hideMoreInfo ? (
+            !this.state.registering ? (
               <Button
-              id="submit"
-              block
-              bsSize="lg"
-              disabled={!this.validateForm()}
-              type="submit"
-              >Sign in
-            </Button>) : (<Button
-              id="submit"
-              block
-              bsSize="lg"
-              disabled={!this.validateForm()}
-              type="submit"
-            >
-              Register & Sign in
-            </Button>)
+                onClick={this.handleRegister}
+                block
+                bsSize="lg"
+                type="button">
+                Register
+              </Button>
+            ) : (
+              <Button
+                onClick={this.handleRegisterAndSubmit}
+                block
+                bsSize="lg"
+                type="button">
+                Register & Sign in
+              </Button>
+            )
           }
         </form>
       </div>
