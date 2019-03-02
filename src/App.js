@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Redirect} from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect, Switch} from "react-router-dom";
 
 import Header from './components/Header';
 import Login from './Login';
@@ -13,12 +13,26 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      user: {
+        email: "",
+        firstname: "",
+        lastname: ""
+      },
       loggedIn: false
     }
+
+    this.callback = this.callback.bind(this)
   }
 
   callback(childState) {
-    console.log(childState);
+    this.setState({
+        user:{
+          email: childState.email,
+          firstname: childState.firstname,
+          lastname: childState.lastname
+        },
+        loggedIn: childState.isLoggedIn
+    })
   }
 
   render() {
@@ -26,15 +40,24 @@ class App extends Component {
       <Router>
         <div id='app-background'>
           <Header />
-          <Route exact path="/" render={() => (
+          <Switch>
+            <Route exact path="/" render={() => (
+              this.state.loggedIn ? (
+                <Redirect from="/" to="/homepage"/>
+              ) : (
+                <Login sendToParent={this.callback} />
+              )
+            )}/>
+          </Switch>
+          {
             this.state.loggedIn ? (
               <div class="app-container">
-                <Redirect path="/homepage" component={Sidebar}/>
+                <Route path='/homepage' component={Sidebar}/>
               </div>
             ) : (
-              <Login sendToParent={this.callback} />
+              <div/>
             )
-          )}/>
+          }
           <Footer />
         </div>
       </Router>

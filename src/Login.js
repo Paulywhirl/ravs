@@ -67,7 +67,12 @@ export default class Login extends Component {
         firstname: data.firstname,
         lastname: data.lastname
       }, () => {
-        this.props.sendToParent(this.state);
+        this.props.sendToParent({
+          email: this.state.email,
+          firstname: this.state.firstname,
+          lastname: this.state.lastname,
+          isLoggedIn: true
+        });
       })
     )
 
@@ -96,7 +101,7 @@ export default class Login extends Component {
                 <FormControl
                   autoFocus
                   type="firstname"
-                  placeHolder="Firstname"
+                  placeholder="Firstname"
                 />
             </FormGroup>
             <FormGroup controlId="lastname" bsSize="large">
