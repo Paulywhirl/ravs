@@ -50,10 +50,10 @@ class SessionView extends Component {
         <br />
         <h3>Radio Western 100 - Introduction to 94.9 Radio Western</h3>
         <br />
-        <h4>When: ?</h4>
-        <h4>Location: ?</h4>
-        <h4>Spaces Left: ?</h4>
-        <h4>Registration: Intro Training 1000</h4>
+        <h4><b>When:</b> 01 Mar 2019 12:00 PM - 12:30 PM</h4>
+        <h4><b>Location:</b> 250 UCC</h4>
+        <h4><b>Spaces Left:</b> 12</h4>
+        <h4><b>Registration:</b> Intro Training 1000</h4>
         <br />
         <h4>Come in and see what Radio Western is all about with Pam!
           In this intro session we will go over the Policies and Procedures as well as cover all the exciting opportunities

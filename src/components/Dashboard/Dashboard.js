@@ -49,7 +49,7 @@ class Dashboard extends Component {
                 </div>
             }
           })}
-
+          
           <h2>Upcoming Sessions:</h2>
           {this.state.eventList.map((eventdata,index1)=>{
             if(index1<1) {
@@ -69,7 +69,7 @@ class Dashboard extends Component {
         <hr />
         <br />
         <h2>Weekly Calender:</h2>
-        {/* <Calendar /> */}
+        <Calendar style={{ height: 550, width: 1000}}/>
 
         <br />
         <br />
