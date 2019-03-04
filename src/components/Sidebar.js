@@ -21,6 +21,8 @@ import Announcements from './Announcements/Announcements';
 import Profile from './Profile/Profile';
 import Progress from './Progress/Progress';
 import Settings from './Settings/Settings';
+import AnnouncementForm from './AnnouncementForm/AnnouncementForm';
+import SessionView from './SessionView/SessionView';
 
 
 const COMPONENTS = {
@@ -134,6 +136,8 @@ class Sidebar extends Component {
                    <Route path="/profile" component={Profile} />
                    <Route path="/progress" component={Progress} />
                    <Route path="/settings" component={Settings} />
+                   <Route path="/announcement/new" exact component={AnnouncementForm} />
+                   <Route path="/calendars/session" exact component={SessionView} />
               </div>
             </React.Fragment>
             )}
