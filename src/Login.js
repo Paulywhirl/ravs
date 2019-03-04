@@ -1,25 +1,39 @@
 import React, { Component } from "react";
-import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import { Button, FormGroup, FormControl } from "react-bootstrap";
 
 import "./login.scss"
 
 export default class Login extends Component {
   constructor(props) {
     super(props);
-    this.handleChangeUser = this.handleChangeUser.bind(this);
-    this.handleChangePassword = this.handleChangePassword.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.validateForm = this.validateForm.bind(this);
+    this.handleChangeUser = this.handleChangeUser.bind(this)
+    this.handleChangePassword = this.handleChangePassword.bind(this)
+    this.handleChangeFirstName = this.handleChangeFirstName.bind(this)
+    this.handleChangeLastName = this.handleChangeLastName.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.validateForm = this.validateForm.bind(this)
+    this.validateRegister = this.validateRegister.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleRegister = this.handleRegister.bind(this)
     this.state = {
       email: "",
       password: "",
-      hideMoreInfo: false
+      firstname: "",
+      lastname: "",
+      registering: false,
+      invalidLogin: false,
+      error: ""
     };
   }
 
 
   validateForm() {
     return this.state.email.length > 0 && this.state.password.length > 0;
+  }
+
+  validateRegister() {
+    return this.state.email.length > 0 && this.state.password.length > 0
+    && this.state.firstname.length > 0 && this.state.lastname.length > 0;
   }
 
   handleChangeUser(event) {
@@ -34,89 +48,188 @@ export default class Login extends Component {
     });
   }
 
-  handleSubmit (event){
-    let uname = this.state.email;
-    let pword = this.state.password;
-    fetch('http://127.0.0.1:5000/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: {
-        'email': uname,
-        'password': pword
-      }
+  handleChangeFirstName(event) {
+    this.setState({
+      firstname: event.target.value
     })
-    .then(function(response){
+  }
 
+  handleChangeLastName(event) {
+    this.setState({
+      lastname: event.target.value
     })
-    .catch(function(error){
-      console.log('there was a problem: ', error)
+  }
+
+  handleRegister() {
+    this.setState({
+      registering: true
     });
+  }
+
+  handleInvalidLogin = () => {
+
+  }
+
+  handleSubmit (event){
+    event.preventDefault()
+    const user = JSON.stringify({
+      email: this.state.email,
+      password: this.state.password
+    })
+    try {
+      fetch(`http://127.0.0.1:5000/login`, {
+        method: 'post',
+        crossDomain: true,
+        headers: {'Content-Type':'application/json'},
+        body: user
+      }).then(
+        response => {return response.json()}
+      ).then(
+        data =>
+        this.setState({
+          email: data.email,
+          firstname: data.firstname,
+          lastname: data.lastname
+        }, () => {
+          this.props.sendToParent({
+            email: this.state.email,
+            firstname: this.state.firstname,
+            lastname: this.state.lastname,
+            isLoggedIn: true
+          });
+        })
+      ).catch(function(error){
+        console.log(error)
+      })
+    } catch(error) {
+      console.log(error)
+    }
+  }
+
+  handleRegisterAndSubmit = (event) => {
+    event.preventDefault()
+    const newUser = JSON.stringify({
+      email: this.state.email,
+      password: this.state.password,
+      firstname: this.state.firstname,
+      lastname: this.state.lastname
+    })
+    fetch(`http://127.0.0.1:5000/register`, {
+      method: 'post',
+      crossDomain: true,
+      headers: {'Content-Type': 'application/json'},
+      body: newUser
+    }).then(
+      response => {return response.json()}
+    ).then(
+      data =>
+      this.props.sendToParent({
+        email: data.email,
+        firstname: data.firstname,
+        lastname: data.lastname,
+        isLoggedIn: true
+      })
+    )
   }
 
 
   render() {
     return (
       <div className="Login">
-        <form onSubmit={this.handleSubmit}>
+        <form>
+          {
+            !this.state.registering ? (
+              <h2>Login</h2>
+            ) : (
+              <h2>Registering</h2>
+            )
+          }
+          {
+            this.state.registering && <div>
+            <p className="paragraph">Remember! You must already be registered
+            with Radio Westerns Wild Apricot service.</p>
+            <FormGroup controlId="firstname" bsSize="large">
+                <FormControl
+                  autoFocus
+                  type="firstname"
+                  placeholder="Firstname"
+                  onChange={this.handleChangeFirstName}
+                />
+            </FormGroup>
+            <FormGroup controlId="lastname" bsSize="large">
+                <FormControl
+                  autoFocus
+                  type="lastname"
+                  placeHolder="lastname"
+                  onChange={this.handleChangeLastName}
+                />
+            </FormGroup> </div>
+          }
           <FormGroup controlId="email" bsSize="large">
-            <ControlLabel>Email</ControlLabel>
               <FormControl
                 autoFocus
                 type="email"
+                placeHolder="Email"
                 value={this.state.email}
                 onChange={this.handleChangeUser}
               />
           </FormGroup>
           <FormGroup controlId="password" bsSize="large">
-            <ControlLabel>Password</ControlLabel>
               <FormControl
                 autoFocus
                 type="password"
+                placeHolder="Password"
                 value={this.state.password}
                 onChange={this.handleChangePassword}
               />
           </FormGroup>
+            <Button
+            id="submit"
+            onClick={this.handleSubmit}
+            block
+            bsSize="lg"
+            hidden={this.state.registering}
+            disabled={!this.validateForm()}
+            type="button">
+            Sign in
+          </Button>
           {
-            !this.state.hideMoreInfo && <div>
-            <p className="paragraph">Looks like you're a newcomer! let's get some more information so we can get you started</p>
-            <FormGroup controlId="firstname" bsSize="large">
-              <ControlLabel>First Name</ControlLabel>
-                <FormControl
-                  autoFocus
-                  type="firstname"
-                />
-            </FormGroup>
-            <FormGroup controlId="lastname" bsSize="large">
-              <ControlLabel>Last Name</ControlLabel>
-                <FormControl
-                  autoFocus
-                  type="lastname"
-                />
-            </FormGroup> </div>
-          }
-          {
-            this.state.hideMoreInfo ? (
+            !this.state.registering ? (
               <Button
-              block
-              bsSize="Large"
-              disabled={!this.validateForm()}
-              type="submit"
-              >Sign in
-            </Button>) : (<Button
-              block
-              bsSize="Large"
-              disabled={!this.validateForm()}
-              type="submit"
-            >
-              Register & Sign in
-            </Button>)
+                onClick={this.handleRegister}
+                block
+                bsSize="lg"
+                type="button">
+                Register
+              </Button>
+            ) : (
+              <Button
+                onClick={this.handleRegisterAndSubmit}
+                block
+                bsSize="lg"
+                disabled={!this.validateRegister()}
+                type="button">
+                Register & Sign in
+              </Button>
+            )
           }
+          <p>{this.state.error}</p>
         </form>
+        <Button
+          onClick={() => this.setState({
+            registering: false
+          })}
+          type="button"
+          hidden={!this.state.registering}
+          className="return">
+          back
+        </Button>
       </div>
     )
   }
 
+  // componentDidCatch = (error) => {
+  //   console.log(error)
+  // }
+
 }
-// export default Login;
