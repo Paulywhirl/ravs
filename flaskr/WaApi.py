@@ -132,6 +132,7 @@ class WaApiClient(object):
     @staticmethod
     def _parse_response(http_response):
         decoded = json.loads(http_response.read().decode())
+        print (decoded)
         if isinstance(decoded, list):
             result = []
             for item in decoded:
