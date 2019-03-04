@@ -10,7 +10,7 @@ from flask_heroku import Heroku
 
 import WaApi
 
-app = Flask(__name__, template_folder='./templates/')
+app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/ravs-database'
 app.config['CORS_HEADERS'] = 'Content-Type'
 CORS(app, support_credentials=True, resources={r"/*": {"origins": "*"}})
@@ -38,7 +38,7 @@ class Members(db.Model):
     director = db.Column(db.Boolean, nullable=False, default=False)
 
     def __repr__(self):
-        return f"Members('{self.member_id}','{self.firstname}', '{self.lastname}', '{self.email}', '{self.director}')"
+        return f"Members('{self.member_id}','{self.firstname}','{self.lastname}', '{self.email}', '{self.director}')"
 
 class Progress_Graph(db.Model):
     __tablename__ = "progress_graph"
@@ -81,27 +81,47 @@ def login():
         pers = Members.query.filter_by(email = login_email).all()
         if len(pers) != 0:
             curr_user = Members.query.filter_by(email = login_email).first()
-            return jsonify({'email': curr_user.email, 'firstname': curr_user.firstname, 'lastname': curr_user.lastname, 'curr': True}), 201
+            return jsonify({'email': curr_user.email,
+             'firstname': curr_user.firstname, 'lastname': curr_user.lastname,
+              'curr': True}), 201
         else:
-            return jsonify({'email': curr_user.email, 'firstname': curr_user.firstname, 'lastname': curr_user.lastname, 'curr': False}), 201
+            return jsonify({'email': curr_user.email,
+             'firstname': curr_user.firstname, 'lastname': curr_user.lastname,
+              'curr': False}), 201
     except:
-        return("incorrect username and password")
+        return json.dumps({'err_msg': 'invalid email or password'}), 401, {'Content-type': 'application/json'}
+        # return jsonify({'err_msg': 'invalid email or password'}), 401
 
-@app.route('/newlogin', methods = ['POST'])
+
+@app.route('/register', methods = ['POST'])
 @cross_origin(supports_credentials=True)
 def newlogin():
     content = request.json
-    login_email = content['email']
-    login_password = content['password']
-    login_firstname = content['firstname']
-    login_lastname = content['lastname']
+    register_email = content['email']
+    register_password = content['password']
+    register_firstname = content['firstname']
+    register_lastname = content['lastname']
 
-    newUser = Members(firstname = login_firstname, lastname = login_lastname,
-                    email = login_email, director = False)
-    newProgress = Progress_Graph(email = login_email)
-    session.add(newUser)
-    session.add(newProgress)
-    session.commit()
+    newUser = Members(firstname = register_firstname,
+                        lastname = register_lastname,
+                        email = register_email,
+                        director = False)
+    newProgress = Progress_Graph(email = register_email)
+    api = WaApi.WaApiClient("ynw0blawz7", "2vjwxhjmcspkddxqpkti6qbdsdnpmh")
+    try:
+        api.authenticate_with_contact_credentials(register_email,
+                                                    register_password)
+        pers = Members.query.filter_by(email = register_email).all()
+        if len(pers) != 0:
+            return jsonify({'err_msg': 'email already exists in system'}), 204
+        session.add(newUser)
+        session.add(newProgress)
+        session.commit()
+        return jsonify({'email': register_email,
+            'firstname': register_firstname, 'lastname': register_lastname,
+            'curr': True}), 201
+    except:
+        return jsonify({'err_msg': 'user not registered in Wild Apricot'}), 401
 
 @app.route('/calendar-events', methods=['GET'])
 def get_current_month_events():
@@ -116,13 +136,11 @@ def get_current_month_events():
 
 @app.route('/progress-graph', methods=['GET'])
 def progress_graph():
-    login_email ="phender10@uwo.ca"
-    # login_email = request.json.get('email')
-    # login_password = request.json.get('password')
-    # username = "phender9@uwo.ca"
-    # password = "chrw123"
+    content = request.json
+    login_email = content['email']
+
     for graph in session.query(Progress_Graph).filter(Progress_Graph.email == login_email):
-        json_graph = json.dumps(graph.dprogress_graph)
+        json_graph = json.dumps(graph.dprogress_graph), 201
     return json_graph
 
 

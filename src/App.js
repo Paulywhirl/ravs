@@ -51,7 +51,7 @@ class App extends Component {
           </Switch>
           {
             this.state.loggedIn ? (
-              <div class="app-container">
+              <div className="app-container">
                 <Route path='/homepage' component={Sidebar}/>
               </div>
             ) : (
