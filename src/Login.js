@@ -178,7 +178,7 @@ export default class Login extends Component {
               <FormControl
                 autoFocus
                 type="password"
-                placeHolder="Password"
+                placeholder="Password"
                 value={this.state.password}
                 onChange={this.handleChangePassword}
               />

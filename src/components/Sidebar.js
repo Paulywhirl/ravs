@@ -21,6 +21,8 @@ import Announcements from './Announcements/Announcements';
 import Profile from './Profile/Profile';
 import Progress from './Progress/Progress';
 import Settings from './Settings/Settings';
+import AnnouncementForm from './AnnouncementForm/AnnouncementForm';
+import SessionView from './SessionView/SessionView';
 
 
 const COMPONENTS = {
@@ -68,7 +70,7 @@ class Sidebar extends Component {
               <SideNav.Nav defaultSelected="dashboard">
                 <NavItem eventKey="dashboard">
                     <NavIcon>
-                        <img src={DashboardIcon} alt="Dashboard" class="icon-image"/>
+                        <img src={DashboardIcon} alt="Dashboard" className="icon-image"/>
                     </NavIcon>
                     <NavText>
                         Dashboard
@@ -76,7 +78,7 @@ class Sidebar extends Component {
                 </NavItem>
                 <NavItem eventKey="calendar">
                     <NavIcon>
-                        <img src={CalendarIcon} alt="Calendar" class="icon-image"/>
+                        <img src={CalendarIcon} alt="Calendar" className="icon-image"/>
                     </NavIcon>
                     <NavText>
                         Calendar
@@ -84,7 +86,7 @@ class Sidebar extends Component {
                 </NavItem>
                 <NavItem eventKey="announcements">
                     <NavIcon>
-                        <img src={AnnouncementsIcon} alt="Announcements" class="icon-image"/>
+                        <img src={AnnouncementsIcon} alt="Announcements" className="icon-image"/>
                     </NavIcon>
                     <NavText>
                         Announcements
@@ -92,7 +94,7 @@ class Sidebar extends Component {
                 </NavItem>
                 <NavItem eventKey="profile">
                     <NavIcon>
-                        <img src={ProfileIcon} alt="Profile" class="icon-image"/>
+                        <img src={ProfileIcon} alt="Profile" className="icon-image"/>
                     </NavIcon>
                     <NavText>
                         Profile
@@ -100,7 +102,7 @@ class Sidebar extends Component {
                 </NavItem>
                 <NavItem eventKey="progress">
                     <NavIcon>
-                        <img src={ProgressIcon} alt="Progress" class="icon-image"/>
+                        <img src={ProgressIcon} alt="Progress" className="icon-image"/>
                     </NavIcon>
                     <NavText>
                         Progress
@@ -108,7 +110,7 @@ class Sidebar extends Component {
                 </NavItem>
                 <NavItem eventKey="settings">
                     <NavIcon>
-                        <img src={SettingsIcon} alt="Settings" class="icon-image"/>
+                        <img src={SettingsIcon} alt="Settings" className="icon-image"/>
                     </NavIcon>
                     <NavText>
                         Settings
@@ -116,7 +118,7 @@ class Sidebar extends Component {
                 </NavItem>
                 <NavItem eventKey="logout">
                     <NavIcon>
-                        <img src={LogoutIcon} alt="Logout" class="icon-image"/>
+                        <img src={LogoutIcon} alt="Logout" className="icon-image"/>
                     </NavIcon>
                     <NavText>
                         Logout
@@ -127,13 +129,15 @@ class Sidebar extends Component {
             </SideNav>
             </ClickOutside>
               <div id="main">
-                   <Route path="/" exact component={Dashboard} />
+                   <Route path="/homepage" exact component={Dashboard} />
                    <Route path="/dashboard" component={Dashboard} />
                    <Route path="/calendar" component={Calendar} />
                    <Route path="/announcements" component={Announcements} />
                    <Route path="/profile" component={Profile} />
                    <Route path="/progress" component={Progress} />
                    <Route path="/settings" component={Settings} />
+                   <Route path="/announcement/new" exact component={AnnouncementForm} />
+                   <Route path="/calendars/session" exact component={SessionView} />
               </div>
             </React.Fragment>
             )}
