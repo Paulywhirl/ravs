@@ -20,7 +20,6 @@ export default class Login extends Component {
       password: "",
       firstname: "",
       lastname: "",
-      hideMoreInfo: true,
       registering: false,
       invalidLogin: false,
       error: ""
@@ -63,8 +62,7 @@ export default class Login extends Component {
 
   handleRegister() {
     this.setState({
-      registering: true,
-      hideMoreInfo: false
+      registering: true
     });
   }
 
@@ -147,7 +145,7 @@ export default class Login extends Component {
             )
           }
           {
-            !this.state.hideMoreInfo && <div>
+            this.state.registering && <div>
             <p className="paragraph">Remember! You must already be registered
             with Radio Westerns Wild Apricot service.</p>
             <FormGroup controlId="firstname" bsSize="large">
@@ -217,6 +215,15 @@ export default class Login extends Component {
           }
           <p>{this.state.error}</p>
         </form>
+        <Button
+          onClick={() => this.setState({
+            registering: false
+          })}
+          type="button"
+          hidden={!this.state.registering}
+          className="return">
+          back
+        </Button>
       </div>
     )
   }
