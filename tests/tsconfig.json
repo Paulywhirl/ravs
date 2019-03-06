@@ -6,8 +6,16 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "sourceMap": true,
-    "declaration": true
+    "declaration": true,
+    "baseUrl": "src",
+    "paths":{
+      "@specs/*": ["specs/*"]
+    }
   },
+
+  "include":[
+    "src/**/*.ts"
+  ],
 
   "exclude": [
     "node_modules"

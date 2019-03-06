@@ -6,12 +6,12 @@ exports.config = {
   framework: 'custom',
   frameworkPath: require.resolve('serenity-js'),
 
-  specs: './features/modules/login/volunteer_registration.feature',
+  specs: './src/features/modules/login/volunteer_registration.feature',
 
   cucumberOpts: {
     require:    [           // loads step definitions:
-      'features/**/*.ts', // - defined using TypeScript
-      'features/**/*.js'  // - defined using JavaScript
+      'src/features/**/*.ts', // - defined using TypeScript
+      'src/features/**/*.js'  // - defined using JavaScript
     ],
     format:     'pretty',               // enable console output
     compiler:   'ts:ts-node/register'   // interpret step definitions as TypeScript
@@ -32,4 +32,6 @@ exports.config = {
   capabilities: {
     browserName: 'chrome'
   },
+
+  restartBrowserBetweenTests: true,
 }
