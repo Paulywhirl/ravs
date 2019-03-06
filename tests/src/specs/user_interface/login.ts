@@ -16,7 +16,7 @@ export class login {
       .located(by.id('lastname'));
 
   static register_icon = Target.the('register icon')
-      .located(by.buttonText('Register'));
+      .located(by.partialButtonText('Register'));
 
   static sign_in_icon = Target.the('sign in icon')
       .located(by.buttonText('login'));

@@ -4,6 +4,8 @@
   "description": "behavior tests for the CAPSTONE project 'ravs'",
   "main": "index.js",
   "scripts": {
+    "pretest": "serenity update",
+    "report": "serenity run",
     "preprotractor": "webdriver-manager update --standalone --versions.standalone 3.0.1",
     "test": "echo \"Error: no test specification selected\" && exit 1",
     "e2e": "protractor ./conf.js"

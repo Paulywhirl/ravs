@@ -24,6 +24,7 @@ export class register implements Task {
         .into(login.email),
       Enter.theValue(this.password)
         .into(login.password),
+      Click.on(login.register_icon)
     )
   }
 
