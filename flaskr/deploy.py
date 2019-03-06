@@ -79,11 +79,14 @@ def login():
     try:
         api.authenticate_with_contact_credentials(login_email, login_password)
         pers = Members.query.filter_by(email = login_email).all()
+        graph = Progress_Graph.query.filter_by(email = login_email).all()
+        for graph in session.query(Progress_Graph).filter(Progress_Graph.email == login_email):
+            json_graph = json.dumps(graph.dprogress_graph)
         if len(pers) != 0:
             curr_user = Members.query.filter_by(email = login_email).first()
             return jsonify({'email': curr_user.email,
              'firstname': curr_user.firstname, 'lastname': curr_user.lastname,
-              'curr': True}), 201
+              'curr': True, "data":{"progress_graph": json_graph}}), 201
         else:
             return jsonify({'email': curr_user.email,
              'firstname': curr_user.firstname, 'lastname': curr_user.lastname,

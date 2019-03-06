@@ -18,6 +18,7 @@ class App extends Component {
         firstname: "",
         lastname: ""
       },
+      data: {},
       loggedIn: false
     }
 
@@ -31,6 +32,7 @@ class App extends Component {
           firstname: childState.firstname,
           lastname: childState.lastname
         },
+        data: childState.data,
         loggedIn: childState.isLoggedIn
     })
   }
