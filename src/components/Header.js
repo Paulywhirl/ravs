@@ -6,9 +6,9 @@ import RadioWesternLogo from '../assets/RadioWesternLogo1.png';
 class Header extends Component {
   render() {
     return (
-      <nav class="nav" id="top">
+      <nav className="nav" id="top">
         <a href="index.html">
-  			   <img src={RadioWesternLogo} alt="Radio Western Logo" class="nav-image"/>
+  			   <img src={RadioWesternLogo} alt="Radio Western Logo" className="nav-image"/>
         </a>
   		</nav>
     )

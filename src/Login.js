@@ -161,7 +161,7 @@ export default class Login extends Component {
                 <FormControl
                   autoFocus
                   type="lastname"
-                  placeHolder="lastname"
+                  placeholder="lastname"
                   onChange={this.handleChangeLastName}
                 />
             </FormGroup> </div>
@@ -170,7 +170,7 @@ export default class Login extends Component {
               <FormControl
                 autoFocus
                 type="email"
-                placeHolder="Email"
+                placeholder="Email"
                 value={this.state.email}
                 onChange={this.handleChangeUser}
               />

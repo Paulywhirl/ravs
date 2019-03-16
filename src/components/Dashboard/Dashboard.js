@@ -4,7 +4,7 @@ import { Badge, Card, CardHeader, CardFooter, CardBody,
   CardTitle, CardText, Col, Row, Collapse, Fade } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 
-import Calendar from '../Calendar/Calendar';
+// import Calendar from '../Calendar/Calendar';
 import Announcements from '../Announcements/Announcements';
 
 import posts from "../Announcements/posts.js";
@@ -49,7 +49,7 @@ class Dashboard extends Component {
                 </div>
             }
           })}
-          
+
           <h2>Upcoming Sessions:</h2>
           {this.state.eventList.map((eventdata,index1)=>{
             if(index1<1) {
@@ -69,7 +69,6 @@ class Dashboard extends Component {
         <hr />
         <br />
         <h2>Weekly Calender:</h2>
-        <Calendar style={{ height: 550, width: 1000}}/>
 
         <br />
         <br />

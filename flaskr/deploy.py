@@ -25,6 +25,8 @@ Session = sessionmaker()
 Session.configure(bind=engine)
 session = Session()
 
+global api
+
 class Members(db.Model):
     __tablename__ = "member"
     member_id = db.Column(db.Integer, primary_key=True)
@@ -80,13 +82,14 @@ def login():
         api.authenticate_with_contact_credentials(login_email, login_password)
         pers = Members.query.filter_by(email = login_email).all()
         graph = Progress_Graph.query.filter_by(email = login_email).all()
+        events = get_current_month_events()
         for graph in session.query(Progress_Graph).filter(Progress_Graph.email == login_email):
             json_graph = json.dumps(graph.dprogress_graph)
         if len(pers) != 0:
             curr_user = Members.query.filter_by(email = login_email).first()
             return jsonify({'email': curr_user.email,
              'firstname': curr_user.firstname, 'lastname': curr_user.lastname,
-              'curr': True, "data":{"progress_graph": json_graph}}), 201
+              'curr': True, "data":{"progress_graph": json_graph, "events": events}}), 201
         else:
             return jsonify({'email': curr_user.email,
              'firstname': curr_user.firstname, 'lastname': curr_user.lastname,
@@ -128,20 +131,25 @@ def newlogin():
 
 @app.route('/calendar-events', methods=['GET'])
 def get_current_month_events():
+    api = WaApi.WaApiClient("ynw0blawz7", "2vjwxhjmcspkddxqpkti6qbdsdnpmh")
+    api.authenticate_with_contact_credentials("phender9@uwo.ca", "chrw123")
     firstDayOfCurrentMonth = datetime.date.today().replace(day=1) #Get first day of month
     lastDayOfCurrentMonth = last_day_of_month(datetime.date.today()) #Get last day of month
     firstDayOfCurrentMonth_String = firstDayOfCurrentMonth.strftime('%Y-%m-%d') #In YYYY-MM-DD format.
     lastDayOfCurrentMonth_String = lastDayOfCurrentMonth.strftime('%Y-%m-%d')
     params = {'$filter': f'StartDate gt {firstDayOfCurrentMonth_String} AND StartDate lt {lastDayOfCurrentMonth_String}', #Originally was $filter': 'StartDate gt 2019-01-01 AND StartDate lt 2015-01-31'
               '$async': 'false'}
+    acc = account_data(api)
+    eventsUrl = next(res for res in acc.Resources if res.Name == 'Events').Url
     request_url = eventsUrl + '?' + urllib.parse.urlencode(params)
-    return api.execute_request(request_url).Events
+    ev = api.execute_request(request_url).Events
+    events_to_return = create_json_of_events(ev)
+    return json.dumps(events_to_return)
 
 @app.route('/progress-graph', methods=['GET'])
 def progress_graph():
     content = request.json
     login_email = content['email']
-
     for graph in session.query(Progress_Graph).filter(Progress_Graph.email == login_email):
         json_graph = json.dumps(graph.dprogress_graph), 201
     return json_graph
@@ -151,6 +159,26 @@ def last_day_of_month(any_date_in_specific_month):
     if any_date_in_specific_month.month == 12:
         return any_date_in_specific_month.replace(day=31)
     return any_date_in_specific_month.replace(month=any_date_in_specific_month.month+1, day=1) - datetime.timedelta(days=1)
+
+def account_data(api):
+    accounts = api.execute_request("/v2/accounts")
+    return accounts[0]
+
+def create_json_of_events(events):
+    json_events = []
+    for event in events:
+        js = {
+            "title": event.Name,
+            "start": event.StartDate,
+            "end": event.EndDate,
+            # "description": event.Description,
+            "reg limit": event.RegistrationsLimit,
+            "confirmed count": event.ConfirmedRegistrationsCount,
+            "location": event.Location,
+        }
+        json_events.append(js)
+        pass
+    return json_events
 
 
 
@@ -178,11 +206,4 @@ def last_day_of_month(any_date_in_specific_month):
 
 
 if __name__ == '__main__':
-
-    # events = get_current_month_events()
-    # for event in events:
-    #     print('\tID:' + str(event.Id))
-    #     print('\tEventType:' + event.EventType)
-    #     print('\tName:' + event.Name)
-    # login()
     app.run(debug = True)
