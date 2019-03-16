@@ -16,11 +16,9 @@ class Calendar extends Component {
     super(props);
     this.state = {
       events: events,
-      viewCal: 'month',
       date: new Date()
     }
-    this.handleSelectEvent.bind(this);
-    this.setView.bind(this);
+    this.handleSelectEvent.bind(this)
   }
 
   componentDidMount() {
@@ -29,12 +27,6 @@ class Calendar extends Component {
         width: window.innerWidth,
         height: window.innerHeight
       });*/
-    });
-  }
-
-  setView(){
-    this.setState({
-      viewCal: 'week'
     });
   }
 
@@ -48,9 +40,8 @@ class Calendar extends Component {
         <BigCalendar
           selectable
           localizer={localizer}
-          style={{ height: 550, width: "1000wh"}}
+          style={{ height: 550, width: 1000}}
           events={this.state.events}
-          defaultView={this.props.setView}
           step={60}
           defaultDate={moment().toDate()}
           startAccessor="start"
