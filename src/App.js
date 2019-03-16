@@ -54,7 +54,9 @@ class App extends Component {
           {
             this.state.loggedIn ? (
               <div className="app-container">
-                <Route path='/homepage' component={Sidebar}/>
+                <Route path='/homepage'
+                render={(state) => <Sidebar data = {this.state.data}/>}
+                />
               </div>
             ) : (
               <div/>

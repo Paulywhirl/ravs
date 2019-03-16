@@ -15,7 +15,7 @@ class Calendar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      events: events,
+      events: [props.events],
       date: new Date()
     }
     this.handleSelectEvent.bind(this)
@@ -35,18 +35,19 @@ class Calendar extends Component {
   }
 
   render() {
+    console.log('triggered on render')
     return (
-      <div class="nav-calendar" style={{height:600}}>
+      <div className="nav-calendar" style={{height:600}}>
         <BigCalendar
           selectable
           localizer={localizer}
           style={{ height: 550, width: 1000}}
-          events={this.state.events}
+          events={this.state.events[0]}
           step={60}
           defaultDate={moment().toDate()}
           startAccessor="start"
           endAccessor="end"
-          onSelectEvent={(event) => this.handleSelectEvent(event)}
+          // onSelectEvent={(event) => this.handleSelectEvent(event)}
         />
       </div>
   );
