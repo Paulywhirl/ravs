@@ -15,13 +15,21 @@ class Dashboard extends Component {
     super(props);
     this.state = {
       postList: posts,
+      viewCal: 'week',
       eventList: events
     };
+    this.setView.bind(this);
   }
 
   getData(){
     this.setState({ postList: posts })
     this.setState({ postList: events })
+  }
+
+  setView(){
+    this.setState({
+      viewCal: 'week'
+    });
   }
 
 
@@ -34,7 +42,7 @@ class Dashboard extends Component {
         <br />
 
         <div className="rowC">
-          <div>
+          <div className="container">
             <h2>Current Annoucements:</h2>
             {this.state.postList.map((postdata,index)=>{
 
@@ -52,7 +60,7 @@ class Dashboard extends Component {
             })}
           </div>
 
-          <div>
+          <div className="container">
             <h2>Upcoming Sessions:</h2>
             {this.state.eventList.map((eventdata,index1)=>{
               if(index1<1) {
@@ -73,7 +81,7 @@ class Dashboard extends Component {
         <hr />
         <br />
         <h2>Weekly Calender:</h2>
-        <Calendar style={{ height: 550, width: 1000}}/>
+        <Calendar defaultView={this.props.setView} style={{ height: 300, width: 500}}/>
 
         <br />
         <br />
