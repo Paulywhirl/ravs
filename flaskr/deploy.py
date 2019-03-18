@@ -115,6 +115,8 @@ def newlogin():
                         email = register_email,
                         director = False)
     newProgress = Progress_Graph(email = register_email)
+    events = get_current_month_events()
+    contactId = get_contact_id(api, register_email)
     api = WaApi.WaApiClient("ynw0blawz7", "2vjwxhjmcspkddxqpkti6qbdsdnpmh")
     try:
         api.authenticate_with_contact_credentials(register_email,
@@ -125,9 +127,10 @@ def newlogin():
         session.add(newUser)
         session.add(newProgress)
         session.commit()
-        return jsonify({'email': register_email,
-            'firstname': register_firstname, 'lastname': register_lastname,
-            'curr': True}), 201
+        return jsonify({'email': curr_user.email,
+         'firstname': curr_user.firstname, 'lastname': curr_user.lastname,
+          'curr': True, 'contactId': contactId,
+           "data":{"progress_graph": newProgress, "events": events}}), 201
     except:
         return jsonify({'err_msg': 'user not registered in Wild Apricot'}), 401
 
@@ -183,10 +186,21 @@ def create_json_of_events(events):
         pass
     return json_events
 
+def get_eventRegistrationTypesForEvent(eventId):
+    params = {
+        'eventId': eventId
+    }
+    request_url = eventRegistrationTypesUrl + '?' + urllib.parse.urlencode(params)
+    return api.execute_request(request_url)
+
+@app.route('/session/id', methods=['POST'])
+@cross_origin(supports_credentials=True)
 def register_session(displayName, contactId, eventId):
+    content = request.json
+    contactId = content['contactId']
+    eventId = content['eventId']
     registrationTypeId = get_eventRegistrationTypesForEvent(eventId).pop().Id
     data = {
-        'DisplayName': displayName,
         'Contact': { 'Id': contactId },
         'Event': { 'Id': eventId },
         'RegistrationTypeId': registrationTypeId #Fetched RegistrationTypes for specific Event and use the first one's Id.

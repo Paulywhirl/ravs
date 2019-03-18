@@ -13,12 +13,24 @@ class SessionView extends Component {
     super(props);
     this.state = {
       event: this.props.location.state.event,
-      contact: this.props.location.state.contact
+      contact: this.props.location.state.contact,
+      registerd: false,
+      introEvent: false,
+      trained: this.props.location.state.trained
     };
-    console.log(this.state.contact)
+    console.log(this.state.trained)
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
+  }
+
+  handleTrainingSession(){
+    if(this.state.event.title.includes("100") &&
+              this.state.event.title.includes("Introduction")){
+                this.setState({
+                  introEvent: true
+                })
+              }
   }
 
   handleChange(event) {
@@ -40,6 +52,23 @@ class SessionView extends Component {
 
   handleRegister() {
     alert('(test) You registered for this event of ' + this.state.event.title)
+    const data = JSON.stringify({
+      'contactId': this.state.contact,
+      'eventId': this.state.event.eventId
+    })
+    try {
+      fetch(`http://127.0.0.1:5000/login`, {
+        method: 'post',
+        crossDomain: true,
+        headers: {'Content-Type':'application/json'},
+        body: data
+      })
+    } catch (e) {
+
+    } finally {
+
+    }
+
   }
 
 
@@ -62,7 +91,7 @@ class SessionView extends Component {
           at the station! This session is the first step in volunteering with the station.
         </h4>
         <br />
-        <Button onClick={this.handleRegister}>Register</Button>
+          <Button onClick={this.handleRegister}>Register</Button>
         <br />
         <br />
         <div>

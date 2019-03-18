@@ -137,7 +137,8 @@ class Sidebar extends Component {
                    <Route path="/dashboard" component={Dashboard} />
                    <Route path="/calendar"
                    render={(state) => <Calendar events = {this.state.events}
-                                          contact = {this.state.contact}/>} />
+                              contact = {this.state.contact}
+                              progress = {this.state.data.progress_graph}/>} />
                    <Route path="/announcements" component={Announcements} />
                    <Route path="/profile" component={Profile} />
                    <Route path="/progress" component={Progress} />

@@ -16,9 +16,10 @@ class Calendar extends Component {
     this.state = {
       events: [props.events],
       contact: props.contact,
+      progress: JSON.parse(props.progress),
       date: new Date(),
       focus_event: {},
-      redirect:false
+      redirect: false
     }
     this.handleSelectEvent.bind(this)
   }
@@ -41,9 +42,12 @@ class Calendar extends Component {
 
   render() {
     if(this.state.redirect) {
-      return <Redirect push to={{ pathname:"/calendar/session/" + this.state.focus_event.eventId,
-                                  state: { event: this.state.focus_event, contact: this.state.contact}
-                                }}/>
+      var trained = this.state.progress.session_progression.training.completed
+      return <Redirect
+      push to={{ pathname:"/calendar/session/" + this.state.focus_event.eventId,
+            state: { event: this.state.focus_event, contact: this.state.contact,
+                     trained: trained}
+                      }}/>
     }
     return (
       <div className="nav-calendar" style={{height:600}}>
