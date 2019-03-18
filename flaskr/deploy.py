@@ -83,13 +83,15 @@ def login():
         pers = Members.query.filter_by(email = login_email).all()
         graph = Progress_Graph.query.filter_by(email = login_email).all()
         events = get_current_month_events()
+        contactId = get_contact_id(api, login_email)
         for graph in session.query(Progress_Graph).filter(Progress_Graph.email == login_email):
             json_graph = json.dumps(graph.dprogress_graph)
         if len(pers) != 0:
             curr_user = Members.query.filter_by(email = login_email).first()
             return jsonify({'email': curr_user.email,
              'firstname': curr_user.firstname, 'lastname': curr_user.lastname,
-              'curr': True, "data":{"progress_graph": json_graph, "events": events}}), 201
+              'curr': True, 'contactId': contactId,
+               "data":{"progress_graph": json_graph, "events": events}}), 201
         else:
             return jsonify({'email': curr_user.email,
              'firstname': curr_user.firstname, 'lastname': curr_user.lastname,
@@ -168,19 +170,55 @@ def create_json_of_events(events):
     json_events = []
     for event in events:
         js = {
+            "eventId": event.Id,
             "title": event.Name,
             "start": event.StartDate,
             "end": event.EndDate,
             # "description": event.Description,
-            "reg limit": event.RegistrationsLimit,
-            "confirmed count": event.ConfirmedRegistrationsCount,
+            "reg_limit": event.RegistrationsLimit,
+            "confirmed_count": event.ConfirmedRegistrationsCount,
             "location": event.Location,
         }
         json_events.append(js)
         pass
     return json_events
 
+def register_session(displayName, contactId, eventId):
+    registrationTypeId = get_eventRegistrationTypesForEvent(eventId).pop().Id
+    data = {
+        'DisplayName': displayName,
+        'Contact': { 'Id': contactId },
+        'Event': { 'Id': eventId },
+        'RegistrationTypeId': registrationTypeId #Fetched RegistrationTypes for specific Event and use the first one's Id.
+    }
+    try:
+        response = api.execute_request(eventRegistrationsUrl,
+                                api_request_object=data, method='POST')
+        return {'registration': 'success'}, 201
+    except:
+        return {'error message': 'could not identify IDs'}
 
+def unregister_session():
+    return {}
+
+def create_session():
+    return {}
+
+def delete_session():
+    return {}
+
+def get_contact_id(api, email):
+    accounts = api.execute_request("/v2/accounts")
+    account = accounts[0]
+    contactsUrl = next(res for res in account.Resources if res.Name == 'Contacts').Url
+    params = { '$filter': 'email eq ' + email,
+              '$top': '10',
+              '$async': 'false'}
+    request_url = contactsUrl + '?' + urllib.parse.urlencode(params)
+    contacts = api.execute_request(request_url).Contacts
+    for contact in contacts:
+        cID = str(contact.Id)
+        return cID
 
 
 # api = WaApi.WaApiClient("ynw0blawz7", "2vjwxhjmcspkddxqpkti6qbdsdnpmh")

@@ -1,12 +1,11 @@
 import React, {Component} from "react";
-import events from "./events";
+import { BrowserRouter as Router, Route, Redirect, Switch} from "react-router-dom";
 import BigCalendar from "react-big-calendar";
-import moment from "moment";
-import "react-big-calendar/lib/css/react-big-calendar.css";
 
+import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./Calendar.scss"
 
-import Event from "./Event.js"
+import moment from "moment";
 
 const localizer = BigCalendar.momentLocalizer(moment)
 
@@ -16,7 +15,10 @@ class Calendar extends Component {
     super(props);
     this.state = {
       events: [props.events],
-      date: new Date()
+      contact: props.contact,
+      date: new Date(),
+      focus_event: {},
+      redirect:false
     }
     this.handleSelectEvent.bind(this)
   }
@@ -31,11 +33,18 @@ class Calendar extends Component {
   }
 
   handleSelectEvent(event) {
-    console.log("hello whirl")
+      this.setState({
+        focus_event: event,
+        redirect: true
+      })
   }
 
   render() {
-    console.log('triggered on render')
+    if(this.state.redirect) {
+      return <Redirect push to={{ pathname:"/calendar/session/" + this.state.focus_event.eventId,
+                                  state: { event: this.state.focus_event, contact: this.state.contact}
+                                }}/>
+    }
     return (
       <div className="nav-calendar" style={{height:600}}>
         <BigCalendar
@@ -47,7 +56,7 @@ class Calendar extends Component {
           defaultDate={moment().toDate()}
           startAccessor="start"
           endAccessor="end"
-          // onSelectEvent={(event) => this.handleSelectEvent(event)}
+          onSelectEvent={(event) => this.handleSelectEvent(event)}
         />
       </div>
   );

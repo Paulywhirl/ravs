@@ -13,14 +13,13 @@ class SessionView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: '',
-      department: '',
-      description: ''
+      event: this.props.location.state.event,
+      contact: this.props.location.state.contact
     };
-
+    console.log(this.state.contact)
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-
+    this.handleRegister = this.handleRegister.bind(this);
   }
 
   handleChange(event) {
@@ -40,6 +39,10 @@ class SessionView extends Component {
 
   }
 
+  handleRegister() {
+    alert('You registered for this event of ' + this.state.event.title)
+  }
+
 
   render() {
     return (
@@ -48,19 +51,19 @@ class SessionView extends Component {
         <h3>Session Information</h3>
         <hr />
         <br />
-        <h3>Radio Western 100 - Introduction to 94.9 Radio Western</h3>
+        <h3>{this.state.event.title}</h3>
         <br />
-        <h4><b>When:</b> 01 Mar 2019 12:00 PM - 12:30 PM</h4>
-        <h4><b>Location:</b> 250 UCC</h4>
-        <h4><b>Spaces Left:</b> 12</h4>
-        <h4><b>Registration:</b> Intro Training 1000</h4>
+        <h4><b>When: </b>{this.state.event.start}</h4>
+        <h4><b>Location: </b>{this.state.event.location}</h4>
+        <h4><b>Spots Taken: </b>{this.state.event.confirmed_count}</h4>
+        <h4><b>Registration Limit: </b>{this.state.event.reg_limit}</h4>
         <br />
         <h4>Come in and see what Radio Western is all about with Pam!
           In this intro session we will go over the Policies and Procedures as well as cover all the exciting opportunities
           at the station! This session is the first step in volunteering with the station.
         </h4>
         <br />
-        <Button>Register</Button>
+        <Button onClick={this.handleRegister}>Register</Button>
         <br />
         <br />
         <div>

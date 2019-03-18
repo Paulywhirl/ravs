@@ -95,6 +95,7 @@ export default class Login extends Component {
             email: this.state.email,
             firstname: this.state.firstname,
             lastname: this.state.lastname,
+            contactId: data.contactId,
             data: data.data,
             isLoggedIn: true
           });

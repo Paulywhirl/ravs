@@ -16,12 +16,12 @@ class App extends Component {
       user: {
         email: "",
         firstname: "",
-        lastname: ""
+        lastname: "",
+        contactId: ""
       },
       data: {},
       loggedIn: false
     }
-
     this.callback = this.callback.bind(this)
   }
 
@@ -30,7 +30,8 @@ class App extends Component {
         user:{
           email: childState.email,
           firstname: childState.firstname,
-          lastname: childState.lastname
+          lastname: childState.lastname,
+          contactId: childState.contactId
         },
         data: childState.data,
         loggedIn: childState.isLoggedIn
@@ -55,7 +56,8 @@ class App extends Component {
             this.state.loggedIn ? (
               <div className="app-container">
                 <Route path='/homepage'
-                render={(state) => <Sidebar data = {this.state.data}/>}
+                render={(state) => <Sidebar data={this.state.data}
+                                      contact={this.state.user.contactId}/>}
                 />
               </div>
             ) : (
