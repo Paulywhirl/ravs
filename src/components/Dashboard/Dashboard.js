@@ -34,35 +34,39 @@ class Dashboard extends Component {
         <br />
 
         <div className="rowC">
-          <h2>Current Annoucements:</h2>
-          {this.state.postList.map((postdata,index)=>{
+          <div className="container">
+            <h2>Current Annoucements:</h2>
+            {this.state.postList.map((postdata,index)=>{
 
-            if(index<1) {
-              return <div className="cards">
-                  <Card>
-                    <CardHeader style={{fontSize: 15}}>{postdata.title}</CardHeader>
-                    <CardBody>
-                      <CardTitle style={{fontSize: 12}}>Department: {postdata.department}</CardTitle>
-                      <CardText style={{fontSize: 12}}>{postdata.description}</CardText>
-                    </CardBody>
-                  </Card>
-                </div>
-            }
-          })}
-
-          <h2>Upcoming Sessions:</h2>
-          {this.state.eventList.map((eventdata,index1)=>{
-            if(index1<1) {
-              return <div className="cards">
-                  <Card>
-                    <CardHeader style={{fontSize: 15}}>{eventdata.title}</CardHeader>
-                    <CardBody>
-                      <CardText style={{fontSize: 12}}>{eventdata.description}</CardText>
-                  </CardBody>
-                  </Card>
-                </div>
+              if(index<1) {
+                return <div className="cards">
+                    <Card>
+                      <CardHeader style={{fontSize: 15}}>{postdata.title}</CardHeader>
+                      <CardBody>
+                        <CardTitle style={{fontSize: 12}}>Department: {postdata.department}</CardTitle>
+                        <CardText style={{fontSize: 12}}>{postdata.description}</CardText>
+                      </CardBody>
+                    </Card>
+                  </div>
               }
-          })}
+            })}
+          </div>
+
+          <div className="container">
+            <h2>Upcoming Sessions:</h2>
+            {this.state.eventList.map((eventdata,index1)=>{
+              if(index1<1) {
+                return <div className="cards">
+                    <Card>
+                      <CardHeader style={{fontSize: 15}}>{eventdata.title}</CardHeader>
+                      <CardBody>
+                        <CardText style={{fontSize: 12}}>{eventdata.description}</CardText>
+                    </CardBody>
+                    </Card>
+                  </div>
+                }
+            })}
+          </div>
           <br />
         </div>
 

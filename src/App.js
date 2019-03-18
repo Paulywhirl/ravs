@@ -20,7 +20,7 @@ class App extends Component {
         contactId: ""
       },
       data: {},
-      loggedIn: false
+      loggedIn: true
     }
     this.callback = this.callback.bind(this)
   }
