@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
+import SideNav, { NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
-import { BrowserRouter as Router, Route, Link, Switch} from "react-router-dom";
+import { BrowserRouter as Router, Route} from "react-router-dom";
 import ClickOutside from "react-click-outside";
 
 
@@ -44,7 +44,6 @@ class Sidebar extends Component {
       contact: this.props.contact,
       events: JSON.parse(this.props.data.events)
     }
-    console.log(this.state.contact)
   };
 
   render() {
@@ -137,7 +136,8 @@ class Sidebar extends Component {
                    <Route path="/homepage" exact component={Dashboard} />
                    <Route path="/dashboard" component={Dashboard} />
                    <Route path="/calendar"
-                   render={(state) => <Calendar events = {this.state.events} contact = {this.state.contact}/>} />
+                   render={(state) => <Calendar events = {this.state.events}
+                                          contact = {this.state.contact}/>} />
                    <Route path="/announcements" component={Announcements} />
                    <Route path="/profile" component={Profile} />
                    <Route path="/progress" component={Progress} />

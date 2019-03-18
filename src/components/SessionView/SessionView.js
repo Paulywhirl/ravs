@@ -1,6 +1,5 @@
 import React, {Component} from "react";
-import ReactDOM from 'react-dom';
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Button } from 'reactstrap';
 import { BrowserRouter as Router, Route, Link, Switch} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -40,7 +39,7 @@ class SessionView extends Component {
   }
 
   handleRegister() {
-    alert('You registered for this event of ' + this.state.event.title)
+    alert('(test) You registered for this event of ' + this.state.event.title)
   }
 
 
