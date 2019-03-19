@@ -44,11 +44,10 @@ class App extends Component {
         <div id='app-background'>
           <Header />
           <Switch>
-            <Route exact path="/" render={() => (
+            <Route path="/" render={() => (
               this.state.loggedIn ? (
                 <Redirect from="/" to="/homepage"/>
               ) : (
-
                 <Login sendToParent={this.callback} />
               )
             )}/>
