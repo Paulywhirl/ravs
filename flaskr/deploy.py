@@ -138,11 +138,11 @@ def newlogin():
 def get_current_month_events():
     api = WaApi.WaApiClient("ynw0blawz7", "2vjwxhjmcspkddxqpkti6qbdsdnpmh")
     api.authenticate_with_contact_credentials("phender9@uwo.ca", "chrw123")
-    firstDayOfCurrentMonth = datetime.date.today().replace(day=1) #Get first day of month
-    lastDayOfCurrentMonth = last_day_of_month(datetime.date.today()) #Get last day of month
-    firstDayOfCurrentMonth_String = firstDayOfCurrentMonth.strftime('%Y-%m-%d') #In YYYY-MM-DD format.
+    firstDayOfCurrentMonth = datetime.date.today().replace(day=1)
+    lastDayOfCurrentMonth = last_day_of_month(datetime.date.today())
+    firstDayOfCurrentMonth_String = firstDayOfCurrentMonth.strftime('%Y-%m-%d')
     lastDayOfCurrentMonth_String = lastDayOfCurrentMonth.strftime('%Y-%m-%d')
-    params = {'$filter': f'StartDate gt {firstDayOfCurrentMonth_String} AND StartDate lt {lastDayOfCurrentMonth_String}', #Originally was $filter': 'StartDate gt 2019-01-01 AND StartDate lt 2015-01-31'
+    params = {'$filter': f'StartDate gt {firstDayOfCurrentMonth_String} AND StartDate lt {lastDayOfCurrentMonth_String}',
               '$async': 'false'}
     acc = account_data(api)
     eventsUrl = next(res for res in acc.Resources if res.Name == 'Events').Url

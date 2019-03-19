@@ -21,6 +21,7 @@ class Calendar extends Component {
       focus_event: {},
       redirect: false
     }
+    this.handleRefresh = this.handleRefresh.bind(this)
     this.handleSelectEvent.bind(this)
   }
 
@@ -40,9 +41,34 @@ class Calendar extends Component {
       })
   }
 
+  handleRefresh(event) {
+    event.preventDefault()
+    try {
+      fetch(`http://127.0.0.1:5000/calendar-events`, {
+        method: 'get',
+        crossDomain: true,
+        headers: {'Content-Type':'application/json'}
+      })
+      .then(response => {return response.json()})
+      .then(
+        data =>
+        this.setState({
+          events: [data]
+        })
+      )
+      .then(
+        console.log(this.state.events)
+      )
+    } catch (e) {
+
+    } finally {
+
+    }
+  }
+
   render() {
     if(this.state.redirect) {
-      var trained = this.state.progress.session_progression.training.completed
+      let trained = this.state.progress.session_progression.training.completed
       return <Redirect
       push to={{ pathname:"/calendar/session/" + this.state.focus_event.eventId,
             state: { event: this.state.focus_event, contact: this.state.contact,
@@ -63,7 +89,9 @@ class Calendar extends Component {
           onSelectEvent={(event) => this.handleSelectEvent(event)}
         />
         <div>
-          <Button>Refresh</Button>
+          <Button
+          onClick={this.handleRefresh}
+          type="button">Refresh</Button>
         </div>
       </div>
   );
