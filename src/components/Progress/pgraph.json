@@ -1,0 +1,170 @@
+{
+  "session progression": {
+    "training": {
+      "session_number": 100,
+      "completed": false
+    },
+    "On Air Training": [
+      "101", {
+        "session_number": 101,
+        "completed": false
+      },
+      "102", {
+        "session_number": 102,
+        "completed": false
+      },
+      "103", {
+        "session_number": 103,
+        "completed": false
+      },
+      "104", {
+        "session_number": 104,
+        "completed": false
+      },
+      "105", {
+        "session_number": 105,
+        "completed": 106
+      },
+      "106", {
+        "session_number": 106,
+        "completed": false
+      },
+      "107", {
+        "session_number": 107,
+        "completed": false
+      }
+    ],
+    "Music": [
+      "201", {
+        "session_number": 201,
+        "completed": false
+      },
+      "202", {
+        "session_number": 202,
+        "completed": false
+      },
+      "203", {
+        "session_number": 203,
+        "completed": false
+      }
+    ],
+    "Marketing": [
+      "301", {
+        "session_number": 301,
+        "completed": false
+      },
+      "302", {
+        "session_number": 302,
+        "completed": false
+      },
+      "303", {
+        "session_number": 303,
+        "completed": false
+      },
+      "304", {
+        "session_number": 304,
+        "completed": false
+      },
+      "305", {
+        "session_number": 305,
+        "completed": false
+      },
+      "306", {
+        "session_number": 305,
+        "completed": false
+      }
+    ],
+    "News/Spoken Word": [
+      "401", {
+        "session_number": 401,
+        "completed": false
+      },
+      "402", {
+        "session_number": 402,
+        "completed": false
+      },
+      "403", {
+        "session_number": 403,
+        "completed": false
+      }
+    ],
+    "Sports": [
+      "501", {
+        "session_number": 501,
+        "completed": false
+      },
+      "502", {
+        "session_number": 502,
+        "completed": false
+      },
+      "503", {
+        "sessions_number": 503,
+        "completed": false
+      },
+      "504", {
+        "session_number": 504,
+        "completed": false
+      },
+      "505", {
+        "session_number": 505,
+        "completed": false
+      },
+      "506", {
+        "session_number": 506,
+        "completed": false
+      }
+    ],
+    "Radio Production":[
+      "601", {
+        "session_number": 601,
+        "completed": false
+      },
+      "602", {
+        "session_number": 602,
+        "completed": false
+      },
+      "603", {
+        "session_number": 603,
+        "completed": false
+      },
+      "604", {
+        "session_number": 604,
+        "completed": false
+      },
+      "605", {
+        "session_number": 605,
+        "completed": false
+      },
+      "606", {
+        "session_number": 606,
+        "completed": false
+      }
+    ],
+    "Music Production" : [
+      "701", {
+        "session_number": 701,
+        "completed": false
+      },
+      "702", {
+        "session_number": 702,
+        "comnpleted": false
+      },
+      "703", {
+        "session_number": 703,
+        "completed": false
+      },
+      "704", {
+        "session_number": 704,
+        "completed": false
+      },
+      "705", {
+        "session_number": 705,
+        "completed": false
+      },
+      "706", {
+        "session_number": 706,
+        "completed": false
+      }
+    ]
+  }
+}

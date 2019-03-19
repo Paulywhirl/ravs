@@ -1,14 +1,24 @@
 import React, { Component } from 'react';
-import { Button, Form, FormGroup, Label, Input, FormText, NavLink} from 'reactstrap';
+import { Button, NavLink} from 'reactstrap';
 import { withRouter } from 'react-router-dom';
 import './Progress.scss';
+import progressgraph from "./pgraph.json";
+import lockimage from '../../assets/icons/lock1.png';
+
+var customData = require("./pgraph.json");
+
 
 class Progress extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      buttonColor: "dark",
+      buttonColor: "dark"
     };
+    console.log(progressgraph['session progression'].Marketing[1].completed)
+  }
+
+  getData(){
+    this.setState({ progressList: progressgraph })
   }
 
   getButtonColor(){
@@ -31,7 +41,7 @@ class Progress extends Component {
             <br />
           </div>
           <div>
-            <Button color={this.state.buttonColor}>100</Button>
+            <Button className="disabled" color="dark">100</Button>
           </div>
         </div>
 
@@ -41,7 +51,7 @@ class Progress extends Component {
             <br />
           </div>
           <div>
-            <Button color={this.state.buttonColor}>101</Button> <Button color="dark">102</Button> <Button color="dark">103</Button>
+            <Button color="dark">101</Button> <Button color={progressgraph['session progression'].Marketing[1].completed ? "dark" : "light"}>102</Button> <Button color="dark">103</Button>
           </div>
         </div>
 

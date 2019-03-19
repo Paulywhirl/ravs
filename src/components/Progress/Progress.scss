@@ -19,6 +19,17 @@
   width: 15%;
 }
 
+.disabled {
+  opacity: 0.6;
+}
+
+.buttonlock {
+    background-image: url('../../assets/icons/lock1.png');
+    background-size: 100px 130px;
+    height: 134px;
+    width: 104px;
+}
+
 hr {
   height: 1px;
   width: 100%;

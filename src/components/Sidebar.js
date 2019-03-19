@@ -40,8 +40,8 @@ class Sidebar extends Component {
     super(props);
     this.state = {
       expanded: false,
-      data: this.props.data,
-      events: JSON.parse(this.props.data.events)
+      data: this.props.data
+      //events: JSON.parse(this.props.data.events)
     }
     console.log(this.state.events)
   };
