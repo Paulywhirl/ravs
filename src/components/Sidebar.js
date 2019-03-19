@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
+import SideNav, { NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
-import { BrowserRouter as Router, Route, Link, Switch} from "react-router-dom";
+import { BrowserRouter as Router, Route} from "react-router-dom";
 import ClickOutside from "react-click-outside";
 
 
@@ -40,10 +40,10 @@ class Sidebar extends Component {
     super(props);
     this.state = {
       expanded: false,
-      data: this.props.data
-      //events: JSON.parse(this.props.data.events)
+      data: this.props.data,
+      contact: this.props.contact,
+      events: JSON.parse(this.props.data.events)
     }
-    console.log(this.state.events)
   };
 
   render() {
@@ -135,14 +135,16 @@ class Sidebar extends Component {
               <div id="main">
                    <Route path="/homepage" exact component={Dashboard} />
                    <Route path="/dashboard" component={Dashboard} />
-                   <Route path="/calendar"
-                   render={(state) => <Calendar events = {this.state.events}/>} />
+                   <Route path="/calendar" exact
+                   render={(state) => <Calendar events = {this.state.events}
+                              contact = {this.state.contact}
+                              progress = {this.state.data.progress_graph}/>} />
                    <Route path="/announcements" component={Announcements} />
                    <Route path="/profile" component={Profile} />
                    <Route path="/progress" component={Progress} />
                    <Route path="/settings" component={Settings} />
                    <Route path="/announcement/new" exact component={AnnouncementForm} />
-                   <Route path="/calendars/session" exact component={SessionView} />
+                   <Route path="/calendar/session/:id" exact component={SessionView} />
               </div>
             </React.Fragment>
             )}

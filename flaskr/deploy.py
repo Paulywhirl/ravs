@@ -83,13 +83,15 @@ def login():
         pers = Members.query.filter_by(email = login_email).all()
         graph = Progress_Graph.query.filter_by(email = login_email).all()
         events = get_current_month_events()
+        contactId = get_contact_id(api, login_email)
         for graph in session.query(Progress_Graph).filter(Progress_Graph.email == login_email):
             json_graph = json.dumps(graph.dprogress_graph)
         if len(pers) != 0:
             curr_user = Members.query.filter_by(email = login_email).first()
             return jsonify({'email': curr_user.email,
              'firstname': curr_user.firstname, 'lastname': curr_user.lastname,
-              'curr': True, "data":{"progress_graph": json_graph, "events": events}}), 201
+              'curr': True, 'contactId': contactId,
+               "data":{"progress_graph": json_graph, "events": events}}), 201
         else:
             return jsonify({'email': curr_user.email,
              'firstname': curr_user.firstname, 'lastname': curr_user.lastname,
@@ -113,6 +115,8 @@ def newlogin():
                         email = register_email,
                         director = False)
     newProgress = Progress_Graph(email = register_email)
+    events = get_current_month_events()
+    contactId = get_contact_id(api, register_email)
     api = WaApi.WaApiClient("ynw0blawz7", "2vjwxhjmcspkddxqpkti6qbdsdnpmh")
     try:
         api.authenticate_with_contact_credentials(register_email,
@@ -123,9 +127,10 @@ def newlogin():
         session.add(newUser)
         session.add(newProgress)
         session.commit()
-        return jsonify({'email': register_email,
-            'firstname': register_firstname, 'lastname': register_lastname,
-            'curr': True}), 201
+        return jsonify({'email': curr_user.email,
+         'firstname': curr_user.firstname, 'lastname': curr_user.lastname,
+          'curr': True, 'contactId': contactId,
+           "data":{"progress_graph": newProgress, "events": events}}), 201
     except:
         return jsonify({'err_msg': 'user not registered in Wild Apricot'}), 401
 
@@ -133,11 +138,11 @@ def newlogin():
 def get_current_month_events():
     api = WaApi.WaApiClient("ynw0blawz7", "2vjwxhjmcspkddxqpkti6qbdsdnpmh")
     api.authenticate_with_contact_credentials("phender9@uwo.ca", "chrw123")
-    firstDayOfCurrentMonth = datetime.date.today().replace(day=1) #Get first day of month
-    lastDayOfCurrentMonth = last_day_of_month(datetime.date.today()) #Get last day of month
-    firstDayOfCurrentMonth_String = firstDayOfCurrentMonth.strftime('%Y-%m-%d') #In YYYY-MM-DD format.
+    firstDayOfCurrentMonth = datetime.date.today().replace(day=1)
+    lastDayOfCurrentMonth = last_day_of_month(datetime.date.today())
+    firstDayOfCurrentMonth_String = firstDayOfCurrentMonth.strftime('%Y-%m-%d')
     lastDayOfCurrentMonth_String = lastDayOfCurrentMonth.strftime('%Y-%m-%d')
-    params = {'$filter': f'StartDate gt {firstDayOfCurrentMonth_String} AND StartDate lt {lastDayOfCurrentMonth_String}', #Originally was $filter': 'StartDate gt 2019-01-01 AND StartDate lt 2015-01-31'
+    params = {'$filter': f'StartDate gt {firstDayOfCurrentMonth_String} AND StartDate lt {lastDayOfCurrentMonth_String}',
               '$async': 'false'}
     acc = account_data(api)
     eventsUrl = next(res for res in acc.Resources if res.Name == 'Events').Url
@@ -168,41 +173,66 @@ def create_json_of_events(events):
     json_events = []
     for event in events:
         js = {
+            "eventId": event.Id,
             "title": event.Name,
             "start": event.StartDate,
             "end": event.EndDate,
             # "description": event.Description,
-            "reg limit": event.RegistrationsLimit,
-            "confirmed count": event.ConfirmedRegistrationsCount,
+            "reg_limit": event.RegistrationsLimit,
+            "confirmed_count": event.ConfirmedRegistrationsCount,
             "location": event.Location,
         }
         json_events.append(js)
         pass
     return json_events
 
+def get_eventRegistrationTypesForEvent(eventId):
+    params = {
+        'eventId': eventId
+    }
+    request_url = eventRegistrationTypesUrl + '?' + urllib.parse.urlencode(params)
+    return api.execute_request(request_url)
 
+@app.route('/register-session/id', methods=['POST'])
+@cross_origin(supports_credentials=True)
+def register_session(displayName, contactId, eventId):
+    content = request.json
+    contactId = content['contactId']
+    eventId = content['eventId']
+    registrationTypeId = get_eventRegistrationTypesForEvent(eventId).pop().Id
+    data = {
+        'Contact': { 'Id': contactId },
+        'Event': { 'Id': eventId },
+        'RegistrationTypeId': registrationTypeId #Fetched RegistrationTypes for specific Event and use the first one's Id.
+    }
+    try:
+        response = api.execute_request(eventRegistrationsUrl,
+                                api_request_object=data, method='POST')
+        return {'registration': 'success'}, 201
+    except:
+        return {'error message': 'could not identify IDs'}
 
+def unregister_session():
+    return {}
 
-# api = WaApi.WaApiClient("ynw0blawz7", "2vjwxhjmcspkddxqpkti6qbdsdnpmh")
-# api.authenticate_with_contact_credentials("phender9@uwo.ca", "chrw123")
-# accounts = api.execute_request("/v2/accounts")
-# account = accounts[0]
-# eventsUrl = next(res for res in account.Resources if res.Name == 'Events').Url
+def create_session():
+    return {}
 
+def delete_session():
+    return {}
 
-# Save e-mail to database and send to success page
-# @app.route('/prereg', methods=['POST'])
-# def prereg():
-#     email = None
-#     if request.method == 'POST':
-#         email = request.form['email']
-#         # Check that email does not already exist (not a great query, but works)
-#         if not db.session.query(User).filter(User.email == email).count():
-#             reg = User(email)
-#             db.session.add(reg)
-#             db.session.commit()
-#             return render_template('success.html')
-#     return render_template('index.html')
+def get_contact_id(api, email):
+    accounts = api.execute_request("/v2/accounts")
+    account = accounts[0]
+    contactsUrl = next(res for res in account.Resources if res.Name == 'Contacts').Url
+    params = { '$filter': 'email eq ' + email,
+              '$top': '10',
+              '$async': 'false'}
+    request_url = contactsUrl + '?' + urllib.parse.urlencode(params)
+    contacts = api.execute_request(request_url).Contacts
+    for contact in contacts:
+        cID = str(contact.Id)
+        return cID
 
 
 if __name__ == '__main__':

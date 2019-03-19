@@ -59,3 +59,23 @@ $ python3
 ```bash
 $ npm start
 ```
+
+## Set-up backend
+1) cd into the flaskr directory
+```bash
+$ cd flaskr/
+```
+
+2) Create a postgres db in your local and set it up with the necessary tables
+```bash
+$ createdb ravs-database #currently the name placeholder we have
+$ python3
+> from deploy import db
+> db.create_all()
+> quit()
+```
+
+3) run the API
+```bash
+$ python3 deploy.py
+```
