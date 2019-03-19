@@ -193,7 +193,7 @@ def get_eventRegistrationTypesForEvent(eventId):
     request_url = eventRegistrationTypesUrl + '?' + urllib.parse.urlencode(params)
     return api.execute_request(request_url)
 
-@app.route('/session/id', methods=['POST'])
+@app.route('/register-session/id', methods=['POST'])
 @cross_origin(supports_credentials=True)
 def register_session(displayName, contactId, eventId):
     content = request.json
@@ -233,28 +233,6 @@ def get_contact_id(api, email):
     for contact in contacts:
         cID = str(contact.Id)
         return cID
-
-
-# api = WaApi.WaApiClient("ynw0blawz7", "2vjwxhjmcspkddxqpkti6qbdsdnpmh")
-# api.authenticate_with_contact_credentials("phender9@uwo.ca", "chrw123")
-# accounts = api.execute_request("/v2/accounts")
-# account = accounts[0]
-# eventsUrl = next(res for res in account.Resources if res.Name == 'Events').Url
-
-
-# Save e-mail to database and send to success page
-# @app.route('/prereg', methods=['POST'])
-# def prereg():
-#     email = None
-#     if request.method == 'POST':
-#         email = request.form['email']
-#         # Check that email does not already exist (not a great query, but works)
-#         if not db.session.query(User).filter(User.email == email).count():
-#             reg = User(email)
-#             db.session.add(reg)
-#             db.session.commit()
-#             return render_template('success.html')
-#     return render_template('index.html')
 
 
 if __name__ == '__main__':

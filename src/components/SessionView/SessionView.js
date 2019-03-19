@@ -18,7 +18,6 @@ class SessionView extends Component {
       introEvent: false,
       trained: this.props.location.state.trained
     };
-    console.log(this.state.trained)
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
@@ -63,6 +62,9 @@ class SessionView extends Component {
         headers: {'Content-Type':'application/json'},
         body: data
       })
+      .then(
+
+      )
     } catch (e) {
 
     } finally {

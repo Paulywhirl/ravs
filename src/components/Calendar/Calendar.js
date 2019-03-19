@@ -18,7 +18,6 @@ class Calendar extends Component {
       events: [props.events],
       contact: props.contact,
       progress: JSON.parse(props.progress),
-      date: new Date(),
       focus_event: {},
       redirect: false
     }
@@ -59,8 +58,8 @@ class Calendar extends Component {
           events={this.state.events[0]}
           step={60}
           defaultDate={moment().toDate()}
-          startAccessor="start"
-          endAccessor="end"
+          startAccessor={(event) => new Date(event.start)}
+          endAccessor={(event) => new Date(event.end)}
           onSelectEvent={(event) => this.handleSelectEvent(event)}
         />
         <div>
