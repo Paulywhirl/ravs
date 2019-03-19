@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import { Button } from 'reactstrap';
-import { BrowserRouter as Router, Route, Redirect, Switch} from "react-router-dom";
+import { BrowserRouter as Redirect} from "react-router-dom";
 import BigCalendar from "react-big-calendar";
 
 import "react-big-calendar/lib/css/react-big-calendar.css";
