@@ -57,7 +57,7 @@ class SessionView extends Component {
       'eventId': this.state.event.eventId
     })
     try {
-      fetch(`http://127.0.0.1:5000/login`, {
+      fetch(`http://127.0.0.1:5000//register-session/id`, {
         method: 'post',
         crossDomain: true,
         headers: {'Content-Type':'application/json'},

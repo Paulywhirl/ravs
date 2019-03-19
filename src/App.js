@@ -48,6 +48,7 @@ class App extends Component {
               this.state.loggedIn ? (
                 <Redirect from="/" to="/homepage"/>
               ) : (
+
                 <Login sendToParent={this.callback} />
               )
             )}/>

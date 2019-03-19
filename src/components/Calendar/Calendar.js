@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import { Button } from 'reactstrap';
 import { BrowserRouter as Router, Route, Redirect, Switch} from "react-router-dom";
 import BigCalendar from "react-big-calendar";
 
@@ -62,6 +63,9 @@ class Calendar extends Component {
           endAccessor="end"
           onSelectEvent={(event) => this.handleSelectEvent(event)}
         />
+        <div>
+          <Button>Refresh</Button>
+        </div>
       </div>
   );
 }
