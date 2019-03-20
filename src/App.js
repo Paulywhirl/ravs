@@ -17,7 +17,8 @@ class App extends Component {
         email: "",
         firstname: "",
         lastname: "",
-        contactId: ""
+        contactId: "",
+        jwt_token: ""
       },
       data: {},
       loggedIn: false
@@ -31,7 +32,8 @@ class App extends Component {
           email: childState.email,
           firstname: childState.firstname,
           lastname: childState.lastname,
-          contactId: childState.contactId
+          contactId: childState.contactId,
+          token: childState.jwt_token
         },
         data: childState.data,
         loggedIn: childState.isLoggedIn

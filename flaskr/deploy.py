@@ -1,4 +1,5 @@
 import json, datetime, urllib.parse
+import jwt
 
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS, cross_origin
@@ -7,12 +8,12 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from flask_heroku import Heroku
 
-
 import WaApi
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/ravs-database'
 app.config['CORS_HEADERS'] = 'Content-Type'
+app.config['SECRET_KEY'] = 'wefkjbwufb'
 CORS(app, support_credentials=True, resources={r"/*": {"origins": "*"}})
 # heroku = Heroku(app)
 db = SQLAlchemy(app)
@@ -80,6 +81,7 @@ def login():
     api = WaApi.WaApiClient("ynw0blawz7", "2vjwxhjmcspkddxqpkti6qbdsdnpmh")
     try:
         api.authenticate_with_contact_credentials(login_email, login_password)
+        token = jwt.encode({'email': login_email, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
         pers = Members.query.filter_by(email = login_email).all()
         graph = Progress_Graph.query.filter_by(email = login_email).all()
         events = get_current_month_events()
@@ -90,7 +92,7 @@ def login():
             curr_user = Members.query.filter_by(email = login_email).first()
             return jsonify({'email': curr_user.email,
              'firstname': curr_user.firstname, 'lastname': curr_user.lastname,
-              'curr': True, 'contactId': contactId,
+              'curr': True, 'contactId': contactId, 'token': token.decode('UTF-8'),
                "data":{"progress_graph": json_graph, "events": events}}), 201
         else:
             return jsonify({'email': curr_user.email,
