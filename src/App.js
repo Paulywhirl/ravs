@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Redirect} from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect, Switch} from "react-router-dom";
 
 import Header from './components/Header';
 import Login from './Login';
@@ -16,12 +16,12 @@ class App extends Component {
       user: {
         email: "",
         firstname: "",
-        lastname: "",
-        contactId: ""
+        lastname: ""
       },
       data: {},
-      loggedIn: false
+      loggedIn: true
     }
+
     this.callback = this.callback.bind(this)
   }
 
@@ -30,8 +30,7 @@ class App extends Component {
         user:{
           email: childState.email,
           firstname: childState.firstname,
-          lastname: childState.lastname,
-          contactId: childState.contactId
+          lastname: childState.lastname
         },
         data: childState.data,
         loggedIn: childState.isLoggedIn
@@ -48,7 +47,6 @@ class App extends Component {
               this.state.loggedIn ? (
                 <Redirect from="/" to="/homepage"/>
               ) : (
-
                 <Login sendToParent={this.callback} />
               )
             )}/>
@@ -56,10 +54,7 @@ class App extends Component {
           {
             this.state.loggedIn ? (
               <div className="app-container">
-                <Route path='/homepage'
-                render={(state) => <Sidebar data={this.state.data}
-                                      contact={this.state.user.contactId}/>}
-                />
+                <Route path='/homepage' component={Sidebar}/>
               </div>
             ) : (
               <div/>

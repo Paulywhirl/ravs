@@ -41,8 +41,8 @@ class Sidebar extends Component {
     this.state = {
       expanded: false,
       data: this.props.data,
-      contact: this.props.contact,
-      events: JSON.parse(this.props.data.events)
+      contact: this.props.contact
+      //events: JSON.parse(this.props.data.events)
     }
   };
 
