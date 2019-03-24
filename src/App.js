@@ -19,7 +19,7 @@ class App extends Component {
         lastname: ""
       },
       data: {},
-      loggedIn: true
+      loggedIn: false
     }
 
     this.callback = this.callback.bind(this)

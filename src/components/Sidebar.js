@@ -12,7 +12,6 @@ import AttendanceIcon from '../assets/icons/attendance.png';
 import AnnouncementsIcon from '../assets/icons/announcements.png';
 import ProfileIcon from '../assets/icons/profile.png';
 import ProgressIcon from '../assets/icons/progress.png';
-import SettingsIcon from '../assets/icons/settings.png';
 import LogoutIcon from '../assets/icons/logout.png';
 
 import Dashboard from './Dashboard/Dashboard';
@@ -20,7 +19,6 @@ import Calendar from './Calendar/Calendar';
 import Announcements from './Announcements/Announcements';
 import Profile from './Profile/Profile';
 import Progress from './Progress/Progress';
-import Settings from './Settings/Settings';
 import AnnouncementForm from './AnnouncementForm/AnnouncementForm';
 import SessionView from './SessionView/SessionView';
 
@@ -41,10 +39,14 @@ class Sidebar extends Component {
     this.state = {
       expanded: false,
       data: this.props.data,
-      contact: this.props.contact
-      //events: JSON.parse(this.props.data.events)
+      contact: this.props.contact,
+      events: JSON.parse(this.props.data.events)
     }
   };
+
+  componentWillUnmount() {
+    this.props.history.goForward();
+  }
 
   render() {
     return (
@@ -112,14 +114,6 @@ class Sidebar extends Component {
                         Progress
                     </NavText>
                 </NavItem>
-                <NavItem eventKey="settings">
-                    <NavIcon>
-                        <img src={SettingsIcon} alt="Settings" className="icon-image"/>
-                    </NavIcon>
-                    <NavText>
-                        Settings
-                    </NavText>
-                </NavItem>
                 <NavItem eventKey="logout">
                     <NavIcon>
                         <img src={LogoutIcon} alt="Logout" className="icon-image"/>
@@ -142,7 +136,6 @@ class Sidebar extends Component {
                    <Route path="/announcements" component={Announcements} />
                    <Route path="/profile" component={Profile} />
                    <Route path="/progress" component={Progress} />
-                   <Route path="/settings" component={Settings} />
                    <Route path="/announcement/new" exact component={AnnouncementForm} />
                    <Route path="/calendar/session/:id" exact component={SessionView} />
               </div>
