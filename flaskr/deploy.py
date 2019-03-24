@@ -90,7 +90,7 @@ def login():
             curr_user = Members.query.filter_by(email = login_email).first()
             return jsonify({'email': curr_user.email,
              'firstname': curr_user.firstname, 'lastname': curr_user.lastname,
-              'curr': True, 'contactId': contactId,
+              'director': curr_user.director, 'contactId': contactId,
                "data":{"progress_graph": json_graph, "events": events}}), 201
         else:
             return jsonify({'email': curr_user.email,
@@ -129,7 +129,7 @@ def newlogin():
         session.commit()
         return jsonify({'email': curr_user.email,
          'firstname': curr_user.firstname, 'lastname': curr_user.lastname,
-          'curr': True, 'contactId': contactId,
+          'director': curr_user.director, 'contactId': contactId,
            "data":{"progress_graph": newProgress, "events": events}}), 201
     except:
         return jsonify({'err_msg': 'user not registered in Wild Apricot'}), 401

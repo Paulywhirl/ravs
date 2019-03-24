@@ -17,7 +17,8 @@ class App extends Component {
         email: "",
         firstname: "",
         lastname: "",
-        contactId: ""
+        contactId: "",
+        director: ""
       },
       data: {},
       loggedIn: false
@@ -31,7 +32,8 @@ class App extends Component {
           email: childState.email,
           firstname: childState.firstname,
           lastname: childState.lastname,
-          contactId: childState.contactId
+          contactId: childState.contactId,
+          director: childState.director
         },
         data: childState.data,
         loggedIn: childState.isLoggedIn

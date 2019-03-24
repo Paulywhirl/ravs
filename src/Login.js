@@ -102,6 +102,7 @@ export default class Login extends Component {
             firstname: this.state.firstname,
             lastname: this.state.lastname,
             contactId: data.contactId,
+            director: data.director,
             data: data.data,
             isLoggedIn: true,
             loading: true
