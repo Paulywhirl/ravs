@@ -118,6 +118,9 @@ export default class Login extends Component {
 
   handleRegisterAndSubmit = (event) => {
     event.preventDefault()
+    this.setState({
+      loading: true
+    })
     const newUser = JSON.stringify({
       email: this.state.email,
       password: this.state.password,
@@ -133,11 +136,21 @@ export default class Login extends Component {
       response => {return response.json()}
     ).then(
       data =>
-      this.props.sendToParent({
+      this.setState({
         email: data.email,
         firstname: data.firstname,
-        lastname: data.lastname,
-        isLoggedIn: true
+        lastname: data.lastname
+      }, () => {
+        this.props.sendToParent({
+          email: this.state.email,
+          firstname: this.state.firstname,
+          lastname: this.state.lastname,
+          contactId: data.contactId,
+          director: data.director,
+          data: data.data,
+          isLoggedIn: true,
+          loading: true
+        });
       })
     )
   }
