@@ -1,10 +1,10 @@
 {
-  "session progression": {
-    "training": {
+  "session_progression": {
+    "Training": {
       "session_number": 100,
-      "completed": false
+      "completed": true
     },
-    "On Air Training": [
+    "On_Air": [
       "101", {
         "session_number": 101,
         "completed": false
@@ -23,7 +23,7 @@
       },
       "105", {
         "session_number": 105,
-        "completed": 106
+        "completed": true
       },
       "106", {
         "session_number": 106,
@@ -48,121 +48,77 @@
         "completed": false
       }
     ],
-    "Marketing": [
+    "News": [
       "301", {
         "session_number": 301,
-        "completed": false
-      },
-      "302", {
-        "session_number": 302,
-        "completed": false
-      },
-      "303", {
-        "session_number": 303,
-        "completed": false
-      },
-      "304", {
-        "session_number": 304,
-        "completed": false
-      },
-      "305", {
-        "session_number": 305,
-        "completed": false
-      },
-      "306", {
-        "session_number": 305,
-        "completed": false
-      }
-    ],
-    "News/Spoken Word": [
-      "401", {
-        "session_number": 401,
-        "completed": false
-      },
-      "402", {
-        "session_number": 402,
-        "completed": false
-      },
-      "403", {
-        "session_number": 403,
         "completed": false
       }
     ],
     "Sports": [
+      "401", {
+        "session_number": 401,
+        "completed": false
+      }
+    ],
+    "Spoken_Word": [
       "501", {
         "session_number": 501,
         "completed": false
-      },
-      "502", {
-        "session_number": 502,
-        "completed": false
-      },
-      "503", {
-        "sessions_number": 503,
-        "completed": false
-      },
-      "504", {
-        "session_number": 504,
-        "completed": false
-      },
-      "505", {
-        "session_number": 505,
-        "completed": false
-      },
-      "506", {
-        "session_number": 506,
-        "completed": false
       }
     ],
-    "Radio Production":[
-      "601", {
+    "Podcasting":[
+      "POD1", {
         "session_number": 601,
         "completed": false
       },
-      "602", {
+      "POD2", {
         "session_number": 602,
         "completed": false
       },
-      "603", {
+      "POD3", {
         "session_number": 603,
         "completed": false
       },
-      "604", {
+      "POD4", {
         "session_number": 604,
         "completed": false
       },
-      "605", {
+      "POD5", {
         "session_number": 605,
         "completed": false
       },
-      "606", {
+      "POD6", {
         "session_number": 606,
+        "completed": false
+      },
+      "POD7", {
+        "session_number": 605,
+        "completed": false
+      },
+      "POD8", {
+        "session_number": 606,
+        "completed": false
+      },
+      "POD9", {
+        "session_number": 605,
         "completed": false
       }
     ],
-    "Music Production" : [
-      "701", {
+    "Production" : [
+      "601", {
         "session_number": 701,
         "completed": false
       },
-      "702", {
+      "602", {
         "session_number": 702,
         "comnpleted": false
       },
-      "703", {
+      "603", {
         "session_number": 703,
         "completed": false
       },
-      "704", {
+      "604", {
         "session_number": 704,
-        "completed": false
-      },
-      "705", {
-        "session_number": 705,
-        "completed": false
-      },
-      "706", {
-        "session_number": 706,
         "completed": false
       }
     ]
