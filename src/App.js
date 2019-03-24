@@ -21,7 +21,7 @@ class App extends Component {
         director: ""
       },
       data: {},
-      loggedIn: true
+      loggedIn: false
     }
 
     this.callback = this.callback.bind(this)
@@ -58,7 +58,10 @@ class App extends Component {
           {
             this.state.loggedIn ? (
               <div className="app-container">
-                <Route path='/homepage' component={Sidebar}/>
+                <Route path='/homepage'
+                render={(state) => <Sidebar data={this.state.data}
+                                      contact={this.state.user.contactId}/>}
+                />
               </div>
             ) : (
               <div/>
