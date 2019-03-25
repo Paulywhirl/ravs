@@ -53,10 +53,6 @@ class Sidebar extends Component {
     }
   }
 
-  componentWillUnmount() {
-    this.props.history.goForward();
-  }
-
   render() {
     return (
       <div className="sidebar">
@@ -77,7 +73,6 @@ class Sidebar extends Component {
                         if (location.pathname !== to) {
                             history.push(to);
                         }
-                        //console.log(selected);
                     }}
                 >
               <SideNav.Toggle/>

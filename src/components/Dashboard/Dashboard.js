@@ -26,10 +26,14 @@ class Dashboard extends Component {
 
         <h3><i>Welcome to the Radio Western Volunteer website!</i></h3>
         <br />
-        <a href="http://radiowestern.ca/stream" target="_blank" id="btnstyle" class="btn btn-dark"><h4><i class="far fa-play-circle"></i> Listen Live</h4></a>
+        <a href="http://radiowestern.ca/stream" target="_blank" id="btnstyle" className="btn btn-dark">
+        <h4>
+        <i className="far fa-play-circle"></i> Listen Live</h4></a>
         <br />
         <br />
-        <a href="http://radiowestern.ca" target="_blank" id="btnstyle" class="btn btn-dark"><h4><i class="fas fa-external-link-alt"></i> Main Website</h4></a>
+        <a href="http://radiowestern.ca" target="_blank" id="btnstyle" className="btn btn-dark">
+        <h4>
+        <i className="fas fa-external-link-alt"></i> Main Website</h4></a>
 
         <br />
         <br />

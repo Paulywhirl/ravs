@@ -12,11 +12,31 @@
   color: #000000;
 }
 
-.descriptionbox {
-  height: 50px;
-  width: 400px;
-  word-wrap: break-word;
-  vertical-align: text-top;
+label[for="title"], label[for="message"] {
+  font-size: 16px;
+}
+
+.messageBox, .title {
+  box-shadow: 2px 2px 0px #9932CC;
+  border: 1px solid #000000;
+  background-color: #87CEFA;
+  padding: 7.5px;
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 11pt;
+  color: #2F4F4F;
+  text-align: left;
+  outline: 0px solid #000000;
+}
+
+.messageBox {
+  width: 700px;
+  height: 175px;
+  border-radius: 24px;
+}
+
+.title {
+  width: 370px;
+  border-radius: 12px;
 }
 
 
