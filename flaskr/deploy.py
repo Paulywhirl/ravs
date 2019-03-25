@@ -86,7 +86,6 @@ def login():
         return json.dumps({'err_msg': 'invalid email or password'}), 401, {'Content-type': 'application/json'}
     try:
         api.authenticate_with_contact_credentials(login_email, login_password)
-        graph = Progress_Graph.query.filter_by(email = login_email).all()
         events = get_current_month_events()
         contactId = get_contact_id(api, login_email)
         for graph in session.query(Progress_Graph).filter(Progress_Graph.email == login_email):
@@ -124,10 +123,12 @@ def newlogin():
         session.add(newUser)
         session.add(newProgress)
         session.commit()
+        for graph in session.query(Progress_Graph).filter(Progress_Graph.email == register_email):
+            json_graph = json.dumps(graph.dprogress_graph)
         return jsonify({'email': register_email,
          'firstname': register_firstname, 'lastname': register_lastname,
-          'director': False, 'contactId': contactId,
-           "data":{"progress_graph": newProgress, "events": events}}), 201
+          'director': "false", 'contactId': contactId,
+           "data":{"progress_graph": json_graph, "events": events}}), 201
     except:
         return jsonify({'err_msg': 'user not registered in Wild Apricot'}), 401
 
