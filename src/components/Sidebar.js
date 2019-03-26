@@ -38,14 +38,19 @@ class Sidebar extends Component {
     super(props);
     this.state = {
       expanded: false,
+      data: "",
+      contact: "",
+      events: []
+    }
+  };
+
+  componentDidMount() {
+    this.state = {
+      expanded: false,
       data: this.props.data,
       contact: this.props.contact,
       events: JSON.parse(this.props.data.events)
     }
-  };
-
-  componentWillUnmount() {
-    this.props.history.goForward();
   }
 
   render() {
@@ -68,7 +73,6 @@ class Sidebar extends Component {
                         if (location.pathname !== to) {
                             history.push(to);
                         }
-                        //console.log(selected);
                     }}
                 >
               <SideNav.Toggle/>

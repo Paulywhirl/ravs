@@ -17,7 +17,7 @@ class AnnouncementForm extends Component {
     this.state = {
       title: '',
       department: '',
-      description: ''
+      message: ''
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -36,12 +36,26 @@ class AnnouncementForm extends Component {
   }
 
   handleSubmit(event) {
-
     alert('A name was submitted: ' + this.state.title);
     event.preventDefault();
 
   }
 
+  handleKeyDown(event) {
+      if (event.keyCode === 9) { // tab was pressed
+          event.preventDefault();
+          var val = this.state.message,
+          start = event.target.selectionStart,
+          end = event.target.selectionEnd;
+          this.setState(
+              {
+                  message: val.substring(0, start) + '\t' + val.substring(end)
+              },
+              () => {
+                  this.refs.input.selectionStart = this.refs.input.selectionEnd = start + 1
+              });
+      }
+ }
 
   render() {
     return (
@@ -51,19 +65,25 @@ class AnnouncementForm extends Component {
         <hr />
 
         <form onSubmit={this.handleSubmit}>
-          <label>
+          <label htmlFor="title">
             Title: <br />
-            <input name="title" type="text" value={this.state.title} onChange={this.handleChange} />
+            <input className="title"
+                  name="title"
+                  type="text"
+                  value={this.state.title}
+                  onChange={this.handleChange} />
           </label>
           <br />
-          <label>
-            Department: <br />
-            <input name="department" type="text" value={this.state.department} onChange={this.handleChange} />
-          </label>
-          <br />
-          <label>
-            Description: <br />
-            <input className="descriptionbox" name="description" type="text" value={this.state.description} onChange={this.handleChange} />
+          <label htmlFor="message">
+            Message: <br />
+            <textarea className="messageBox"
+            rows="30" cols="100"
+            ref="input"
+            name="message"
+            type="text"
+            onKeyDown={this.handleKeyDown.bind(this)}
+            value={this.state.message}
+            onChange={this.handleChange} />
           </label>
           <br />
           <input type="submit" value="Submit" />
@@ -72,7 +92,7 @@ class AnnouncementForm extends Component {
         <br />
         <div>
           <Link to="/announcements">
-            <Button>Back</Button>
+            <Button>Cancel</Button>
           </Link>
         </div>
 

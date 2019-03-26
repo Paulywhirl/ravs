@@ -86,7 +86,6 @@ def login():
         return json.dumps({'err_msg': 'invalid email or password'}), 401, {'Content-type': 'application/json'}
     try:
         api.authenticate_with_contact_credentials(login_email, login_password)
-        graph = Progress_Graph.query.filter_by(email = login_email).all()
         events = get_current_month_events()
         contactId = get_contact_id(api, login_email)
         for graph in session.query(Progress_Graph).filter(Progress_Graph.email == login_email):
@@ -124,10 +123,12 @@ def newlogin():
         session.add(newUser)
         session.add(newProgress)
         session.commit()
+        for graph in session.query(Progress_Graph).filter(Progress_Graph.email == register_email):
+            json_graph = json.dumps(graph.dprogress_graph)
         return jsonify({'email': register_email,
          'firstname': register_firstname, 'lastname': register_lastname,
-          'director': False, 'contactId': contactId,
-           "data":{"progress_graph": newProgress, "events": events}}), 201
+          'director': "false", 'contactId': contactId,
+           "data":{"progress_graph": json_graph, "events": events}}), 201
     except:
         return jsonify({'err_msg': 'user not registered in Wild Apricot'}), 401
 
@@ -147,6 +148,23 @@ def get_current_month_events():
     ev = api.execute_request(request_url).Events
     events_to_return = create_json_of_events(ev)
     return json.dumps(events_to_return)
+
+@app.route('/upcomingEvents', methods=['GET'])
+def get_upcoming_events():
+    api = WaApi.WaApiClient("ynw0blawz7", "2vjwxhjmcspkddxqpkti6qbdsdnpmh")
+    api.authenticate_with_contact_credentials("phender9@uwo.ca", "chrw123")
+    today = datetime.date.today()
+    tomorrow = datetime.date.today() + datetime.timedelta(days=1)
+    today_s = today.strftime('%Y-%m-%d')
+    tomorrow_s = tomorrow.strftime('%Y-%m-%d')
+    params = {'$filter': f'StartDate gt {today_s} AND StartDate lt {tomorrow_s}',
+              '$async': 'false'}
+    acc = account_data(api)
+    eventsUrl = next(res for res in acc.Resources if res.Name == 'Events').Url
+    request_url = eventsUrl + '?' + urllib.parse.urlencode(params)
+    ev = api.execute_request(request_url).Events
+    events_to_return = create_json_of_events(ev)
+    return json.dumps({ "events": events_to_return})
 
 @app.route('/progress-graph', methods=['GET'])
 def progress_graph():
@@ -254,8 +272,6 @@ def create_announcement():
     title = content['title']
     message = content['message']
     email = content['email']
-    # date = parse(content['date'])
-    # print(date)
     newAnnouncement = Announcements(title = title,
                                     message = message,
                                     email = email)

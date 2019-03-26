@@ -17,7 +17,6 @@ class Calendar extends Component {
     this.state = {
       events: [props.events],
       contact: props.contact,
-      progress: JSON.parse(props.progress),
       focus_event: {},
       redirect: false
     }
@@ -32,6 +31,22 @@ class Calendar extends Component {
         height: window.innerHeight
       });*/
     });
+    try{
+      fetch(`http://127.0.0.1:5000/calendar-events`, {
+        method: 'get',
+        crossDomain: true,
+        headers: {'Content-Type':'application/json'}
+      })
+      .then(response => {return response.json()})
+      .then(
+        data =>
+        this.setState({
+          events: [data]
+        })
+      )
+    } catch {
+      console.log("could not retrieve events")
+    }
   }
 
   handleSelectEvent(event) {
