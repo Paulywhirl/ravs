@@ -11,8 +11,44 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      events: [props.events],
+      events: [],
       contact: props.contact
+    }
+  }
+
+  componentDidMount() {
+    try {
+      fetch(`http://127.0.0.1:5000/upcomingEvents`)
+      .then(
+        response => {return response.json()}
+      )
+      .then(
+        data =>
+        this.setState({
+          events: data.events
+        })
+      )
+    } catch {
+
+    }
+  }
+
+  renderSessions(){
+    if(this.state.events){
+      return this.state.events.map((eventdata,index1)=>{
+        return (
+          <div className="cards">
+            <Card>
+            <CardHeader style={{fontSize: 15}}>{eventdata.title}</CardHeader>
+
+            </Card>
+          </div>
+        )
+      })
+    } else {
+      return (
+        <div></div>
+      )
     }
   }
 
@@ -41,21 +77,8 @@ class Dashboard extends Component {
         <br />
 
         <div className="container">
-          <h3>Upcoming Sessions???</h3>
-
-          {/*this.state.eventList.map((eventdata,index1)=>{
-            if(index1<1) {
-              return <div className="cards">
-                  <Card>
-                    <CardHeader style={{fontSize: 15}}>{eventdata.title}</CardHeader>
-                    <CardBody>
-                      <CardText style={{fontSize: 12}}>{eventdata.description}</CardText>
-                  </CardBody>
-                  </Card>
-                </div>
-              }
-          })*/}
-
+          <h3>Upcoming Sessions</h3>
+          <div>{this.renderSessions()}</div>
         </div>
 
 

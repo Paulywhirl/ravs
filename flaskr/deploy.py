@@ -149,6 +149,23 @@ def get_current_month_events():
     events_to_return = create_json_of_events(ev)
     return json.dumps(events_to_return)
 
+@app.route('/upcomingEvents', methods=['GET'])
+def get_upcoming_events():
+    api = WaApi.WaApiClient("ynw0blawz7", "2vjwxhjmcspkddxqpkti6qbdsdnpmh")
+    api.authenticate_with_contact_credentials("phender9@uwo.ca", "chrw123")
+    today = datetime.date.today()
+    tomorrow = datetime.date.today() + datetime.timedelta(days=1)
+    today_s = today.strftime('%Y-%m-%d')
+    tomorrow_s = tomorrow.strftime('%Y-%m-%d')
+    params = {'$filter': f'StartDate gt {today_s} AND StartDate lt {tomorrow_s}',
+              '$async': 'false'}
+    acc = account_data(api)
+    eventsUrl = next(res for res in acc.Resources if res.Name == 'Events').Url
+    request_url = eventsUrl + '?' + urllib.parse.urlencode(params)
+    ev = api.execute_request(request_url).Events
+    events_to_return = create_json_of_events(ev)
+    return json.dumps({ "events": events_to_return})
+
 @app.route('/progress-graph', methods=['GET'])
 def progress_graph():
     content = request.json
@@ -255,8 +272,6 @@ def create_announcement():
     title = content['title']
     message = content['message']
     email = content['email']
-    # date = parse(content['date'])
-    # print(date)
     newAnnouncement = Announcements(title = title,
                                     message = message,
                                     email = email)
