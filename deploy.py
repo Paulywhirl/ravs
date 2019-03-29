@@ -11,7 +11,7 @@ from dateutil.parser import parse
 import WaApi
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/ravs-database'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://nayennlqmygyzl:3ed75fc463ffc2e2d23a935bdff69341017c2220012c9bfa7a441495b5ffcf17@ec2-23-21-136-232.compute-1.amazonaws.com:5432/d8dpeccdbakopq'
 app.config['CORS_HEADERS'] = 'Content-Type'
 CORS(app, support_credentials=True, resources={r"/*": {"origins": "*"}})
 # heroku = Heroku(app)
@@ -43,7 +43,7 @@ class Members(db.Model):
 class Progress_Graph(db.Model):
     __tablename__ = "progress_graph"
 
-    with open("../static/js/data_schemas/progress_graph.json", "r") as read_file:
+    with open("./static/js/data_schemas/progress_graph.json", "r") as read_file:
         data = json.load(read_file)
 
     progress_id = db.Column(db.Integer, primary_key=True)
