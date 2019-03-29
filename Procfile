@@ -1,1 +1,1 @@
-web: gunicorn --pythonpath ravs:flaskr.deploy.py
+web: gunicorn --pythonpath app:deploy.py
