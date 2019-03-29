@@ -1,0 +1,56 @@
+
+.Login {
+  padding: 60px 0;
+}
+
+.Login form {
+  background-color: lightblue;
+  padding: 20px;
+  margin-left: 200px;
+  margin-right: 200px;
+  border-radius: 20px;
+  box-shadow: 0 2px 10px -3px #333;
+  margin: 0 auto;
+  max-width: 340px;
+}
+
+.Login h2{
+  color: #2e86de;
+  font-size: 30px;
+  text-align: center;
+}
+
+input#email, input#password, input#firstname, input#lastname {
+  margin: 10px auto;
+  border: 2px solid #2e86de;
+  width: 200px;
+  font-size: 14px;
+  border-radius: 15px;
+  transition: 0.2s;
+}
+
+input#email:hover, input#password:hover, input#firstname:hover, input#lastname:hover {
+  width: 260px;
+  border: 2px solid #5f27cd;
+}
+
+.Login button[type="button"] {
+  margin: 10px auto;
+  width: 120px;
+  background: white;
+  border-radius: 10px;
+  transition:  0.2s
+}
+
+.Login button[type="button"]:hover {
+  width: 180px;
+}
+
+.Login p{
+  font-size: 12px;
+}
+
+.paragraph {
+  text-align: center;
+  color: #FF0000;
+}

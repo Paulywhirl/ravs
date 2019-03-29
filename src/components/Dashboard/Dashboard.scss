@@ -1,0 +1,54 @@
+
+.dashboard {
+    padding: 15px;
+    height: 100%
+}
+
+.content-bar {
+  background-color: #532E85;
+  color: white;
+  height: 40px;
+  position: relative;
+}
+
+.container {
+  width: 60%;
+}
+
+.cards {
+  width: 50%;
+}
+
+.rowC {
+  display:flex;
+  flex-direction:row;
+  padding-right: 15px;
+}
+
+#btnstyle {
+  background-color: #532E85;
+  color: white;
+  padding: 10px 15px;
+  text-align: center;
+  font-size: 10px;
+}
+
+i {
+  padding-right: 5px;
+}
+
+hr {
+  height: 1px;
+  width: 100%;
+  color: #532E85;
+  background-color: #532E85;
+  border: none;
+}
+
+//comment
+//purple: #532E85
+//blue: #14669E
+//dark grey: #26292E
+//medium grey: 	#30343D
+//light grey: #E3E5EB
+//lighter grey: #EDF2F4

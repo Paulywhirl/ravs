@@ -47,6 +47,7 @@ class WaApiClient(object):
         request.add_header("ContentType", "application/x-www-form-urlencoded")
         request.add_header("Authorization", 'Basic ' + base64.standard_b64encode(('APIKEY:' + api_key).encode()).decode())
         response = urllib.request.urlopen(request)
+        print(response)
         self._token = WaApiClient._parse_response(response)
         self._token.retrieved_at = datetime.datetime.now()
 
@@ -132,6 +133,7 @@ class WaApiClient(object):
     @staticmethod
     def _parse_response(http_response):
         decoded = json.loads(http_response.read().decode())
+        print (decoded)
         if isinstance(decoded, list):
             result = []
             for item in decoded:

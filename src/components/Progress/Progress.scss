@@ -1,0 +1,34 @@
+
+.progressinfo {
+    padding: 15px;
+}
+
+.rowContent {
+  display:flex;
+  flex-direction:row;
+}
+
+.contain {
+  width: 15%;
+}
+
+
+.btnstyle {
+  background-color: #532E85;
+  color: white;
+  padding: 10px 15px;
+  text-align: center;
+  font-size: 10px;
+}
+
+.hr1{
+  opacity: 0.1;
+}
+
+hr {
+  height: 1px;
+  width: 100%;
+  color: #532E85;
+  background-color: #532E85;
+  border: none;
+}
