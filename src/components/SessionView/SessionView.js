@@ -15,8 +15,7 @@ class SessionView extends Component {
       event: this.props.location.state.event,
       contact: this.props.location.state.contact,
       registerd: false,
-      introEvent: false,
-      trained: this.props.location.state.trained
+      introEvent: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);

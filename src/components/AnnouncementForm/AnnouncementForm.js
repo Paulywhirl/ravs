@@ -15,6 +15,7 @@ class AnnouncementForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      email: '',
       title: '',
       department: '',
       message: ''
@@ -38,7 +39,18 @@ class AnnouncementForm extends Component {
   handleSubmit(event) {
     alert('A name was submitted: ' + this.state.title);
     event.preventDefault();
+    const body = JSON.stringify({
+      title: this.state.event,
+      message: this.state.message
+    })
+    try {
+      fetch(``, {
+        method: 'post',
+        crossDomain: true,
+        headers: {'Content-Type':'application/json'},
 
+      })
+    }
   }
 
   handleKeyDown(event) {

@@ -15,7 +15,8 @@ class Announcements extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      postList: posts
+      postList: posts,
+      director: false
     };
   }
 

@@ -11,10 +11,10 @@ from dateutil.parser import parse
 import WaApi
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/ravs-database'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/ravs-database'
 app.config['CORS_HEADERS'] = 'Content-Type'
 CORS(app, support_credentials=True, resources={r"/*": {"origins": "*"}})
-# heroku = Heroku(app)
+heroku = Heroku(app)
 db = SQLAlchemy(app)
 
 db_uri="postgresql://localhost/ravs-database"
