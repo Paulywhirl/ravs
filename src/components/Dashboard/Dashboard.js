@@ -34,7 +34,7 @@ class Dashboard extends Component {
   }
 
   renderSessions(){
-    if(this.state.events){
+    if(this.state.events.length === 0){
       return this.state.events.map((eventdata,index1)=>{
         return (
           <div className="cards">
@@ -47,7 +47,9 @@ class Dashboard extends Component {
       })
     } else {
       return (
-        <div></div>
+        <div clssName="no-session">
+          <p>No Upcoming Sessions in the next two days</p>
+        </div>
       )
     }
   }

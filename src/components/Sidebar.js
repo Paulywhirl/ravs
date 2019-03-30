@@ -142,7 +142,8 @@ class Sidebar extends Component {
                    <Route path="/profile" exact
                    render={(state) =>
                      <Profile user = {this.state.user}/>}/>
-                   <Route path="/progress" component={Progress} />
+                   <Route path="/progress" render={(state) =>
+                     <Progress progress = {this.state.data.progress_graph}/>}/>
                    <Route path="/announcement/new" exact component={AnnouncementForm} />
                    <Route path="/calendar/session/:id" exact component={SessionView} />
               </div>
