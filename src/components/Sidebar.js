@@ -39,7 +39,7 @@ class Sidebar extends Component {
     this.state = {
       expanded: false,
       data: "",
-      contact: "",
+      user: {},
       events: []
     }
   };
@@ -48,7 +48,7 @@ class Sidebar extends Component {
     this.state = {
       expanded: false,
       data: this.props.data,
-      contact: this.props.contact,
+      user: this.props.user,
       events: JSON.parse(this.props.data.events)
     }
   }
@@ -135,10 +135,13 @@ class Sidebar extends Component {
                    <Route path="/dashboard" component={Dashboard} />
                    <Route path="/calendar" exact
                    render={(state) => <Calendar events = {this.state.events}
-                              contact = {this.state.contact}
-                              progress = {this.state.data.progress_graph}/>} />
-                   <Route path="/announcements" component={Announcements} />
-                   <Route path="/profile" component={Profile} />
+                              contact = {this.state.user.contactId}/>} />
+                   <Route path="/announcements" exact
+                   render={(state) =>
+                     <Announcements user = {this.state.user}/>}/>
+                   <Route path="/profile" exact
+                   render={(state) =>
+                     <Profile user = {this.state.user}/>}/>
                    <Route path="/progress" component={Progress} />
                    <Route path="/announcement/new" exact component={AnnouncementForm} />
                    <Route path="/calendar/session/:id" exact component={SessionView} />

@@ -16,7 +16,7 @@ class SessionView extends Component {
       contact: this.props.location.state.contact,
       registerd: false,
       introEvent: false,
-      trained: this.props.location.state.trained
+      progress: []
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -56,7 +56,7 @@ class SessionView extends Component {
       'eventId': this.state.event.eventId
     })
     try {
-      fetch(`http://127.0.0.1:5000//register-session/id`, {
+      fetch(`http://127.0.0.1:5000/register-session/id`, {
         method: 'post',
         crossDomain: true,
         headers: {'Content-Type':'application/json'},
@@ -93,12 +93,15 @@ class SessionView extends Component {
           at the station! This session is the first step in volunteering with the station.
         </h4>
         <br />
-          <Button onClick={this.handleRegister}>Register</Button>
+          <Button
+          type="button"
+          onClick={this.handleRegister}>Register</Button>
         <br />
         <br />
         <div>
           <Link to="/calendar">
-            <Button>Back</Button>
+            <Button
+            type="button">Back</Button>
           </Link>
         </div>
 
