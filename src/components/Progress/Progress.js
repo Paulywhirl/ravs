@@ -13,12 +13,15 @@ class Progress extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      progress: JSON.parse(props.progress),
+      progress: [],
       progressToPresent: []
     }
   }
 
   componentDidMount() {
+  this.setState({
+    progress: JSON.parse(this.props.progress)
+  })
     let ptp = []
   }
 
