@@ -16,8 +16,11 @@ class App extends Component {
       user: {
         email: "",
         firstname: "",
-        lastname: ""
+        lastname: "",
+        contactId: "",
+        director: ""
       },
+      data: {},
       loggedIn: false
     }
 
@@ -29,8 +32,11 @@ class App extends Component {
         user:{
           email: childState.email,
           firstname: childState.firstname,
-          lastname: childState.lastname
+          lastname: childState.lastname,
+          contactId: childState.contactId,
+          director: childState.director
         },
+        data: childState.data,
         loggedIn: childState.isLoggedIn
     })
   }
@@ -41,7 +47,7 @@ class App extends Component {
         <div id='app-background'>
           <Header />
           <Switch>
-            <Route exact path="/" render={() => (
+            <Route path="/" render={() => (
               this.state.loggedIn ? (
                 <Redirect from="/" to="/homepage"/>
               ) : (
@@ -52,7 +58,10 @@ class App extends Component {
           {
             this.state.loggedIn ? (
               <div className="app-container">
-                <Route path='/homepage' component={Sidebar}/>
+                <Route path='/homepage'
+                render={(state) => <Sidebar data={this.state.data}
+                                      user={this.state.user}/>}
+                />
               </div>
             ) : (
               <div/>

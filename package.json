@@ -31,7 +31,8 @@
     "react-click-outside": "github:tj/react-click-outside",
     "react-dom": "^16.7.0",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "^2.1.5",
+    "react-scripts": "^2.1.8",
+    "react-spinners": "^0.5.3",
     "reactstrap": "^7.1.0"
   },
   "browserslist": [

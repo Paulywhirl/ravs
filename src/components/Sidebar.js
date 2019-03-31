@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
+import SideNav, { NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
-import { BrowserRouter as Router, Route, Link, Switch} from "react-router-dom";
+import { BrowserRouter as Router, Route} from "react-router-dom";
 import ClickOutside from "react-click-outside";
 
 
@@ -12,7 +12,6 @@ import AttendanceIcon from '../assets/icons/attendance.png';
 import AnnouncementsIcon from '../assets/icons/announcements.png';
 import ProfileIcon from '../assets/icons/profile.png';
 import ProgressIcon from '../assets/icons/progress.png';
-import SettingsIcon from '../assets/icons/settings.png';
 import LogoutIcon from '../assets/icons/logout.png';
 
 import Dashboard from './Dashboard/Dashboard';
@@ -20,7 +19,6 @@ import Calendar from './Calendar/Calendar';
 import Announcements from './Announcements/Announcements';
 import Profile from './Profile/Profile';
 import Progress from './Progress/Progress';
-import Settings from './Settings/Settings';
 import AnnouncementForm from './AnnouncementForm/AnnouncementForm';
 import SessionView from './SessionView/SessionView';
 
@@ -39,12 +37,25 @@ class Sidebar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      expanded: false
-  }};
+      expanded: false,
+      data: "",
+      user: {},
+      events: []
+    }
+  };
+
+  componentDidMount() {
+    this.state = {
+      expanded: false,
+      data: this.props.data,
+      user: this.props.user,
+      events: JSON.parse(this.props.data.events)
+    }
+  }
 
   render() {
     return (
-      <div class="sidebar">
+      <div className="sidebar">
         <Router>
             <Route render={({ location, history }) => (
               <React.Fragment>
@@ -62,7 +73,6 @@ class Sidebar extends Component {
                         if (location.pathname !== to) {
                             history.push(to);
                         }
-                        //console.log(selected);
                     }}
                 >
               <SideNav.Toggle/>
@@ -108,14 +118,6 @@ class Sidebar extends Component {
                         Progress
                     </NavText>
                 </NavItem>
-                <NavItem eventKey="settings">
-                    <NavIcon>
-                        <img src={SettingsIcon} alt="Settings" className="icon-image"/>
-                    </NavIcon>
-                    <NavText>
-                        Settings
-                    </NavText>
-                </NavItem>
                 <NavItem eventKey="logout">
                     <NavIcon>
                         <img src={LogoutIcon} alt="Logout" className="icon-image"/>
@@ -131,13 +133,19 @@ class Sidebar extends Component {
               <div id="main">
                    <Route path="/homepage" exact component={Dashboard} />
                    <Route path="/dashboard" component={Dashboard} />
-                   <Route path="/calendar" component={Calendar} />
-                   <Route path="/announcements" component={Announcements} />
-                   <Route path="/profile" component={Profile} />
-                   <Route path="/progress" component={Progress} />
-                   <Route path="/settings" component={Settings} />
+                   <Route path="/calendar" exact
+                   render={(state) => <Calendar events = {this.state.events}
+                              contact = {this.state.user.contactId}/>} />
+                   <Route path="/announcements" exact
+                   render={(state) =>
+                     <Announcements user = {this.state.user}/>}/>
+                   <Route path="/profile" exact
+                   render={(state) =>
+                     <Profile user = {this.state.user}/>}/>
+                   <Route path="/progress" render={(state) =>
+                     <Progress progress = {this.state.data.progress_graph}/>}/>
                    <Route path="/announcement/new" exact component={AnnouncementForm} />
-                   <Route path="/calendars/session" exact component={SessionView} />
+                   <Route path="/calendar/session/:id" exact component={SessionView} />
               </div>
             </React.Fragment>
             )}

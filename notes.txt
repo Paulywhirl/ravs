@@ -1,0 +1,5 @@
+Some important items that should be handled:
+1) cache current state of ravs: https://www.robinwieruch.de/local-storage-react/
+2) possibly implement JWT: https://hptechblogs.com/using-json-web-token-react/
+3) deploy API & DB to Heroku
+4) Make API in deploy a global session

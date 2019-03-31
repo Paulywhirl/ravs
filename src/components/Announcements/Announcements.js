@@ -15,8 +15,29 @@ class Announcements extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      postList: posts
+      postList: posts,
+      user: {},
+      announcements: []
     };
+  }
+
+  componentDidMount(){
+    this.setState({
+      user: this.props.user
+    })
+    try{
+      fetch(`http://127.0.0.1:5000/announcements`)
+      .then(response => {return response.json()})
+      .then(
+        data =>
+        this.setState({
+          announcements: data
+        })
+      )
+      console.log(this.state.announcements)
+    } catch {
+      console.log("could not retrieve announcements")
+    }
   }
 
   getData(){
@@ -33,26 +54,26 @@ class Announcements extends Component {
           <hr />
 
           <div>
-            <Link to="/announcement/new">
-              <Button>New Annoucement</Button>
-            </Link>
+          {
+            this.state.user.director ? (
+              <Link to="/announcement/new">
+                <Button
+                type="button">New Annoucement</Button>
+              </Link>
+            ) : (
+              <div/>
+            )
+          }
+
           </div>
 
-          <div>
-            <Link to="/calendars/session">
-              <Button>Go to session</Button>
-            </Link>
-          </div>
-
-          {this.state.postList.map((postdata,index)=>{
+          {this.state.announcements.slice(0,10).map((postdata,index)=>{
             return <div className="cards">
 
                 <Card>
                   <CardHeader style={{fontSize: 20}}>{postdata.title}</CardHeader>
                   <CardBody>
-                    <CardTitle style={{fontSize: 15}}>Department: {postdata.department}</CardTitle>
-                    <CardText style={{fontSize: 15}}>{postdata.description}</CardText>
-                    <Button outline color="secondary">Edit</Button>
+                    <CardText style={{fontSize: 15}}>{postdata.message}</CardText>
                   </CardBody>
                 </Card>
               </div>

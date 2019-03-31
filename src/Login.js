@@ -3,6 +3,8 @@ import { Button, FormGroup, FormControl } from "react-bootstrap";
 
 import "./login.scss"
 
+import Loading from './Loading.js'
+
 export default class Login extends Component {
   constructor(props) {
     super(props);
@@ -22,7 +24,8 @@ export default class Login extends Component {
       lastname: "",
       registering: false,
       invalidLogin: false,
-      error: ""
+      error: "",
+      loading: false
     };
   }
 
@@ -72,6 +75,9 @@ export default class Login extends Component {
 
   handleSubmit (event){
     event.preventDefault()
+    this.setState({
+      loading: true
+    })
     const user = JSON.stringify({
       email: this.state.email,
       password: this.state.password
@@ -95,7 +101,11 @@ export default class Login extends Component {
             email: this.state.email,
             firstname: this.state.firstname,
             lastname: this.state.lastname,
-            isLoggedIn: true
+            contactId: data.contactId,
+            director: data.director,
+            data: data.data,
+            isLoggedIn: true,
+            loading: true
           });
         })
       ).catch(function(error){
@@ -108,6 +118,9 @@ export default class Login extends Component {
 
   handleRegisterAndSubmit = (event) => {
     event.preventDefault()
+    this.setState({
+      loading: true
+    })
     const newUser = JSON.stringify({
       email: this.state.email,
       password: this.state.password,
@@ -123,11 +136,21 @@ export default class Login extends Component {
       response => {return response.json()}
     ).then(
       data =>
-      this.props.sendToParent({
+      this.setState({
         email: data.email,
         firstname: data.firstname,
-        lastname: data.lastname,
-        isLoggedIn: true
+        lastname: data.lastname
+      }, () => {
+        this.props.sendToParent({
+          email: this.state.email,
+          firstname: this.state.firstname,
+          lastname: this.state.lastname,
+          contactId: data.contactId,
+          director: data.director,
+          data: data.data,
+          isLoggedIn: true,
+          loading: true
+        });
       })
     )
   }
@@ -136,6 +159,11 @@ export default class Login extends Component {
   render() {
     return (
       <div className="Login">
+        {
+          this.state.loading ? (
+            <Loading />
+          ) : (
+        <div>
         <form>
           {
             !this.state.registering ? (
@@ -160,7 +188,7 @@ export default class Login extends Component {
                 <FormControl
                   autoFocus
                   type="lastname"
-                  placeHolder="lastname"
+                  placeholder="lastname"
                   onChange={this.handleChangeLastName}
                 />
             </FormGroup> </div>
@@ -169,7 +197,7 @@ export default class Login extends Component {
               <FormControl
                 autoFocus
                 type="email"
-                placeHolder="Email"
+                placeholder="Email"
                 value={this.state.email}
                 onChange={this.handleChangeUser}
               />
@@ -224,8 +252,12 @@ export default class Login extends Component {
           className="return">
           back
         </Button>
+        </div>
+      )
+      }
       </div>
     )
+
   }
 
   // componentDidCatch = (error) => {

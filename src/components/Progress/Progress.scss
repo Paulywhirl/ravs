@@ -3,14 +3,26 @@
     padding: 15px;
 }
 
-.content-bar {
-  background-color: #532E85;
-  color: white;
-  height: 40px;
-  position: relative;
+.rowContent {
+  display:flex;
+  flex-direction:row;
 }
 
-.content-field {
+.contain {
+  width: 15%;
+}
+
+
+.btnstyle {
+  background-color: #532E85;
+  color: white;
+  padding: 10px 15px;
+  text-align: center;
+  font-size: 10px;
+}
+
+.hr1{
+  opacity: 0.1;
 }
 
 hr {

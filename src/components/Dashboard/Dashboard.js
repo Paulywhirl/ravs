@@ -1,29 +1,58 @@
 import React, { Component } from 'react';
 import './Dashboard.scss';
-import { Badge, Card, CardHeader, CardFooter, CardBody,
+import { Card, CardHeader, CardFooter, CardBody,
   CardTitle, CardText, Col, Row, Collapse, Fade } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.css';
+import { Button } from 'reactstrap';
 
-import Calendar from '../Calendar/Calendar';
-import Announcements from '../Announcements/Announcements';
 
-import posts from "../Announcements/posts.js";
-import events from "../Calendar/events.js";
 
 class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      postList: posts,
-      eventList: events
-    };
+      events: [],
+      contact: props.contact
+    }
   }
 
-  getData(){
-    this.setState({ postList: posts })
-    this.setState({ postList: events })
+  componentDidMount() {
+    try {
+      fetch(`http://127.0.0.1:5000/upcomingEvents`)
+      .then(
+        response => {return response.json()}
+      )
+      .then(
+        data =>
+        this.setState({
+          events: data.events
+        })
+      )
+    } catch {
+
+    }
   }
 
+  renderSessions(){
+    if(this.state.events.length === 0){
+      return this.state.events.map((eventdata,index1)=>{
+        return (
+          <div className="cards">
+            <Card>
+            <CardHeader style={{fontSize: 15}}>{eventdata.title}</CardHeader>
+
+            </Card>
+          </div>
+        )
+      })
+    } else {
+      return (
+        <div clssName="no-session">
+          <p>No Upcoming Sessions in the next two days</p>
+        </div>
+      )
+    }
+  }
 
   render() {
     return (
@@ -33,46 +62,26 @@ class Dashboard extends Component {
         <hr />
         <br />
 
-        <div className="rowC">
-          <h2>Current Annoucements:</h2>
-          {this.state.postList.map((postdata,index)=>{
+        <h3><i>Welcome to the Radio Western Volunteer website!</i></h3>
+        <br />
+        <a href="http://radiowestern.ca/stream" target="_blank" id="btnstyle" className="btn btn-dark">
+        <h4>
+        <i className="far fa-play-circle"></i> Listen Live</h4></a>
+        <br />
+        <br />
+        <a href="http://radiowestern.ca" target="_blank" id="btnstyle" className="btn btn-dark">
+        <h4>
+        <i className="fas fa-external-link-alt"></i> Main Website</h4></a>
 
-            if(index<1) {
-              return <div className="cards">
-                  <Card>
-                    <CardHeader style={{fontSize: 15}}>{postdata.title}</CardHeader>
-                    <CardBody>
-                      <CardTitle style={{fontSize: 12}}>Department: {postdata.department}</CardTitle>
-                      <CardText style={{fontSize: 12}}>{postdata.description}</CardText>
-                    </CardBody>
-                  </Card>
-                </div>
-            }
-          })}
-          
-          <h2>Upcoming Sessions:</h2>
-          {this.state.eventList.map((eventdata,index1)=>{
-            if(index1<1) {
-              return <div className="cards">
-                  <Card>
-                    <CardHeader style={{fontSize: 15}}>{eventdata.title}</CardHeader>
-                    <CardBody>
-                      <CardText style={{fontSize: 12}}>{eventdata.description}</CardText>
-                  </CardBody>
-                  </Card>
-                </div>
-              }
-          })}
-          <br />
-        </div>
-
+        <br />
+        <br />
         <hr />
         <br />
-        <h2>Weekly Calender:</h2>
-        <Calendar style={{ height: 550, width: 1000}}/>
 
-        <br />
-        <br />
+        <div className="container">
+          <h3>Upcoming Sessions</h3>
+          <div>{this.renderSessions()}</div>
+        </div>
 
 
       </div>
