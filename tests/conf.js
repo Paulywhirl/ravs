@@ -6,7 +6,7 @@ exports.config = {
   framework: 'custom',
   frameworkPath: require.resolve('serenity-js'),
 
-  specs: './src/features/modules/login/volunteer_registration.feature',
+  specs: './src/features/modules/calendar/view_calendar.feature',
 
   cucumberOpts: {
     require:    [           // loads step definitions:
@@ -25,7 +25,7 @@ exports.config = {
 
         dialect: 'cucumber',  // or 'mocha'
         outputDirectory: `${process.cwd()}/target/site/serenity/`,
-        stageCueTimeout: 30 * 1000
+        stageCueTimeout: 40 * 1000
     },
 
   // Capabilities to be passed to the webdriver instance.

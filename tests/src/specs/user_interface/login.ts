@@ -15,6 +15,9 @@ export class login {
   static lastName = Target.the('lastName input box')
       .located(by.id('lastname'));
 
+  static sign_in = Target.the('Sign In Icon')
+      .located(by.partialButtonText('Sign'));
+
   static register_icon = Target.the('register icon')
       .located(by.partialButtonText('Register'));
 

@@ -33,15 +33,14 @@ export = function volunteerRegistrationSteps() {
       // callback(null, 'pending');
   });
 
-  this.When(/^she registers with her credentials$/, function (table) {
+  this.When(/^s?he registers with her credentials$/, function (table) {
       // Write code here that turns the phrase above into concrete actions
       return actor.attemptsTo(
         register.forProfile('phender9@uwo.ca', 'chrw123', 'Paul', 'Henderson')
       )
-      // callback(null, 'pending');
   });
 
-  this.Then(/^she should see the appropriate title page$/, function () {
+  this.Then(/^s?he should see the appropriate title page$/, function () {
       // Write code here that turns the phrase above into concrete actions
       actor.attemptsTo(
         UseAngular.disableSynchronisation(),
@@ -53,11 +52,6 @@ export = function volunteerRegistrationSteps() {
         ),
       )
       // expect(actor.toSee(dashboardComponents.isDisplayed)).eventually.equal('Dashboard')
-      // callback(null, 'pending');
-  });
-
-  this.Then(/^the volunteers homepage$/, function () {
-      // Write code here that turns the phrase above into concrete actions
       // callback(null, 'pending');
   });
 
