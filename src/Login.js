@@ -83,7 +83,7 @@ export default class Login extends Component {
       password: this.state.password
     })
     try {
-      fetch(`http://127.0.0.1:5000/login`, {
+      fetch(`https://ravs-api.herokuapp.com/login`, {
         method: 'post',
         crossDomain: true,
         headers: {'Content-Type':'application/json'},
@@ -127,7 +127,7 @@ export default class Login extends Component {
       firstname: this.state.firstname,
       lastname: this.state.lastname
     })
-    fetch(`http://127.0.0.1:5000/register`, {
+    fetch(`https://ravs-api.herokuapp.com/register`, {
       method: 'post',
       crossDomain: true,
       headers: {'Content-Type': 'application/json'},

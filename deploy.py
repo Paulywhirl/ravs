@@ -115,6 +115,9 @@ def newlogin():
     api = WaApi.WaApiClient("ynw0blawz7", "2vjwxhjmcspkddxqpkti6qbdsdnpmh")
     try:
         api.authenticate_with_contact_credentials(register_email, register_password)
+    except:
+        return jsonify({"msg":"authenticated"}), 401
+    try:
         pers = Members.query.filter_by(email = register_email).all()
         if len(pers) != 0:
             return jsonify({'err_msg': 'email already exists in system'}), 204
