@@ -60,7 +60,7 @@ class App extends Component {
               <div className="app-container">
                 <Route path='/homepage'
                 render={(state) => <Sidebar data={this.state.data}
-                                      contact={this.state.user.contactId}/>}
+                                      user={this.state.user}/>}
                 />
               </div>
             ) : (

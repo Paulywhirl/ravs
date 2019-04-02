@@ -83,12 +83,10 @@ class Calendar extends Component {
 
   render() {
     if(this.state.redirect) {
-      let trained = this.state.progress.session_progression.training.completed
       return <Redirect
       push to={{ pathname:"/calendar/session/" + this.state.focus_event.eventId,
             state: { event: this.state.focus_event, contact: this.state.contact,
-                     trained: trained}
-                      }}/>
+            }}}/>
     }
     return (
       <div className="nav-calendar" style={{height:600}}>

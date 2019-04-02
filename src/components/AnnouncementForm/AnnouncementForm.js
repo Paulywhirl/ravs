@@ -92,7 +92,8 @@ class AnnouncementForm extends Component {
         <br />
         <div>
           <Link to="/announcements">
-            <Button>Cancel</Button>
+            <Button
+            type="button">Cancel</Button>
           </Link>
         </div>
 

@@ -1,8 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-// import './index.css';
-import App from './App';
-import Main from './Main'
-// import * as serviceWorker from './serviceWorker';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './App'
 
-ReactDOM.render(<App />, document.getElementById('login'));
+ReactDOM.render(<App />, document.getElementById('login'))
