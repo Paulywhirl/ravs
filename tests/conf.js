@@ -6,7 +6,7 @@ exports.config = {
   framework: 'custom',
   frameworkPath: require.resolve('serenity-js'),
 
-  specs: './src/features/modules/calendar/view_calendar.feature',
+  specs: './src/features/modules/login/volunteer_registration.feature',
 
   cucumberOpts: {
     require:    [           // loads step definitions:
