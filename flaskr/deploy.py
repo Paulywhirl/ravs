@@ -123,6 +123,7 @@ def newlogin():
         session.add(newUser)
         session.add(newProgress)
         session.commit()
+        return jsonify({'err_msg': 'email already exists in system'}), 204
         for graph in session.query(Progress_Graph).filter(Progress_Graph.email == register_email):
             json_graph = json.dumps(graph.dprogress_graph)
         return jsonify({'email': register_email,
@@ -173,6 +174,18 @@ def progress_graph():
     for graph in session.query(Progress_Graph).filter(Progress_Graph.email == login_email):
         json_graph = json.dumps(graph.dprogress_graph), 201
     return json_graph
+
+@app.route('/progress-graph/submit', methods=['POST'])
+def submit_progress_graph():
+    content = request.json
+    email = content['email']
+    p_graph = content['progress_graph']
+    try:
+        session.query(Progress_Graph).filter(Progress_Graph.email == email).update(dict(dprogress_graph = p_graph))
+        session.commit()
+        return jsonify({'message': 'progress graph successfully updated'}), 200
+    except:
+        return jsonify({'err_msg': 'something went wrong'}), 401
 
 
 def last_day_of_month(any_date_in_specific_month):
