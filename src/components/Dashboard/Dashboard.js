@@ -14,6 +14,7 @@ class Dashboard extends Component {
       events: [],
       contact: props.contact
     }
+    this.handleClick = this.handleClick.bind(this)
   }
 
   componentDidMount() {
@@ -33,8 +34,26 @@ class Dashboard extends Component {
     }
   }
 
+  handleClick(){
+    try {
+      fetch(`http://127.0.0.1:5000/upcomingEvents`)
+      .then(
+        response => {return response.json()}
+      )
+      .then(
+        data =>
+        this.setState({
+          events: data.events
+        })
+      )
+    } catch {
+
+    }
+  }
+
   renderSessions(){
     if(this.state.events.length === 0){
+      console.log(this.state.events)
       return this.state.events.map((eventdata,index1)=>{
         return (
           <div className="cards">
@@ -47,7 +66,7 @@ class Dashboard extends Component {
       })
     } else {
       return (
-        <div clssName="no-session">
+        <div className="no-session">
           <p>No Upcoming Sessions in the next two days</p>
         </div>
       )
@@ -83,6 +102,14 @@ class Dashboard extends Component {
           <div>{this.renderSessions()}</div>
         </div>
 
+        <div className="refreshStyle">
+          <Button
+          type="button"
+          id="refresh"
+          onClick={this.handleClick}>
+          Refresh
+          </Button>
+        </div>
 
       </div>
 

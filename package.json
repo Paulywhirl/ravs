@@ -20,19 +20,19 @@
   },
   "homepage": "https://github.com/Paulywhirl/ravs#readme",
   "dependencies": {
-    "@coreui/coreui": "^2.1.6",
+    "@coreui/coreui": "^2.1.9",
     "@trendmicro/react-sidenav": "^0.4.5",
-    "bootstrap": "^4.2.1",
-    "moment": "^2.23.0",
+    "bootstrap": "^4.3.1",
+    "moment": "^2.24.0",
     "node-sass": "^4.11.0",
-    "react": "^16.7.0",
-    "react-big-calendar": "^0.20.2",
+    "react": "^16.8.6",
+    "react-big-calendar": "^0.20.4",
     "react-bootstrap": "^0.32.4",
     "react-click-outside": "github:tj/react-click-outside",
-    "react-dom": "^16.7.0",
+    "react-dom": "^16.8.6",
     "react-router-dom": "^4.3.1",
     "react-scripts": "^2.1.8",
-    "react-spinners": "^0.5.3",
+    "react-spinners": "^0.5.4",
     "reactstrap": "^7.1.0"
   },
   "browserslist": [
@@ -42,11 +42,11 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "@storybook/react": "^4.1.13",
-    "@storybook/addon-actions": "^4.1.13",
-    "@storybook/addon-links": "^4.1.13",
-    "@storybook/addons": "^4.1.13",
-    "@babel/core": "^7.3.3",
+    "@babel/core": "^7.4.3",
+    "@storybook/addon-actions": "^4.1.16",
+    "@storybook/addon-links": "^4.1.16",
+    "@storybook/addons": "^4.1.16",
+    "@storybook/react": "^4.1.16",
     "babel-loader": "^8.0.5"
   }
 }

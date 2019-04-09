@@ -12,9 +12,21 @@
   width: 15%;
 }
 
+#progress_submit {
+  background-color: #532E85;
+  color: white;
+  padding: 10px 15px;
+  text-align: center;
+  font-size: 10px;
+}
+
+.submitContent {
+  display: flex;
+  justify-content:flex-end;
+}
 
 .btnstyle {
-  background-color: #532E85;
+  // background-color: #532E85;
   color: white;
   padding: 10px 15px;
   text-align: center;

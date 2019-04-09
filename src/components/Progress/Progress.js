@@ -1,28 +1,49 @@
 import React, { Component } from 'react';
-import { Button, NavLink} from 'reactstrap';
-import { withRouter } from 'react-router-dom';
+import { Button, Modal, ModalHeader, ModalBody,
+  ModalFooter} from 'reactstrap';
 import './Progress.scss';
-import progressgraph from "./pgraph.json";
 import lockimage from '../../assets/icons/lock1.png';
-
-var customData = require("./pgraph.json");
-
 
 class Progress extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      progress: [],
-      progressToPresent: []
+      progress: JSON.parse(this.props.progress),
+      progressToPresent: [],
+      show: false,
+      focus: {}
     }
+    this.handleConfirm = this.handleConfirm.bind(this)
+    this.handleShow = this.handleShow.bind(this);
+    this.toggle = this.toggle.bind(this);
   }
 
   componentDidMount() {
-  this.setState({
-    progress: JSON.parse(this.props.progress)
-  })
-    let ptp = []
+    this.setState({
+      progress: JSON.parse(this.props.progress)
+    })
+  }
+
+  toggle() {
+    this.setState({ show: !this.state.show });
+  }
+
+  handleShow(e, obj) {
+    this.setState({ show: true, focus: obj });
+  }
+
+  handleConfirm(){
+    let sessionFocus = this.state.focus
+    let session_id = sessionFocus.session_id
+    let session_no = sessionFocus.session_number
+    sessionFocus.completed = true;
+    if (session_id === "Tr") {
+      this.state.progress.session_progression.Training.completed = true
+    }
+    this.setState({
+      show: !this.state.show
+    })
   }
 
 
@@ -40,7 +61,13 @@ class Progress extends Component {
             <h4>Intro to CHRW</h4>
           </div>
           <div>
-            <Button color="light" className="btnstyle"> {progressgraph['session_progression'].Training.completed ? '' : (<i className="fas fa-lock"></i>)}  100</Button>
+            <Button color="light" className="btnstyle"
+            color={this.state.progress.session_progression.Training.completed === true
+                    ? 'success' : 'info'}
+            onClick={(e) => this.handleShow(e,
+               this.state.progress.session_progression.Training)}>
+               100
+            </Button>
           </div>
         </div>
         <hr className="hr1" />
@@ -51,7 +78,42 @@ class Progress extends Component {
             <br />
           </div>
           <div>
-            <Button color="light" className="btnstyle">{progressgraph['session_progression'].On_Air[1].completed ? '' : (<i className="fas fa-lock"></i>)}  101</Button> <Button color="light" className="btnstyle">{progressgraph['session_progression'].On_Air[2].completed ? '' : (<i className="fas fa-lock"></i>)} 102</Button> <Button color="light" className="btnstyle">{progressgraph['session_progression'].On_Air[3].completed ? '' : (<i className="fas fa-lock"></i>)} 103</Button> <Button color="light" className="btnstyle">{progressgraph['session_progression'].On_Air[4].completed ? '' : (<i className="fas fa-lock"></i>)} 104</Button> <Button color="light" className="btnstyle">{progressgraph['session_progression'].On_Air[5].completed ? '' : (<i className="fas fa-lock"></i>)} 105</Button> <Button color="light" className="btnstyle">{progressgraph['session_progression'].On_Air[6].completed ? '' : (<i className="fas fa-lock"></i>)} 106</Button> <Button color="light" className="btnstyle">{progressgraph['session_progression'].On_Air[7].completed ? '' : (<i className="fas fa-lock"></i>)} 107</Button>
+            <Button color="light" className="btnstyle"
+            color={this.state.progress.session_progression.On_Air[0].completed === true
+                    ? 'success' : 'info'}
+            disabled={this.state.progress.session_progression.On_Air[0].completed === false &&
+                      this.state.progress.session_progression.Training.completed === false}>
+            {this.state.progress.session_progression.Training.completed ? '' : (<i className="fas fa-lock"></i>)} 101</Button>
+            <Button color="light" className="btnstyle"
+            color={this.state.progress.session_progression.On_Air[1].completed === true
+                    ? 'success' : 'info'}
+            disabled={this.state.progress.session_progression.On_Air[1].completed === false}>
+            {this.state.progress.session_progression.On_Air[1].completed ? '' : (<i className="fas fa-lock"></i>)} 102</Button>
+            <Button color="light" className="btnstyle"
+            color={this.state.progress.session_progression.On_Air[2].completed === true
+                    ? 'success' : 'info'}
+            disabled={this.state.progress.session_progression.On_Air[2].completed === false}>
+            {this.state.progress.session_progression.On_Air[2].completed ? '' : (<i className="fas fa-lock"></i>)} 103</Button>
+            <Button color="light" className="btnstyle"
+            color={this.state.progress.session_progression.On_Air[3].completed === true
+                    ? 'success' : 'info'}
+            disabled={this.state.progress.session_progression.On_Air[3].completed === false}>
+            {this.state.progress.session_progression.On_Air[3].completed ? '' : (<i className="fas fa-lock"></i>)} 104</Button>
+            <Button color="light" className="btnstyle"
+            color={this.state.progress.session_progression.On_Air[4].completed === true
+                    ? 'success' : 'info'}
+            disabled={this.state.progress.session_progression.On_Air[4].completed === false}>
+            {this.state.progress.session_progression.On_Air[4].completed ? '' : (<i className="fas fa-lock"></i>)} 105</Button>
+            <Button color="light" className="btnstyle"
+            color={this.state.progress.session_progression.On_Air[5].completed === true
+                    ? 'success' : 'info'}
+            disabled={this.state.progress.session_progression.On_Air[5].completed === false}>
+            {this.state.progress.session_progression.On_Air[5].completed ? '' : (<i className="fas fa-lock"></i>)} 106</Button>
+            <Button color="light" className="btnstyle"
+            color={this.state.progress.session_progression.On_Air[6].completed === true
+                    ? 'success' : 'info'}
+            disabled={this.state.progress.session_progression.On_Air[6].completed === false}>
+            {this.state.progress.session_progression.On_Air[6].completed ? '' : (<i className="fas fa-lock"></i>)} 107</Button>
           </div>
         </div>
         <hr className="hr1" />
@@ -62,7 +124,22 @@ class Progress extends Component {
             <br />
           </div>
           <div>
-            <Button color="light" className="btnstyle">{progressgraph['session_progression'].Music[1].completed ? '' : (<i className="fas fa-lock"></i>)} 201</Button> <Button color="light" className="btnstyle">{progressgraph['session_progression'].Music[2].completed ? '' : (<i className="fas fa-lock"></i>)} 202</Button> <Button color="light" className="btnstyle">{progressgraph['session_progression'].Music[3].completed ? '' : (<i className="fas fa-lock"></i>)} 203</Button>
+            <Button color="light" className="btnstyle"
+            color={this.state.progress.session_progression.Music[0].completed === true
+                    ? 'success' : 'info'}
+            disabled={this.state.progress.session_progression.Music[0].completed === false &&
+                      this.state.progress.session_progression.Training.completed === false}>
+            {this.state.progress.session_progression.Training.completed ? '' : (<i className="fas fa-lock"></i>)} 201</Button>
+            <Button color="light" className="btnstyle"
+            color={this.state.progress.session_progression.Music[1].completed === true
+                    ? 'success' : 'info'}
+            disabled={this.state.progress.session_progression.Music[1].completed === false}>
+            {this.state.progress.session_progression.Music[1].completed ? '' : (<i className="fas fa-lock"></i>)} 202</Button>
+            <Button color="light" className="btnstyle"
+            color={this.state.progress.session_progression.Music[2].completed === true
+                    ? 'success' : 'info'}
+            disabled={this.state.progress.session_progression.Music[2].completed === false}>
+            {this.state.progress.session_progression.Music[2].completed ? '' : (<i className="fas fa-lock"></i>)} 203</Button>
           </div>
         </div>
         <hr className="hr1" />
@@ -73,7 +150,12 @@ class Progress extends Component {
             <br />
           </div>
           <div>
-            <Button color="light" className="btnstyle">{progressgraph['session_progression'].News[1].completed ? '' : (<i className="fas fa-lock"></i>)} 301</Button>
+            <Button color="light" className="btnstyle"
+            color={this.state.progress.session_progression.News[0].completed === true
+                    ? 'success' : 'info'}
+            disabled={this.state.progress.session_progression.News[0].completed === false &&
+                      this.state.progress.session_progression.Training.completed === false}>
+            {this.state.progress.session_progression.Training.completed ? '' : (<i className="fas fa-lock"></i>)} 301</Button>
           </div>
         </div>
         <hr className="hr1" />
@@ -84,7 +166,12 @@ class Progress extends Component {
             <br />
           </div>
           <div>
-            <Button color="light" className="btnstyle">{progressgraph['session_progression'].Sports[1].completed ? '' : (<i className="fas fa-lock"></i>)} 401</Button>
+            <Button color="light" className="btnstyle"
+            color={this.state.progress.session_progression.Sports[0].completed === true
+                    ? 'success' : 'info'}
+            disabled={this.state.progress.session_progression.Sports[0].completed === false &&
+                      this.state.progress.session_progression.Training.completed === false}>
+            {this.state.progress.session_progression.Training.completed ? '' : (<i className="fas fa-lock"></i>)} 401</Button>
           </div>
         </div>
         <hr className="hr1" />
@@ -95,7 +182,12 @@ class Progress extends Component {
             <br />
           </div>
           <div>
-            <Button color="light" className="btnstyle">{progressgraph['session_progression'].Spoken_Word[1].completed ? '' : (<i className="fas fa-lock"></i>)} 501</Button>
+            <Button color="light" className="btnstyle"
+            color={this.state.progress.session_progression.Spoken_Word[0].completed === true
+                    ? 'success' : 'info'}
+            disabled={this.state.progress.session_progression.Spoken_Word[0].completed === false &&
+                      this.state.progress.session_progression.Training.completed === false}>
+            {this.state.progress.session_progression.Training.completed ? '' : (<i className="fas fa-lock"></i>)} 501</Button>
           </div>
         </div>
         <hr className="hr1" />
@@ -106,7 +198,51 @@ class Progress extends Component {
             <br />
           </div>
           <div>
-            <Button color="light" className="btnstyle">{progressgraph['session_progression'].Podcasting[1].completed ? '' : (<i className="fas fa-lock"></i>)} POD1</Button> <Button color="light" className="btnstyle">{progressgraph['session_progression'].Podcasting[2].completed ? '' : (<i className="fas fa-lock"></i>)} POD2</Button> <Button color="light" className="btnstyle">{progressgraph['session_progression'].Podcasting[3].completed ? '' : (<i className="fas fa-lock"></i>)} POD3</Button> <Button color="light" className="btnstyle">{progressgraph['session_progression'].Podcasting[4].completed ? '' : (<i className="fas fa-lock"></i>)} POD4</Button> <Button color="light" className="btnstyle">{progressgraph['session_progression'].Podcasting[5].completed ? '' : (<i className="fas fa-lock"></i>)} POD5</Button> <Button color="light" className="btnstyle">{progressgraph['session_progression'].Podcasting[6].completed ? '' : (<i className="fas fa-lock"></i>)} POD6</Button> <Button color="light" className="btnstyle">{progressgraph['session_progression'].Podcasting[7].completed ? '' : (<i className="fas fa-lock"></i>)} POD7</Button> <Button color="light" className="btnstyle">{progressgraph['session_progression'].Podcasting[8].completed ? '' : (<i className="fas fa-lock"></i>)} POD8</Button> <Button color="light" className="btnstyle">{progressgraph['session_progression'].Podcasting[9].completed ? '' : (<i className="fas fa-lock"></i>)} POD9</Button>
+            <Button color="light" className="btnstyle"
+            color={this.state.progress.session_progression.Podcasting[0].completed === true
+                    ? 'success' : 'info'}
+            disabled={this.state.progress.session_progression.Podcasting[0].completed === false &&
+                      this.state.progress.session_progression.Training.completed === false}>
+            {this.state.progress.session_progression.Training.completed ? '' : (<i className="fas fa-lock"></i>)} POD1</Button>
+            <Button color="light" className="btnstyle"
+            color={this.state.progress.session_progression.Podcasting[1].completed === true
+                    ? 'success' : 'info'}
+            disabled={this.state.progress.session_progression.Podcasting[1].completed === false}>
+            {this.state.progress.session_progression.Podcasting[1].completed ? '' : (<i className="fas fa-lock"></i>)} POD2</Button>
+            <Button color="light" className="btnstyle"
+            color={this.state.progress.session_progression.Podcasting[2].completed === true
+                    ? 'success' : 'info'} disabled={this.state.progress.session_progression.Podcasting[2].completed === false}>
+            {this.state.progress.session_progression.Podcasting[2].completed ? '' : (<i className="fas fa-lock"></i>)} POD3</Button>
+            <Button color="light" className="btnstyle"
+            color={this.state.progress.session_progression.Podcasting[3].completed === true
+                    ? 'success' : 'info'}
+            disabled={this.state.progress.session_progression.Podcasting[3].completed === false}>
+            {this.state.progress.session_progression.Podcasting[3].completed ? '' : (<i className="fas fa-lock"></i>)} POD4</Button>
+            <Button color="light" className="btnstyle"
+            color={this.state.progress.session_progression.Podcasting[4].completed === true
+                    ? 'success' : 'info'}
+            disabled={this.state.progress.session_progression.Podcasting[4].completed === false}>
+            {this.state.progress.session_progression.Podcasting[4].completed ? '' : (<i className="fas fa-lock"></i>)} POD5</Button>
+            <Button color="light" className="btnstyle"
+            color={this.state.progress.session_progression.Podcasting[5].completed === true
+                    ? 'success' : 'info'}
+            disabled={this.state.progress.session_progression.Podcasting[5].completed === false}>
+            {this.state.progress.session_progression.Podcasting[5].completed ? '' : (<i className="fas fa-lock"></i>)} POD6</Button>
+            <Button color="light" className="btnstyle"
+            color={this.state.progress.session_progression.Podcasting[6].completed === true
+                    ? 'success' : 'info'}
+            disabled={this.state.progress.session_progression.Podcasting[6].completed === false}>
+            {this.state.progress.session_progression.Podcasting[6].completed ? '' : (<i className="fas fa-lock"></i>)} POD7</Button>
+            <Button color="light" className="btnstyle"
+            color={this.state.progress.session_progression.Podcasting[7].completed === true
+                    ? 'success' : 'info'}
+            disabled={this.state.progress.session_progression.Podcasting[7].completed === false}>
+            {this.state.progress.session_progression.Podcasting[7].completed ? '' : (<i className="fas fa-lock"></i>)} POD8</Button>
+            <Button color="light" className="btnstyle"
+            color={this.state.progress.session_progression.Podcasting[8].completed === true
+                    ? 'success' : 'info'}
+            disabled={this.state.progress.session_progression.Podcasting[8].completed === false}>
+            {this.state.progress.session_progression.Podcasting[8].completed ? '' : (<i className="fas fa-lock"></i>)} POD9</Button>
           </div>
         </div>
         <hr className="hr1" />
@@ -117,9 +253,55 @@ class Progress extends Component {
             <br />
           </div>
           <div>
-            <Button color="light" className="btnstyle">{progressgraph['session_progression'].Production[1].completed ? '' : (<i className="fas fa-lock"></i>)} 601</Button> <Button color="light" className="btnstyle">{progressgraph['session_progression'].Production[2].completed ? '' : (<i className="fas fa-lock"></i>)} 602</Button> <Button color="light" className="btnstyle">{progressgraph['session_progression'].Production[3].completed ? '' : (<i className="fas fa-lock"></i>)} 603</Button> <Button color="light" className="btnstyle">{progressgraph['session_progression'].Production[4].completed ? '' : (<i className="fas fa-lock"></i>)} 604</Button>
+            <Button color="light" className="btnstyle"
+            color={this.state.progress.session_progression.Production[0].completed === true
+                    ? 'success' : 'info'}
+            disabled={this.state.progress.session_progression.Production[0].completed === false &&
+                      this.state.progress.session_progression.Training.completed === false}>
+            {this.state.progress.session_progression.Training.completed ? '' : (<i className="fas fa-lock"></i>)} 601</Button>
+            <Button color="light" className="btnstyle"
+            color={this.state.progress.session_progression.Production[1].completed === true
+                    ? 'success' : 'info'}
+            disabled={this.state.progress.session_progression.Production[1].completed === false}>
+            {this.state.progress.session_progression.Production[1].completed ? '' : (<i className="fas fa-lock"></i>)} 602</Button>
+            <Button color="light" className="btnstyle"
+            color={this.state.progress.session_progression.Production[2].completed === true
+                    ? 'success' : 'info'}
+            disabled={this.state.progress.session_progression.Production[2].completed === false}>
+            {this.state.progress.session_progression.Production[2].completed ? '' : (<i className="fas fa-lock"></i>)} 603</Button>
+            <Button color="light" className="btnstyle"
+            color={this.state.progress.session_progression.Production[3].completed === true
+                    ? 'success' : 'info'}
+            disabled={this.state.progress.session_progression.Production[3].completed === false}>
+            {this.state.progress.session_progression.Production[3].completed ? '' : (<i className="fas fa-lock"></i>)} 604</Button>
           </div>
         </div>
+
+        <div className="submitContent">
+          <Button
+          type="button"
+          id="progress_submit">
+          Submit
+          </Button>
+        </div>
+
+        <Modal isOpen={this.state.show}
+              toggle={this.toggle}
+              className={this.props.className}
+              fade={false}>
+          <ModalHeader toggle={this.toggle}>
+            Training
+          </ModalHeader>
+          <ModalBody>Did you complete the Training Session</ModalBody>
+          <ModalFooter>
+            <Button variant="secondary" onClick={this.toggle}>
+              Cancel
+            </Button>
+            <Button variant="primary" onClick={this.handleConfirm}>
+              Confirm
+            </Button>
+          </ModalFooter>
+        </Modal>
 
       </div>
 
