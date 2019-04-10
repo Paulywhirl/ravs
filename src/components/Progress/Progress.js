@@ -9,6 +9,7 @@ class Progress extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      email: this.props.email,
       progress: JSON.parse(this.props.progress),
       progressToPresent: [],
       show: false,
@@ -17,6 +18,7 @@ class Progress extends Component {
     this.handleConfirm = this.handleConfirm.bind(this)
     this.handleShow = this.handleShow.bind(this);
     this.toggle = this.toggle.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   componentDidMount() {
@@ -46,6 +48,38 @@ class Progress extends Component {
     })
   }
 
+  handleSubmit(event) {
+    event.preventDefault()
+    const user = JSON.stringify({
+      "email": this.state.email,
+      "progress_graph": this.state.progress
+    })
+    try {
+      fetch(`http://127.0.0.1:5000/progress-graph/submit`, {
+        method: 'post',
+        crossDomain: true,
+        headers: {'Content-Type':'application/json'},
+        body: user
+      })
+      .then(
+        response => {return response.json()}
+      )
+      .then(
+        data =>
+        alert(data.message),
+        () => {
+          this.props.sendToParent({
+            progress: JSON.stringify(this.state.progress)
+        })
+      }
+      ).catch(function(error){
+        console.log(error)
+      })
+    } catch(error) {
+      console.log(error)
+    }
+  }
+
 
   render() {
     return (
@@ -64,8 +98,9 @@ class Progress extends Component {
             <Button color="light" className="btnstyle"
             color={this.state.progress.session_progression.Training.completed === true
                     ? 'success' : 'info'}
-            onClick={(e) => this.handleShow(e,
-               this.state.progress.session_progression.Training)}>
+            onClick={this.state.progress.session_progression.Training.completed === false ?
+              (e) => this.handleShow(e,
+               this.state.progress.session_progression.Training) : ''}>
                100
             </Button>
           </div>
@@ -280,7 +315,8 @@ class Progress extends Component {
         <div className="submitContent">
           <Button
           type="button"
-          id="progress_submit">
+          id="progress_submit"
+          onClick={this.handleSubmit}>
           Submit
           </Button>
         </div>

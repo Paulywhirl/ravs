@@ -11,6 +11,7 @@ import CalendarIcon from '../assets/icons/calendar.png';
 import AttendanceIcon from '../assets/icons/attendance.png';
 import AnnouncementsIcon from '../assets/icons/announcements.png';
 import ProfileIcon from '../assets/icons/profile.png';
+import SearchIcon from '../assets/icons/loupe.png'
 import ProgressIcon from '../assets/icons/progress.png';
 import LogoutIcon from '../assets/icons/logout.png';
 
@@ -18,6 +19,7 @@ import Dashboard from './Dashboard/Dashboard';
 import Calendar from './Calendar/Calendar';
 import Announcements from './Announcements/Announcements';
 import Profile from './Profile/Profile';
+import InfoPage from './InfoPage/InfoPage'
 import Progress from './Progress/Progress';
 import AnnouncementForm from './AnnouncementForm/AnnouncementForm';
 import SessionView from './SessionView/SessionView';
@@ -40,7 +42,8 @@ class Sidebar extends Component {
       expanded: false,
       data: this.props.data,
       user: this.props.user,
-      events: JSON.parse(this.props.data.events)
+      events: JSON.parse(this.props.data.events),
+      progress: this.props.data.progress_graph
     }
   };
 
@@ -49,8 +52,15 @@ class Sidebar extends Component {
       expanded: false,
       data: this.props.data,
       user: this.props.user,
-      events: JSON.parse(this.props.data.events)
+      events: JSON.parse(this.props.data.events),
+      progress: this.props.data.progress_graph
     }
+  }
+
+  callback(childState) {
+    this.setState({
+      progress: JSON.stringify(childState.progress)
+    })
   }
 
   render() {
@@ -110,14 +120,25 @@ class Sidebar extends Component {
                         Profile
                     </NavText>
                 </NavItem>
-                <NavItem eventKey="progress">
-                    <NavIcon>
-                        <img src={ProgressIcon} alt="Progress" className="icon-image"/>
-                    </NavIcon>
-                    <NavText>
-                        Progress
-                    </NavText>
-                </NavItem>
+                {
+                  this.state.user.director === true ?
+                  <NavItem eventKey="infoPage">
+                      <NavIcon>
+                          <img src={SearchIcon} alt="Search" className="icon-image"/>
+                      </NavIcon>
+                      <NavText>
+                          InfoPage
+                      </NavText>
+                  </NavItem> :
+                  <NavItem eventKey="progress">
+                      <NavIcon>
+                          <img src={ProgressIcon} alt="Progress" className="icon-image"/>
+                      </NavIcon>
+                      <NavText>
+                          Progress
+                      </NavText>
+                  </NavItem>
+                }
                 <NavItem eventKey="logout">
                     <NavIcon>
                         <img src={LogoutIcon} alt="Logout" className="icon-image"/>
@@ -131,21 +152,23 @@ class Sidebar extends Component {
             </SideNav>
             </ClickOutside>
               <div id="main">
-                   <Route path="/homepage" exact component={Dashboard} />
-                   <Route path="/dashboard" component={Dashboard} />
-                   <Route path="/calendar" exact
-                   render={(state) => <Calendar events = {this.state.events}
-                              contact = {this.state.user.contactId}/>} />
-                   <Route path="/announcements" exact
-                   render={(state) =>
-                     <Announcements user = {this.state.user}/>}/>
-                   <Route path="/profile" exact
-                   render={(state) =>
-                     <Profile user = {this.state.user}/>}/>
-                   <Route path="/progress" render={(state) =>
-                     <Progress progress = {this.state.data.progress_graph}/>}/>
-                   <Route path="/announcement/new" exact component={AnnouncementForm} />
-                   <Route path="/calendar/session/:id" exact component={SessionView} />
+                <Route path="/homepage" exact component={Dashboard} />
+                <Route path="/dashboard" component={Dashboard} />
+                <Route path="/calendar" exact
+                render={(state) => <Calendar events = {this.state.events}
+                          contact = {this.state.user.contactId}/>} />
+                <Route path="/announcements" exact
+                render={(state) =>
+                 <Announcements user = {this.state.user}/>}/>
+                <Route path="/profile" exact
+                render={(state) =>
+                 <Profile user = {this.state.user}/>}/>
+                <Route path="/infoPage" component={InfoPage} />
+                <Route path="/progress" render={(state) =>
+                 <Progress progress = {this.state.data.progress_graph}
+                            email = {this.state.user.email}/>}/>
+                <Route path="/announcement/new" exact component={AnnouncementForm} />
+                <Route path="/calendar/session/:id" exact component={SessionView} />
               </div>
             </React.Fragment>
             )}

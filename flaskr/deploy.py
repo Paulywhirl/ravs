@@ -120,16 +120,19 @@ def newlogin():
             return jsonify({'err_msg': 'email already exists in system'}), 204
         contactId = get_contact_id(api, register_email)
         events = get_current_month_events()
-        session.add(newUser)
-        session.add(newProgress)
-        session.commit()
-        return jsonify({'err_msg': 'email already exists in system'}), 204
-        for graph in session.query(Progress_Graph).filter(Progress_Graph.email == register_email):
-            json_graph = json.dumps(graph.dprogress_graph)
-        return jsonify({'email': register_email,
-         'firstname': register_firstname, 'lastname': register_lastname,
-          'director': "false", 'contactId': contactId,
-           "data":{"progress_graph": json_graph, "events": events}}), 201
+        # events =[]
+        try:
+            session.add(newUser)
+            session.add(newProgress)
+            session.commit()
+            for graph in session.query(Progress_Graph).filter(Progress_Graph.email == register_email):
+                json_graph = json.dumps(graph.dprogress_graph)
+                return jsonify({'email': register_email,
+                'firstname': register_firstname, 'lastname': register_lastname,
+                'director': "false", 'contactId': contactId,
+                "data":{"progress_graph": json_graph, "events": events}}), 201
+        except:
+            return jsonify({"err_msg": "something went wrong"}), 404
     except:
         return jsonify({'err_msg': 'user not registered in Wild Apricot'}), 401
 
@@ -168,6 +171,7 @@ def get_upcoming_events():
     return json.dumps({ "events": events_to_return})
 
 @app.route('/progress-graph', methods=['GET'])
+@cross_origin(supports_credentials=True)
 def progress_graph():
     content = request.json
     login_email = content['email']
@@ -176,6 +180,7 @@ def progress_graph():
     return json_graph
 
 @app.route('/progress-graph/submit', methods=['POST'])
+@cross_origin(supports_credentials=True)
 def submit_progress_graph():
     content = request.json
     email = content['email']
@@ -211,7 +216,6 @@ def create_json_of_events(events):
             "location": event.Location,
         }
         json_events.append(js)
-        pass
     return json_events
 
 def get_eventRegistrationTypesForEvent(eventId):

@@ -52,8 +52,7 @@ class Dashboard extends Component {
   }
 
   renderSessions(){
-    if(this.state.events.length === 0){
-      console.log(this.state.events)
+    if(this.state.events.length > 0){
       return this.state.events.map((eventdata,index1)=>{
         return (
           <div className="cards">
