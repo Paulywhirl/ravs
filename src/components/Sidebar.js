@@ -11,7 +11,7 @@ import CalendarIcon from '../assets/icons/calendar.png';
 import AttendanceIcon from '../assets/icons/attendance.png';
 import AnnouncementsIcon from '../assets/icons/announcements.png';
 import ProfileIcon from '../assets/icons/profile.png';
-import SearchIcon from '../assets/icons/loupe.png'
+import SearchIcon from '../assets/icons/search.png'
 import ProgressIcon from '../assets/icons/progress.png';
 import LogoutIcon from '../assets/icons/logout.png';
 

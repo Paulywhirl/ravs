@@ -13,7 +13,8 @@ class Progress extends Component {
       progress: JSON.parse(this.props.progress),
       progressToPresent: [],
       show: false,
-      focus: {}
+      focus: {},
+      searched: false
     }
     this.handleConfirm = this.handleConfirm.bind(this)
     this.handleShow = this.handleShow.bind(this);
@@ -23,7 +24,8 @@ class Progress extends Component {
 
   componentDidMount() {
     this.setState({
-      progress: JSON.parse(this.props.progress)
+      progress: JSON.parse(this.props.progress),
+      searched: this.props.searched
     })
   }
 
@@ -312,14 +314,18 @@ class Progress extends Component {
           </div>
         </div>
 
-        <div className="submitContent">
-          <Button
-          type="button"
-          id="progress_submit"
-          onClick={this.handleSubmit}>
-          Submit
-          </Button>
-        </div>
+        {
+          this.state.searched === true ?
+          <div></div> :
+          <div className="submitContent">
+            <Button
+            type="button"
+            id="progress_submit"
+            onClick={this.handleSubmit}>
+            Submit
+            </Button>
+          </div>
+        }
 
         <Modal isOpen={this.state.show}
               toggle={this.toggle}

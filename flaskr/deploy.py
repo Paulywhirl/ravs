@@ -170,11 +170,10 @@ def get_upcoming_events():
     events_to_return = create_json_of_events(ev)
     return json.dumps({ "events": events_to_return})
 
-@app.route('/progress-graph', methods=['GET'])
+@app.route('/progress-graph/', methods=['GET'])
 @cross_origin(supports_credentials=True)
 def progress_graph():
-    content = request.json
-    login_email = content['email']
+    login_email = request.args.get('email')
     for graph in session.query(Progress_Graph).filter(Progress_Graph.email == login_email):
         json_graph = json.dumps(graph.dprogress_graph), 201
     return json_graph

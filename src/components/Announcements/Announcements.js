@@ -34,7 +34,6 @@ class Announcements extends Component {
           announcements: data
         })
       )
-      console.log(this.state.announcements)
     } catch {
       console.log("could not retrieve announcements")
     }

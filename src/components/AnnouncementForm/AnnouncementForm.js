@@ -36,7 +36,7 @@ class AnnouncementForm extends Component {
   }
 
   handleSubmit(event) {
-    alert('A name was submitted: ' + this.state.title);
+    alert('An Announcement was submitted: ' + this.state.title);
     event.preventDefault();
 
   }
