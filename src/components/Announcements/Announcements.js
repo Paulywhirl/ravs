@@ -1,21 +1,16 @@
 import React, {Component} from "react";
-import ReactDOM from 'react-dom';
 import { Button, Badge, Card, CardHeader, CardFooter, CardBody,
   CardTitle, CardText, Col, Row, Collapse, Fade } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import { BrowserRouter as Router, Route, Link, Switch} from "react-router-dom";
 
-
-import posts from "./posts";
 import "./Announcements.scss"
-
 
 class Announcements extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      postList: posts,
       user: {},
       announcements: []
     };
@@ -37,10 +32,6 @@ class Announcements extends Component {
     } catch {
       console.log("could not retrieve announcements")
     }
-  }
-
-  getData(){
-    this.setState({ postList: posts })
   }
 
 

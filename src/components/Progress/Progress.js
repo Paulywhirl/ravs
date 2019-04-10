@@ -334,7 +334,7 @@ class Progress extends Component {
           <ModalHeader toggle={this.toggle}>
             Training
           </ModalHeader>
-          <ModalBody>Did you complete the Training Session</ModalBody>
+          <ModalBody>Did you complete this Training Session?</ModalBody>
           <ModalFooter>
             <Button variant="secondary" onClick={this.toggle}>
               Cancel

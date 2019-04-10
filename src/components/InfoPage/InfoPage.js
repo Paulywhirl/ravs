@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Form, FormGroup, Label, Input } from 'reactstrap';
 import './InfoPage.scss';
 import Progress from '../Progress/Progress';
 
@@ -24,7 +24,7 @@ class InfoPage extends Component {
   }
 
   handleSubmit(target) {
-    if(target.charCode == 13) {
+    if(target.charCode === 13) {
       target.preventDefault();
       try {
         fetch(`

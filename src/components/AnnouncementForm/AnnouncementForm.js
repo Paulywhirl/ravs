@@ -4,8 +4,6 @@ import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import { BrowserRouter as Router, Route, Link, Switch} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.css';
 
-import posts from "../Announcements/posts.js";
-import postsJSON from "../Announcements/posts.json";
 import "./AnnouncementForm.scss"
 
 
